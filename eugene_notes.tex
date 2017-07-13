@@ -1,0 +1,194 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath, amssymb}
+
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\ip}[2]{\langle #1, #2 \rangle}
+
+\begin{document}
+
+\paragraph{Outline of paper}
+
+\begin{itemize}
+
+    \item  Introduction:
+\begin{itemize}
+        \item developmental systems drift
+        \item justification of passage to the infinitesimal model
+\end{itemize}
+
+    \item Model:
+\begin{itemize}
+        \item heuristics and pictures from simulation below
+        \item justification of passage to the infinitesimal model
+        \item comparison to simulation: shape of the distribution; recombination load
+    \end{itemize}
+
+    \item Conclusion
+\begin{itemize}
+        \item limiting distribution: general sizes and how it depends on selection and segregation variance
+        \item recombionation load
+        \item speed of approach to optimum (?)
+        \item influence of dimensionality
+    \end{itemize}
+
+\end{itemize}
+
+
+
+\paragraph{General picture}
+We want to describe the dynamics of a population that is evolving under stabilizing selection around not a single point but a manifold
+of optimal phenotypes, using the infinitesimal model.
+We think the right picture is that as the population size $N$ grows,
+the dynamics of the measure become deterministic,
+which flow quickly to within $1/N$ of the manifold,
+and then we can follow only the mean as it diffuses as an OU-like process
+near the manifold,
+with drift and diffusion terms depending on the (deterministic) shape of the stable population measure
+around that point.
+
+
+\paragraph{Deterministic flow}
+Let $X$ be a population of size $N$, recorded as the empirical distribution on phenotypes
+\begin{align*}
+    X = \frac{1}{N} \sum_{i=1}^N \delta_{x_i} .
+\end{align*}
+This evolves as a Moran process under the infinitesimal model
+with death rates depending on state $x$.
+Concretely, an individual whose phenotype is $x$
+dies at rate $1 + \mu(x)$
+and is replaced by a new individual of phenotype
+\begin{align*}
+  \frac{y + z}{2} + \xi ,
+\end{align*}
+where $y$ and $z$ are independent draws from $X$
+and $\xi$ is an independent $N(0, \eta^2)$.
+Let $\nu(X)$ denote the distribution of $\frac{y + z}{2} + \xi$.
+This has generator
+\begin{align*}
+    \mL \Phi(X)
+    &=
+    \int \int \int \int
+    \left( \Phi(X + \frac{1}{N} \delta_{(y+z)/2 + \xi} - \frac{1}{N} \delta_x) - \Phi(X) \right)
+    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi \\
+    &=
+    \int \int
+    \left( \Phi(X + \frac{1}{N} \delta_u - \frac{1}{N} \delta_x) - \Phi(X) \right)
+    (1 + \mu(x)) X(dx) \nu(X)(du) .
+\end{align*}
+
+For a test function $\phi$, setting $\Phi(X) = \ip{\phi}{X}$
+we get the first moment
+\begin{align*}
+    \mL \ip{\phi}{X}
+    &=
+    \frac{1}{N} \int \int \int \int
+    \left( \phi \left( \frac{y+z}{2} + \xi \right)
+         - \phi(x) \right)
+    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi  \\
+    &=
+    \frac{1}{N} \ip{\phi}{\nu(X)}\ip{1+\mu}{X}
+    - \frac{1}{N} \ip{\phi}{(1+\mu) X} .
+\end{align*}
+Note that $\ip{\phi}{\partial_{\nu(X)} X} = \ip{\phi}{\nu(X)}$,
+so that this is a first derivative in the direction of
+$\ip{1+\mu}{X} \nu(X) - (1+\mu) X$.
+
+% The second moment is
+% \begin{align*}
+%     \mL \ip{\phi}{X} \ip{\psi}{X}
+%     &=
+%     \frac{1}{N} \int \int \int \int
+%     \left( \phi \left( \frac{y+z}{2} + \xi \right)
+%          - \phi(x) \right)
+%     \ip{\psi}{X}
+%     (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi \\
+%     &\qquad {} +
+%     \frac{1}{N} \int \int \int \int
+%     \ip{\phi}{X}
+%     \left( \psi \left( \frac{y+z}{2} + \xi \right)
+%          - \psi(x) \right)
+%     (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi 
+%     \\ &\qquad {} +
+%     O(1/N^2)  \\
+%     &=
+%     \ip{\phi}{\partial_{\nu(X)} X} \ip{\psi}{X}
+%     +
+%     \ip{\phi}{X} \ip{\psi}{\nu(X)} 
+%     + O(1/N^2)  \\
+% \end{align*}
+
+More generally, if $\Phi(X) = \prod_i \ip{\phi_i}{X}$ then
+\begin{align*}
+    \mL \Phi(X)
+    &=
+    \frac{1}{N} \sum_i \left( 
+        \ip{1+\mu}{X} \ip{\phi_i}{\nu(X)}  - \ip{\phi_i}{(1+\mu)X}
+    \right)
+    \prod_{j \neq i} \ip{\phi_j}{X} 
+    + O(1/N^2) .
+\end{align*}
+This implies that after rescaling time by $N$
+and suitible other caveats,
+the limiting process is a deterministic flow in the direction of 
+$\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
+
+If $Z$ is a fixed point of this flow,
+then $\nu(Z)\ip{1+\mu}{Z} = (1+\mu)Z$.
+We assume that $\mu(x) = 0$ on a nice smooth ``optimal'' manifold,
+and that it increases with distance to the manifold.
+With $\eta = 0$,
+any fixed point is either a point mass,
+or possibly uniform on the optimal manifold if it is linear.
+We think an argument for this is obtained SOMETHING LIKE THE FOLLOWING: 
+if $Z$ is a fixed point
+and $\phi$ is a test function that is convex and increasing with distance from the optimal manifold,
+then $\ip{\phi}{\nu(Z)} < \ip{\phi}{Z} < \ip{\phi}{(1+\mu)Z}/\ip{1+\mu}{Z}$,
+since averaging contracts $Z$ while reweighting by $1+\mu$ expands $Z$.
+
+If $\eta$ is not zero, then we hope that for each point $z$ on the optimal manifold,
+there exists a unique measure $Z(z)$ with mean $z$ that is a fixed point
+of the flow.
+
+\paragraph{Diffusion of the mean}
+Since we work with a Moran model,
+the mean evolves simply by jumping at rate $\ip{1+\mu}{X}$,
+and at each jump, adding $w/N$ and subtracting $\tilde x/N$,
+where $w$ is drawn from $\nu(X)$ and $\tilde x$ is drawn from 
+$(1+\mu)X/\ip{1+\mu}{X}$.
+This implies that if the mean is currently $\bar X$
+and the population distribution is $X$,
+then with $\phi_{id}(x) = x$,
+if
+\begin{align*}
+    m(X) = N \left( \ip{\phi_{id}}{\nu(X)}\ip{1+\mu}{X}
+    -
+    \ip{\phi_{id}}{(1+\mu)X} \right)
+\end{align*}
+is of order 1,
+then
+the $\bar X$ run on a time scale of $N^2$
+should behave as a diffusion with drift $m(X)$
+and variance equal to the variance of $w$ plus the variance of $\tilde x$, which is
+\begin{align*}
+    \frac{1}{2} \int (x-\bar X)^2 X(dx) + \eta^2
+    + \frac{ \int x^2 (1+\mu(x)) X(dx)  
+    - \left(\int x (1+\mu(x)) X(dx)\right)^2 }{ \ip{1+\mu}{X} } .
+\end{align*}
+
+\paragraph{Joint process}
+By writing the joint dynamics of the mean and the measure realtive to the mean,
+we hope to show that the picture above makes sense,
+that in the limit we can take the measure as deterministic given the mean.
+
+\paragraph{Weak selection}
+It may be nice to consider weak selection,
+in which case perhaps the limiting measures are all Gaussian.
+
+\paragraph{Rough calculations of variances}
+We did some of these,
+by solving for $\sigma^2$ that was stable under
+average $\to$ mollify $\to$ reweight by $1+\mu$,
+assuming that fourth moments are $C$ times second moments, squared.
+
+\end{document}
