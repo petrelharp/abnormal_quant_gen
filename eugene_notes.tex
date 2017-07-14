@@ -3,7 +3,7 @@
 \usepackage{amsmath, amssymb}
 
 \newcommand{\mL}{\mathcal{L}}
-\newcommand{\ip}[2]{\langle #1, #2 \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
 
 \include{macros}
 
@@ -196,6 +196,17 @@ Since replacement occurs at rate $\ip{1+\mu}{X}$,
 the mean number of offspring per individual of type $x$
 in population $X$ is $\ip{1+\mu}{X} / (1+\mu(x))$.
 
+Since $\nu(X)$ is the offspring distribution,
+and we know that $\nu(X) = (1+\mu) X / \ip{1+\mu}{X}$,
+we can compute mean fitness of offspring as
+$$\begin{aligned}
+    \ip{\frac{1}{1+\mu}}{\nu(X)}
+    &=
+    \frac{\ip{\frac{1}{1+\mu}}{(1+\mu)X}}{\ip{1+\mu}{X}} \\
+    &=
+    \frac{1}{\ip{1+\mu}{X}} .
+\end{aligned}$$
+
 Take $\mu(x) = ax^2$.
 The mean fitness in the population is then
 $$\begin{aligned}
@@ -207,7 +218,18 @@ $$\begin{aligned}
     &=
     1 - 2 a \eta^2 + 6 a^2 \eta^4 + O(a^3) ,
 \end{aligned}$$
-and the mean fitness of \emph{offspring} is
+and the mean fitness among offspring is
+$$\begin{aligned}
+    \frac{1}{1+am_2} 
+    &= 1 - 2 a \eta^2 + 2 a^2 \eta^4 + O(a^3),
+\end{aligned}$$
+so the difference in mean fitness between parents and offspring
+(maybe this is called recombination load?)
+is $4 a^2 \eta^4$.
+
+Here is the same thing calculated the other way,
+but something is wrong:
+The mean fitness of offspring is
 $$\begin{aligned}
     \ip{1/(1+\mu)}{\nu(X)}
     &=
@@ -221,10 +243,9 @@ $$\begin{aligned}
     &=
     1 - 2 a \eta^2 + 60 a^2 \eta^4 + O(a^3) .
 \end{aligned}$$
-This implies that the difference in mean fitness between parents and offspring
-(maybe this is called recombination load?)
+The difference here is
 is $54 a^2 \eta^4 + O(a^3)$.
-(SOMETHING IS WRONG here because mean fitness in offspring should be less than in parents).
+(something is wrong here because mean fitness in offspring should be less than in parents).
 
 
 
