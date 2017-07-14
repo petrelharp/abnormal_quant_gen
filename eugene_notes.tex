@@ -5,6 +5,8 @@
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\ip}[2]{\langle #1, #2 \rangle}
 
+\include{macros}
+
 \begin{document}
 
 \paragraph{Outline of paper}
@@ -94,30 +96,6 @@ Note that $\ip{\phi}{\partial_{\nu(X)} X} = \ip{\phi}{\nu(X)}$,
 so that this is a first derivative in the direction of
 $\ip{1+\mu}{X} \nu(X) - (1+\mu) X$.
 
-% The second moment is
-% \begin{align*}
-%     \mL \ip{\phi}{X} \ip{\psi}{X}
-%     &=
-%     \frac{1}{N} \int \int \int \int
-%     \left( \phi \left( \frac{y+z}{2} + \xi \right)
-%          - \phi(x) \right)
-%     \ip{\psi}{X}
-%     (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi \\
-%     &\qquad {} +
-%     \frac{1}{N} \int \int \int \int
-%     \ip{\phi}{X}
-%     \left( \psi \left( \frac{y+z}{2} + \xi \right)
-%          - \psi(x) \right)
-%     (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi 
-%     \\ &\qquad {} +
-%     O(1/N^2)  \\
-%     &=
-%     \ip{\phi}{\partial_{\nu(X)} X} \ip{\psi}{X}
-%     +
-%     \ip{\phi}{X} \ip{\psi}{\nu(X)} 
-%     + O(1/N^2)  \\
-% \end{align*}
-
 More generally, if $\Phi(X) = \prod_i \ip{\phi_i}{X}$ then
 \begin{align*}
     \mL \Phi(X)
@@ -133,6 +111,7 @@ and suitible other caveats,
 the limiting process is a deterministic flow in the direction of 
 $\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
 
+\paragraph{Stable measures}
 If $Z$ is a fixed point of this flow,
 then $\nu(Z)\ip{1+\mu}{Z} = (1+\mu)Z$.
 We assume that $\mu(x) = 0$ on a nice smooth ``optimal'' manifold,
@@ -149,6 +128,105 @@ since averaging contracts $Z$ while reweighting by $1+\mu$ expands $Z$.
 If $\eta$ is not zero, then we hope that for each point $z$ on the optimal manifold,
 there exists a unique measure $Z(z)$ with mean $z$ that is a fixed point
 of the flow.
+
+Any measure $Z$ that is a fixed point has the property that
+(the average of two independent draws plus segregation noise)
+is equal in distribution to
+(a $1+\mu$-weighted draw).
+Concretely, with $A$, $B$, and $C$ independent draws from $Z$,
+$$\begin{aligned}
+    \E\left[ f\left( \frac{A+B}{2} + \xi \right) \right]
+    &=
+    \frac{\E\left[ f(C) (1+\mu(C)) \right]}{\E[1+\mu(C)]} .
+\end{aligned}$$
+Let
+$$\begin{aligned}
+    m_k = \E[A^k] = \ip{x^k}{X} ,
+\end{aligned}$$
+and note that since $\E[\xi^w] = \eta^w (w-1)!!$ for even $w$,
+$$\begin{aligned}
+    \ip{x^k}{\nu(X)}
+    &=
+    \sum_{u+v+w=k} \binom{k}{u,v,w} 2^{w-k} m_u m_v \eta^w (w-1)!!.
+\end{aligned}$$
+
+We can calculate some things about this measure
+for the case that $\mu(x) = ax^2$ 
+(or generally, if this is a Taylor expansion).
+Then
+$$\begin{aligned}
+    \frac{\E\left[ C^k (1+\mu(C)) \right]}{\E[1+\mu(C)]} 
+    &=
+    \frac{ m_k + a m_{k+2} }{ 1 + a m_2 } .
+\end{aligned}$$
+This gives us an equation for $m_{k+2}$ in terms of lower-order terms.
+With $k=2$ and assuming that $Z$ is symmetric,
+$$\begin{aligned}
+    \frac{m_2}{2} + \eta^2
+    &=
+    \frac{ m_2 + a m_4 }{ 1 + a m_2 },
+\end{aligned}$$
+and so 
+$$\begin{aligned}
+    m_4
+    &= m_2 \left( \eta^2 + \frac{1}{2} m_2 \right) 
+       + \frac{1}{a} \left( \eta^2 - \frac{1}{2} m_2 \right) .
+\end{aligned}$$
+We believe that as $a \to 0$ this does not blow up,
+implying that $m_2 = 2 \eta^2 + O(a)$,
+and that in fact approaches Gaussian, for which $m_4 = 3m_2^2$,
+and so $\eta^2 - m_2/2 = a \eta^2 + O(a^2)$,
+and hence
+$$\begin{aligned}
+    m_2 &= 2 \eta^2 ( 1 - a \eta^2 ) + O(a^2)  \\
+    m_4 &= 4 \eta^4 + O(a) .
+\end{aligned}$$
+
+If we take $1+\mu(x) = e^{ax^2}$,
+then there is a Gaussian solution,
+as is common in quant gen.
+(Write this down in arbitrary dimensions!)
+
+
+\paragraph{Fitness and load}
+Note that since reproduction is unweighted,
+fitness is proportional to lifetime,
+so the fitness function is $1/(1+\mu(x)$.
+Since replacement occurs at rate $\ip{1+\mu}{X}$,
+the mean number of offspring per individual of type $x$
+in population $X$ is $\ip{1+\mu}{X} / (1+\mu(x))$.
+
+Take $\mu(x) = ax^2$.
+The mean fitness in the population is then
+$$\begin{aligned}
+    \ip{1/(1+\mu)}{X}
+    &=
+    \ip{1 - ax^2 + a^2 x^4}{X} + O(a^3) \\
+    &=
+    1 - a m_2 + a^2 m_4 + O(a^3) \\
+    &=
+    1 - 2 a \eta^2 + 6 a^2 \eta^4 + O(a^3) ,
+\end{aligned}$$
+and the mean fitness of \emph{offspring} is
+$$\begin{aligned}
+    \ip{1/(1+\mu)}{\nu(X)}
+    &=
+    \ip{1 - ax^2 + a^2 x^4}{\nu(X)} + O(a^3) \\
+    &=
+    1 - a \left( \frac{m_2}{2} + \eta^2 \right) 
+        + a^2 \left( 2 m_4 + 6 m_2^2 + 12 m_2 \eta^2 + 3 \eta^4\right) + O(a^3) \\
+    &=
+    1 - a \left( 2 \eta^2 - a \eta^4 \right)
+        + a^2 \left( 8 \eta^4 + 24 \eta^4 + 24 \eta^4 + 3 \eta^4\right) + O(a^3) \\
+    &=
+    1 - 2 a \eta^2 + 60 a^2 \eta^4 + O(a^3) .
+\end{aligned}$$
+This implies that the difference in mean fitness between parents and offspring
+(maybe this is called recombination load?)
+is $54 a^2 \eta^4 + O(a^3)$.
+(SOMETHING IS WRONG here because mean fitness in offspring should be less than in parents).
+
+
 
 \paragraph{Diffusion of the mean}
 Since we work with a Moran model,
@@ -185,10 +263,5 @@ that in the limit we can take the measure as deterministic given the mean.
 It may be nice to consider weak selection,
 in which case perhaps the limiting measures are all Gaussian.
 
-\paragraph{Rough calculations of variances}
-We did some of these,
-by solving for $\sigma^2$ that was stable under
-average $\to$ mollify $\to$ reweight by $1+\mu$,
-assuming that fourth moments are $C$ times second moments, squared.
 
 \end{document}
