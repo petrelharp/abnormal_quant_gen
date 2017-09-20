@@ -1,0 +1,125 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb,amsthm,bm,enumerate,mathtools}
+%\usepackage[all]{xy}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}       
+
+\usepackage{chngcntr}
+\usepackage{apptools}
+\AtAppendix{\counterwithin{lem}{section}}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{remark} 
+	\newtheorem{rem}{Remark}
+	\newtheorem{assn}{Assumption}
+\theoremstyle{definition} 
+	\newtheorem{mydef}{Definition} 
+	\newtheorem{exmp}{Example} 
+	\newtheorem{cond}{Condition}
+	\newtheorem{conj}{Conjecture}
+
+\newtheorem{innercustomthm}{Propostion}
+\newenvironment{customthm}[1]
+  {\renewcommand\theinnercustomthm{#1}\innercustomthm}
+  {\endinnercustomthm}
+
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\BigO}[1]{\mathcal{O}{\textstyle\left( #1\right)}}
+
+\newcommand{\ie}{\textit{i.e.,}\,}
+\newcommand{\eg}{\textit{e.g.,}\,}
+\newcommand{\nb}{\textit{n.b.,}\, }
+\newcommand{\defn}{:=}
+
+
+%\input{../../GlobalDefs}
+
+\begin{document}
+
+\title{Fixed Points of the Mean Flow}
+%\subtitle{}
+\author{Todd L. Parsons}
+\address{Laboratoire de Probabilit\'{e}s et Mod\`{e}les Al\'{e}atoires, CNRS UMR 7599, Universit\'{e} Pierre et Marie Curie, Paris, 75005, France.}
+%\ead{todd.parsons@upmc.fr}
+
+
+\date{\today}
+
+%\begin{abstract}
+
+%\end{abstract}
+
+\maketitle
+
+We had that $\nu(X)$ is the distribution of $\frac{y+z}{2}$, where $y$ and $z$ are independent draws from $X$ and $\xi$ is an independent $N(0,\eta^{2})$ random variable, and that mean was a deterministic flow in the direction of $\nu(x) \langle 1+ \mu, X \rangle - (1+\mu) X$.  We were interested in the fixed points of this flow, \ie measures $Z$ such that 
+\[
+	\nu(Z) = \frac{(1+\mu) Z}{\langle 1+ \mu, Z \rangle}.
+\]
+Here, I'm going to look at characterising such $Z$ in a few special cases.  I'm going to assume that $Z$ is a finite measure, and without loss of generality normalised to have total mass one.
+
+Throughout, I'll be using the characteristic function of $Z$, which I'll denote by 
+\[
+	\phi(\theta) = \mathbb{E}\left[e^{i\theta Z}\right].
+\]
+First, consider the case without selection, so $\mu$ is a constant.  Then, our condition on the characteristic function simplifies to
+\begin{equation}\label{CHARACTERISTIC}
+	{\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} e^{-\frac{\eta^{2}\theta^{2}}{2}} = \phi(\theta).
+\end{equation}
+Now, suppose that $Z$ has a finite first moment.  Then, since $\phi$ is a characteristic function, $\phi(0) = 1$, $\phi$ is continuously differentiable at 0, and $\phi$ is non-zero in a neighbourhood of 0.
+In particular, $\psi(\theta) = \ln{\phi}(\theta)$ and its derivative are well defined in a neighbourhood 0, and the derivative is continuous at 0.  Then,
+\[
+	{\textstyle 2\psi\left(\frac{\theta}{2}\right)} -\frac{\eta^{2}\theta^{2}}{2} = \psi(\theta),
+\]
+and
+\[ 
+	\psi'\left(\frac{\theta}{2}\right) - \eta^{2} \theta = \psi(\theta)'.
+\]
+Iterating the latter, we have 
+\[
+	\psi(\theta)' = \psi'\left(\frac{\theta}{2^{n+1}}\right) - \eta^{2} \theta \sum_{i=0}^{n} 2^{-n},
+\]
+and taking limits as $n \to \infty$, we have
+\[
+	\psi(\theta)' = \psi'(0) - 2\eta^{2} \theta.
+\]
+Since $\phi(0) = 1$, we have $\psi'(0) = \phi'(0) = -i \mathbb{E}[Z] = m_{1}$, so 
+\[
+	\phi(\theta) = e^{-i m_{1} \theta - \eta^{2} \theta^{2}},
+\]
+which we recognise as the characteristic function of a point mass at $m_{1}$ if $\eta = 0$, and a Gaussian with mean $m_{1}$ and variance $2\eta^{2}$ otherwise.
+
+We note that this does not exclude the possibility of distributions without a mean; \eg if $\eta =0$, then\eqref{CHARACTERISTIC} is satisfied by the family of Cauchy distributions with characteristic functions $\phi(\theta) = e^{i m_{1} \theta - \gamma |\theta|}$; one can check that these are the only stable laws satisfying \eqref{CHARACTERISTIC}.  One can similarly exclude the stable laws without mean ($\alpha \leq 1$) by inspection in the case of $\eta > 0$. 
+
+Now, consider the case when $1+ \mu(x) = e^{a x^{2}}$.  In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m_{1}$ and variance $\sigma^{2}$.  Then,
+\[
+	\phi(\theta) = e^{i m_{1} \theta - \frac{1}{2} \sigma^{2} \theta^{2}}.
+\]
+Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute the characteristic function of $\frac{(1+\mu) Z}{\langle 1+ \mu, Z \rangle}$ to conclude that
+\[
+	e^{i m_{1} \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
+	= e^{i \frac{m_{1}}{1-2 a \sigma^{2}}\theta 
+		- \frac{1}{2} \frac{\sigma^{2}}{1-2 a \sigma^{2}}\theta^{2}},
+\]
+which, equating real and complex components, has a solution provided $m_{1} = 0$ and
+\[
+	\sigma^{2} = \frac{\sqrt{16 a^{2} \eta^{4} + 24 a \eta^{2}+1} - 4a \eta^{2} -1}{4a} 
+	=  2\eta^{2}(1-8a\eta^{2}) + O(a^{2}).
+\]
+
+For uniqueness: suppose $1+\mu$ has a Fourier transform $\widehat{(1+\mu)}(-\theta)$. Then, the characteristic function becomes 
+\[
+	{\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} e^{-\frac{\eta^{2}\theta^{2}}{2}} = 
+	\frac{1}{\langle 1+\mu, Z\rangle} (\widehat{(1+\mu)} * \phi)(\theta).
+\]
+Can this be used to construct other examples or exclude those with a transform?
+
+\bibliography{../../Global}
+\bibliographystyle{plain}
+
+
+
+\end{document}
