@@ -1,3 +1,5 @@
 *.aux
 *.log
 .DS_Store
+*.gz
+MeanFlow.pdf
