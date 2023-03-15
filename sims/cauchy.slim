@@ -1,0 +1,62 @@
+initialize() {
+	defineConstant("N", 1e4);
+	defineConstant("DT", 0.01);
+	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
+	defineConstant("GAMMA", 0.2);
+    defineConstant("OUTFILE", "repro_cauchy_" + getSeed() + ".tsv");
+	defineConstant("params", Dictionary("N", N, "DT", DT, "DELTA", DELTA, "GAMMA", GAMMA, "type", "cauchy"));
+	initializeSLiMModelType("nonWF");
+	initializeTreeSeq();
+	initializeMutationRate(1e-8);
+	initializeMutationType("m1", 0.5, "s", paste0("(2 * runif(1) - 1) * rcauchy(1,0,", DELTA - GAMMA, ");"));
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 1e8-1);
+	initializeRecombinationRate(1e-8);
+}
+
+1 first() {
+	sim.addSubpop("p1", N);
+	inds = p1.individuals;
+	x = inds.sumOfMutationsOfType(m1);
+	inds.tagF = x;
+	writeFile(OUTFILE, params.serialize(format='json'));
+}
+
+mutationEffect(m1) {
+	return 1.0;
+}
+
+first() {
+	n = p1.individualCount;
+	inds = p1.individuals;
+	x = inds.tagF;
+	z = (GAMMA/DELTA) * (GAMMA + x^2) / (DELTA + x^2);
+	dead = (runif(n) < 1 - exp(-DT * z));
+	k = sum(dead);
+	inds[dead].fitnessScaling = 0.0;
+	parents = sample(inds, size=k, replace=F);
+	inds.tag = 0;
+	parents.tag = 1;
+	inds.tagF = x;
+}
+
+reproduction() {
+	if (individual.tag > 0) {
+		mate = p1.sampleIndividuals(1);
+		child = p1.addCrossed(individual, mate);
+		child.tagF = child.sumOfMutationsOfType(m1);
+		child.setValue("ma", individual.tagF);
+		child.setValue("pa", mate.tagF);
+	}
+}
+
+1000: early() {
+	inds = p1.individuals;
+	children = inds[inds.age == 0];
+	outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
+	writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+}
+
+1200 late() {
+	sim.simulationFinished();
+}

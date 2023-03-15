@@ -3,3 +3,6 @@
 .DS_Store
 *.gz
 MeanFlow.pdf
+.*.swp
+*.bbl
+*.blg
