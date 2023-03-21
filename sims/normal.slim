@@ -49,14 +49,14 @@ reproduction() {
 	}
 }
 
-1000: early() {
+10000: early() {
 	inds = p1.individuals;
 	children = inds[inds.age == 0];
 	outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
 	writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
 }
 
-1200 late() {
+12000 late() {
     writeFile(POPOUTFILE, "trait" + "\t" + "age");
     for (ind in p1.individuals) {
         writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
