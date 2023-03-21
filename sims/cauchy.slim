@@ -3,12 +3,13 @@ initialize() {
 	defineConstant("DT", 0.01);
 	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
 	defineConstant("GAMMA", 0.2);
-    defineConstant("OUTFILE", "repro_cauchy_" + getSeed() + ".tsv");
+	defineConstant("OUTFILE", "sim_cauchy_" + getSeed() + ".repro.tsv");
+	defineConstant("POPOUTFILE", "sim_cauchy_" + getSeed() + ".pop.tsv");
 	defineConstant("params", Dictionary("N", N, "DT", DT, "DELTA", DELTA, "GAMMA", GAMMA, "type", "cauchy"));
 	initializeSLiMModelType("nonWF");
 	initializeTreeSeq();
 	initializeMutationRate(1e-8);
-	initializeMutationType("m1", 0.5, "s", paste0("(2 * runif(1) - 1) * rcauchy(1,0,", DELTA - GAMMA, ");"));
+	initializeMutationType("m1", 0.5, "s", paste0("rcauchy(1,0,", DELTA - GAMMA, ");"));
 	initializeGenomicElementType("g1", m1, 1.0);
 	initializeGenomicElement(g1, 0, 1e8-1);
 	initializeRecombinationRate(1e-8);
@@ -17,8 +18,7 @@ initialize() {
 1 first() {
 	sim.addSubpop("p1", N);
 	inds = p1.individuals;
-	x = inds.sumOfMutationsOfType(m1);
-	inds.tagF = x;
+	inds.tagF = inds.sumOfMutationsOfType(m1);
 	writeFile(OUTFILE, params.serialize(format='json'));
 }
 
@@ -30,14 +30,13 @@ first() {
 	n = p1.individualCount;
 	inds = p1.individuals;
 	x = inds.tagF;
-	z = (GAMMA/DELTA) * (GAMMA + x^2) / (DELTA + x^2);
+	z = (GAMMA/DELTA) * (GAMMA + x^2) / (DELTA + x^2); // 1 + mu
 	dead = (runif(n) < 1 - exp(-DT * z));
 	k = sum(dead);
 	inds[dead].fitnessScaling = 0.0;
 	parents = sample(inds, size=k, replace=F);
 	inds.tag = 0;
 	parents.tag = 1;
-	inds.tagF = x;
 }
 
 reproduction() {
@@ -58,5 +57,9 @@ reproduction() {
 }
 
 1200 late() {
+	writeFile(POPOUTFILE, "trait" + "\t" + "age");
+	for (ind in p1.individuals) {
+		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
+	}
 	sim.simulationFinished();
 }

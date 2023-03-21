@@ -1,3 +1,9 @@
+# Notes from 3/21:
+
+- add Cauchy mutations with Normal selection to simulations
+- cancer codes look very nice in SNP plots - restrict to these?
+- look at effect size distribution on 1+mu(x) since this is more analogous to cancer incidence?
+
 # Notes from 3/14/23:
 
 Peter to do simulation:
