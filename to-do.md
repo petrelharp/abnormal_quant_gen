@@ -1,3 +1,13 @@
+# Notes from 4/4:
+
+- Transformations: is the model well-defined?
+    * this amounts to asking "if X, Y are indept draws from the trait distribution and xi is a a draw from seg variance, then if f = id
+        the only f such that f((X+Y)/2 + xi) - (f(X) + f(Y))/2 is indept of f(X) and f(Y)?"
+    * also note that GWAS effect sizes are estimated like E[f(X+\epsion) - f(X)].
+    * but kinda clearly different underlying models give different behaviors for evolutionary trajectories and standing variation
+        (e.g., are there sweeps?); so our question does make sense\
+- Peter to look at the substitution process under adaptation and/or sweeps in genetic diversity, under a sudden change
+
 # Notes from 3/21:
 
 - add Cauchy mutations with Normal selection to simulations
