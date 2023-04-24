@@ -68,5 +68,6 @@ s99 12000 late() {
 	for (ind in p1.individuals) {
 		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
 	}
+    catn("Done! In tick " + community.tick);
 	sim.simulationFinished();
 }

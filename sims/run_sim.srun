@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH -A kernlab
+#SBATCH --partition=kern                ### Partition
+#SBATCH --job-name=param_grid           ### Job Name
+#SBATCH --time=72:00:00                 ### WallTime
+#SBATCH --nodes=1                       ### Number of Nodes
+#SBATCH --ntasks=1                      ### Number of tasks per array job
+#SBATCH --cpus-per-task=1               ### Number of CPU cores per task
+#SBATCH --mem=12G
+
+slim -v
+
+SLIMSCRIPT=$1
+
+echo "Doing:"
+echo "slim $SLIMSCRIPT"
+
+slim $SLIMSCRIPT &>> slurm.log
+
