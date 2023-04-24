@@ -3,11 +3,12 @@
 
 usage <- "
    parse_output.R (basename) (number of time bins) 
-where basename.repro.tsv and bsaename.pop.tsv should be files,
+where basename.repro.tsv and bsaename.pop.tsv and basename.fix.tsv should be files,
 and the 'repro' file should have a first line with parameters,
 and remaining lines of the form
   (time) (trait values) (maternal trait values) (paternal trait values)
-and the 'pop' file should have 'trait' and 'age' columns.
+the 'pop' file should have 'trait' and 'age' columns,
+and the 'fix' file should have 'time' and 'num_fixations' columns.
 "
 
 library(jsonlite)
@@ -29,6 +30,13 @@ close(infile)
 
 pop <- read.table(paste0(basename, ".pop.tsv"), sep="\t", header=TRUE)
 pop$age <- pop$age * params$DT
+fix <- read.table(paste0(basename, ".fix.tsv"), sep="\t", header=TRUE)
+
+pdf(sprintf("%s.fixrate.pdf", basename), width=6, height=6, pointsize=10)
+layout(1:2)
+    plot(fix$time, fix$num_fixations, type='l', xlab='time', ylab='number of fixations')
+    hist(diff(fix$num_fixations), xlab='number of fixations/tick', breaks=40)
+dev.off()
 
 pdf(sprintf("%s.ages.pdf", basename), width=6, height=8, pointsize=10)
 layout(1:3)

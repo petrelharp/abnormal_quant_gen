@@ -5,6 +5,7 @@ initialize() {
 	defineConstant("SD", 0.2);
     defineConstant("OUTFILE", "sim_normal_" + getSeed() + ".repro.tsv");
     defineConstant("POPOUTFILE", "sim_normal_" + getSeed() + ".pop.tsv");
+    defineConstant("FIXOUTFILE", "sim_normal_" + getSeed() + ".fix.tsv");
 	defineConstant("params", Dictionary("N", N, "DT", DT, "SD", SD, "type", "normal"));
 	initializeSLiMModelType("nonWF");
 	initializeTreeSeq();
@@ -20,6 +21,9 @@ initialize() {
 	inds = p1.individuals;
 	inds.tagF = inds.sumOfMutationsOfType(m1);
 	writeFile(OUTFILE, params.serialize(format='json'));
+	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations");
+	community.rescheduleScriptBlock(s98, start=BURNIN, end=BURNIN+NUMGENS);
+	community.rescheduleScriptBlock(s99, ticks=BURNIN+NUMGENS);
 }
 
 mutationEffect(m1) {
@@ -49,17 +53,18 @@ reproduction() {
 	}
 }
 
-10000: early() {
+s98 10000: early() {
 	inds = p1.individuals;
 	children = inds[inds.age == 0];
 	outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
 	writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+	writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutations.isFixed), append=T);
 }
 
-12000 late() {
-    writeFile(POPOUTFILE, "trait" + "\t" + "age");
-    for (ind in p1.individuals) {
-        writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
-    }
+s99 12000 late() {
+	writeFile(POPOUTFILE, "trait" + "\t" + "age");
+	for (ind in p1.individuals) {
+		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
+	}
 	sim.simulationFinished();
 }
