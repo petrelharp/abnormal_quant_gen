@@ -1,8 +1,10 @@
 initialize() {
-	defineConstant("N", 1e4);
+	if (!exists("N")) defineConstant("N", 1e4);
 	defineConstant("DT", 0.01);
 	defineConstant("ALPHA", 0.2);
 	defineConstant("SD", 0.2);
+	if (!exists("BURNIN")) defineConstant("BURNIN", 10000);
+	if (!exists("NUMGENS")) defineConstant("NUMGENS", 2000);
     defineConstant("OUTFILE", "sim_normal_" + getSeed() + ".repro.tsv");
     defineConstant("POPOUTFILE", "sim_normal_" + getSeed() + ".pop.tsv");
     defineConstant("FIXOUTFILE", "sim_normal_" + getSeed() + ".fix.tsv");

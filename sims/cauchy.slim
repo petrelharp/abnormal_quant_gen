@@ -1,5 +1,5 @@
 initialize() {
-	defineConstant("N", 1e4);
+	if (!exists("N")) defineConstant("N", 1e4);
 	defineConstant("DT", 0.01);
 	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
 	defineConstant("GAMMA", 0.2);
