@@ -58,8 +58,10 @@ reproduction() {
 s98 10000: early() {
 	inds = p1.individuals;
 	children = inds[inds.age == 0];
-	outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
-	writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+	if (length(children) > 0) {
+		outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
+		writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+	}
 	writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutations.isFixed), append=T);
 }
 
