@@ -55,7 +55,7 @@ if (params$type == "normal") {
 }
 
 # pdf(sprintf("%s.seg.pdf", basename), width=8, height=2*num_plots, pointsize=10)
-png(sprintf("%s.seg.png", basename), width=8, height=2*num_plots, pointsize=10, units='in')
+png(sprintf("%s.seg.png", basename), width=8, height=2*num_plots, pointsize=10, units='in', res=144)
 layout(matrix(1:(3*num_plots), ncol=3, byrow=TRUE))
 xlim <- range(repro$seg)
 xh <- hist(repro$seg, breaks=200, plot=FALSE)
