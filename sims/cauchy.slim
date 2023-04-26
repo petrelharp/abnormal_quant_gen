@@ -3,8 +3,8 @@ initialize() {
 	defineConstant("DT", 0.01);
 	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
 	defineConstant("GAMMA", 0.2);
-	if (!exists("BURNIN")) defineConstant("BURNIN", 10000);
-	if (!exists("NUMGENS")) defineConstant("NUMGENS", 2000);
+	if (!exists("BURNIN")) defineConstant("BURNIN", 100);
+	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
 	defineConstant("OUTFILE", "sim_cauchy_" + getSeed() + ".repro.tsv");
 	defineConstant("POPOUTFILE", "sim_cauchy_" + getSeed() + ".pop.tsv");
 	defineConstant("FIXOUTFILE", "sim_cauchy_" + getSeed() + ".fix.tsv");
@@ -30,7 +30,7 @@ initialize() {
 	inds = p1.individuals;
 	inds.tagF = inds.sumOfMutationsOfType(m1);
 	writeFile(OUTFILE, params.serialize(format='json'));
-	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations");
+	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations" + "\t" + "num_substitutions" + "\t" + "num_mutations");
 	community.rescheduleScriptBlock(s98, start=BURNIN, end=BURNIN+NUMGENS);
 	community.rescheduleScriptBlock(s99, ticks=BURNIN+NUMGENS);
 }
@@ -69,7 +69,7 @@ s98 10000: early() {
 		outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
 		writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
 	}
-	writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutations.isFixed), append=T);
+	writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutations.isFixed) + "\t" + length(sim.substitutions) + "\t" + length(sim.mutations), append=T);
 }
 
 s99 12000 late() {
