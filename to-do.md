@@ -1,3 +1,24 @@
+# Notes from 5/1:
+
+1. *Intro*: Motivation about how many results about quant gen and methods assume Gaussian distributions.
+    Mention Levy walk macroevolution papers.
+    Point out that usual quant gen has *no* sweeps, while stable distributions would have sweeps (since some s would be bigger than 1/N).
+    Motivate with mixture model of effect sizes.
+    If stable distributions are a better model, what does that tell us? We can better understand the *noise* in evolution, i.e., predictability and saltation-ness.
+    (PETER)
+
+2. Motivation: empirical SNPs distributions in real data (PETER)
+
+3. Introducing infinitesimal model (in this case) (TODD)
+
+4. Proof following BEV in stable case (TODD)
+
+5. Theoretical results on stationary distributions (TODD)
+
+6. Simulations (PETER)
+
+
+
 # Notes from 4/4:
 
 - Transformations: is the model well-defined?
