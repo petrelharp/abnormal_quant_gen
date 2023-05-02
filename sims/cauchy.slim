@@ -33,8 +33,8 @@ initialize() {
 	inds.tagF = inds.sumOfMutationsOfType(m1);
 	writeFile(OUTFILE, params.serialize(format='json'));
 	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations" + "\t" + "num_mutations");
-	community.rescheduleScriptBlock(s98, start=BURNIN, end=BURNIN+NUMGENS);
-	community.rescheduleScriptBlock(s99, ticks=BURNIN+NUMGENS);
+	community.rescheduleScriptBlock(s98, start=asInteger(BURNIN/DT), end=asInteger((BURNIN+NUMGENS)/DT));
+	community.rescheduleScriptBlock(s99, ticks=asInteger((BURNIN+NUMGENS)/DT));
 }
 
 mutationEffect(m1) {
@@ -65,13 +65,15 @@ reproduction() {
 }
 
 s98 10000: early() {
-	inds = p1.individuals;
-	children = inds[inds.age == 0];
-	if (length(children) > 0) {
-		outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
-		writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
+		inds = p1.individuals;
+		children = inds[inds.age == 0];
+		if (length(children) > 0) {
+			outline = paste(c(children.tagF, children.getValue("ma"), children.getValue("pa")), sep="\t");
+			writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+		}
+		writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutationFrequencies(NULL) == 1.0) + "\t" + length(sim.mutations), append=T);
 	}
-	writeFile(FIXOUTFILE, community.tick * DT + "\t" + sum(sim.mutationFrequencies(NULL) == 1.0) + "\t" + length(sim.mutations), append=T);
 }
 
 s99 12000 late() {
@@ -79,6 +81,6 @@ s99 12000 late() {
 	for (ind in p1.individuals) {
 		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
 	}
-    catn("Done! In tick " + community.tick);
+    catn("Done! In tick " + community.tick + ", time " + community.tick/DT);
 	sim.simulationFinished();
 }
