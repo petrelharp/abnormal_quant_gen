@@ -46,7 +46,11 @@ mutationEffect(m1) {
 first() {
 	n = p1.individualCount;
 	inds = p1.individuals;
-	x = inds.tagF - XOPT;
+	if (community.tick <= BURNIN/DT) {
+		x = inds.tagF;
+	} else {
+		x = inds.tagF - XOPT;
+	}
 	z = (DELTA/GAMMA) * (GAMMA + x^2) / (DELTA + x^2); // 1 + mu
 	dead = (runif(n) < 1 - exp(-DT * z));
 	k = sum(dead);
