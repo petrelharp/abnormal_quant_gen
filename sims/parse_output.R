@@ -3,7 +3,7 @@
 
 usage <- "
    parse_output.R (basename) (number of time bins) 
-where basename.repro.tsv and bsaename.pop.tsv and basename.fix.tsv should be files,
+where basename.repro.tsv and basename.pop.tsv and basename.fix.tsv should be files,
 and the 'repro' file should have a first line with parameters,
 and remaining lines of the form
   (time) (trait values) (maternal trait values) (paternal trait values)

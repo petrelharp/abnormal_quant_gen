@@ -1,5 +1,6 @@
 initialize() {
 	if (!exists("N")) defineConstant("N", 1e4);
+	if (!exists("XOPT")) defineConstant("XOPT", 1.0);
 	defineConstant("DT", 0.01);
 	defineConstant("ALPHA", 0.2);
 	defineConstant("SD", 0.2);
@@ -44,7 +45,7 @@ mutationEffect(m1) {
 first() {
 	n = p1.individualCount;
 	inds = p1.individuals;
-	x = inds.tagF;
+	x = inds.tagF - XOPT;
 	z = exp(ALPHA * x^2);
 	dead = (runif(n) < 1 - exp(-DT * z));
 	k = sum(dead);
