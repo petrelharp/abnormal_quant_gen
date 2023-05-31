@@ -1,0 +1,212 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath, amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{natbib}
+
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+
+\newcommand{\comment}[1]{{\color{blue} \it #1}}
+
+\begin{document}
+
+% 1. *Intro*: Motivation about how many results about quant gen and methods assume Gaussian distributions.
+%     Mention Levy walk macroevolution papers.
+%     Point out that usual quant gen has *no* sweeps, while stable distributions would have sweeps (since some s would be bigger than 1/N).
+%     Motivate with mixture model of effect sizes.
+%     If stable distributions are a better model, what does that tell us? We can better understand the *noise* in evolution, i.e., predictability and saltation-ness.
+%     (PETER)
+% 
+% 2. Motivation: empirical SNPs distributions in real data (PETER)
+% 
+% 3. Introducing infinitesimal model (in this case) (TODD)
+% 
+% 4. Proof following BEV in stable case (TODD)
+% 
+% 5. Theoretical results on stationary distributions (TODD)
+% 
+% 6. Simulations (PETER)
+
+\title{\large{\bf
+    Quantitative genetics with stable laws
+}}
+
+\author{ \begin{small}
+    Todd Parsons \&
+    Peter Ralph
+\end{small}}
+
+\date{\today}
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Much of the work to give a quantitative understanding to the observation that
+offspring of sexual organisms resemble their parent,
+has focused on \emph{quantitative genetics},
+which is interestingly intermediate between a mechanistic model of genetics
+and a purely phenomenological model.
+The action of natural selection on genetic variants in the absence of genetic variation
+is relatively well-understood (cite ewens),
+but tractable mathematical models of evolution for recombining species
+are elusive,
+at least with some results of when the model might be a good description of reality.
+For instance, a great deal of conceptual understanding and even quantitative predictions
+have been made assuming that the distribution of trait values in a population is Gaussian
+(cite Lande etcetera)
+despite the absence of a plausible model that would make this true (cite turelli and barton).
+One of the oldest and most concrete models of heritable trait evolution is the \emph{infinitesimal model}
+which assumes a simple, explicit form for how an offspring's trait is inherited from their parents':
+it is Normally distributed, with mean equal to the average of the parents' values.
+Despite the inherent plausibility of this model,
+(thanks to the Central Limit Theorem),
+it was not until \citet{barton2017infinitesimal} that conditions under which this would be a good approximation
+were made explicit,
+through a formal convergence proof.
+
+As suggested by its name, under the infinitesimal model the effects of any given genetic variant on the trait
+is small (indeed, vanishing),
+and so selection-driven trait shifts are mediated by small changes in frequencies of many alleles of small effect.
+However, empirical understanding of the genetic basis of trait variation in real-world species
+often finds a significant portion of heritable variation explained by variants at only a few loci.
+There are many possible explanations for this observation,
+including selection/publication bias,
+filters for larger-effect variants due to spatially varying selection (cite),
+ond/or grouping together of concordant alleles by linkage or inversions (cite).
+However, it seems clear that in at least those cases where we understand the underlying molecular mechanisms
+that mutations of large effect can be important in practice
+(cite examples: insecticide resistance, coloration, etc),
+and the consensus in the field is that traits exist on a spectrum between monogenic and polygenic,
+and that many - if not most - are firmly in the intermediate, ``oligogenic'' region (cite),
+where heritable trait variation is due both to segregating large- and small-effect variants.
+Indeed, some sensible verbal models of the biological mechanisms by which a genetic change
+comes to have an effect on an organism's trait
+describe a hierarchy or range of ``proximities'' to the trait,
+by which changes to more ``nearby'' genes have the possibility of causing larger changes in the trait
+(cite omnigenic and others).
+This suggests a mixture model for the effect size distribution:
+perhaps the distribution of effect sizes within each gene is Normal,
+but with a standard deviation that varies with ``proximity'' to the trait;
+such mixtures can easily have large proportions of extreme values.
+
+The infinitesimal model gains a great deal of generality by appealing to the Central Limit Theorem:
+as shown by \citet{barton2017infinitesimal},
+the distribution of segregation noise will be Normal, regardless of most of the details,
+thanks to the universality of adding up a great many very small and independent things.
+However, as is well known to probabilists,
+there is a wider class of Central Limit Theorems,
+which describe the distributions of sums of a great many independent and exchangeable things:
+the \emph{stable laws}.
+Roughly speaking, these say that if we add together $n$ independent copies of a random variable $X$
+for which $\P\{ X > t \} \propto t^{-\alpha}$ for some $0 < \alpha < 2$,
+then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
+is well-approximated by a universal form, the $\alpha$-stable distribution (and becomes exact, as $n \to \infty$).
+In such ensembles, sinle large entries are important:
+concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
+so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
+
+This suggests exploring whether stable distributions might reasonably stand in for the Normal
+in the infinitesimal model.
+In this paper, we make rather preliminary explorations in that direction:
+Does the universality shown by \citet{barton2017infinitesimal}
+carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
+What can be said about equilibrium trait distributions in this case?
+And, is there any biological evidence that this theory might be relevant?
+
+Stable distributions are by no means new to population biology.
+For instance, it is a long-standing question how often the motions of organisms
+are better modeled by essentially Brownian random walks or by L\'evy processes (cite),
+and a growing literature studies the effects of such ``fat-tailed'' distributions
+on the shapes and dynamics of traveling waves such as biological invasions (cite).
+\comment{Other examples?}
+More directly analogous to the problem we study here, \citet{landis2012phylogenetic}
+found that an $\alpha$-stable process (with $\alpha \approx 1.5$) fit the evolution of log endocranial volume
+on the primate phylogeny
+better than either a Brownian model.
+\comment{more}
+
+
+\subsection*{Orphaned text}
+The ways in which genetic variants combine to determine an organisms' trait can be complex,
+and epistatic interactions between alleles and between loci can be important in practice.
+However, the question is sufficiently complex in the purely additive case
+that a trait can be decomposed into a sum across loci of the contributions of the alleles from each locus.
+Under this additive assumption it makes sense to discuss the ``effect size distribution'',
+i.e., the distribution of how much alleles affect the trait value.
+
+An offspring's trait differs from their parents for many reasons,
+often most importantly because of differences in the environment in which they live.
+The focus of quantitative genetics is on the contribution of heritable material to this variation:
+the offspring's genetic material 
+
+
+\comment{Will need this notation below:}
+We focus on the \emph{infinitesimal model},
+as described by \citet{barton2017infinitesimal},
+which supposes that the trait value of an offspring
+is equal to the average of their parents' trait values,
+plus independent Gaussian noise with fixed variance,
+\begin{equation} \label{eqn:offspring_model}
+    X_o = \frac{X_m + X_f}{2} + \epsilon,
+\end{equation}
+where $\epsilon$, the ``segregation noise'',
+is Gaussian with mean zero and variance $V_0$.
+\comment{should call this something besides $\epsilon$}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Empirical observations}
+
+It is mathematically intriguing to speculate what effect a non-Gaussian distribution
+for $\epsilon$ would have on the dynamics induced by~\eqref{eqn:offspring_model}.
+But, is there any evidence that non-Gaussian segregation noise is important in practice?
+In this paper we focus primarily on the theory,
+but first take a brief and imperfect look at what some data have to say on the topic.
+To do this, we downloaded the GWAS results provided by~\citet{biobankSNPs}
+for 7,221 phenotypes from 361,194 individuals from the March 2018 release of the UK Biobank.
+Taken at face value, these provide for each phenotype a set of estimates of the additive effect
+of the alternative allele at a set of SNPs on the phenotype relative to the reference allele.
+The phenotypes we consider were all coded as 0/1,
+so estimates could be thought of as additive adjustments to the risk
+(so, \emph{not} on a logit scale).
+These estimates were obtained as the coefficient for the SNP in a simple linear model
+fit to each phenotype for each SNP,
+with the first 20 principal components and all combinations of age, age squared, and inferred sex as covariates.
+There are a great many possible issues with these data;
+however, the results seem consistent across many SNPs and phenotypes,
+and we know of no reason that possible methodological artifacts
+(e.g., confounding by uncorrected variables)
+would specifically affect the decay of the tail of effect sizes.
+
+Suppose that the phenotype of each individual is additive: $X_f = \sum_i a_i$ and $X_m = \sum_i b_i$, for instance,
+where each $a_i = 0$ if the individual is homozygous for the reference allele,
+and that each contribution is inherited by the offspring with probability 1/2 (as if these were additive effects of rare, unlinked SNPs).
+Then we would have the deviation of the offspring phenotype
+from the midparent value equal to
+$$
+\epsilon = \sum_i (\theta_i a_i + \eta_i b_i)/2,
+$$
+where each $\theta_i$ and $\eta_j$ are independent Bernoulli(1/2).
+So, the appropriate central limit theorem for $\epsilon$
+is determined by the distribution of $\theta a_i$,
+i.e., 
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Extending the infinitesimal model}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Stationary distributions}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulations}
+
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}
