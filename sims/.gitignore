@@ -1,0 +1,4 @@
+*.fix.tsv
+*.pop.tsv
+*.repro.tsv
+*.out

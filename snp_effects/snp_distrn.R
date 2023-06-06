@@ -86,17 +86,20 @@ for (k in 1:nrow(manifest)) {
     stopifnot(all(gwas$pval < pval_cutoff))
     if (ncol(gwas) == 0) {
         cat("Failed to load", code, "\n")
+        cat(nrow(gwas), "\n", file=donefile)
         next
     }
     gwas <- subset(gwas, !is.na(beta) & !is.na(minor_AF) & (beta != 0) & (minor_AF != 0))
     if (nrow(gwas) <= min_num) {
         cat("Not enough hits in", code, "\n")
+        cat(nrow(gwas), "\n", file=donefile)
         next
     }
 
     xlm <- estim_alpha(gwas)
     if (is.null(xlm)) {
-        cat("Failed to do regression for", code, "\n")
+        cat("Failed to fit linear model for", code, "\n")
+        cat(nrow(gwas), "\n", file=donefile)
         next
     }
     save(xlm, file=xlm_file)
