@@ -2,6 +2,7 @@
     * gwas_manifest.csv
     * gwas_manifest_lookup.csv
     * gwas_manifest_readme.csv
+    * phenotypes.both_sexes.tsv.bgz
 
 From the FAQ:
  - 7,221 phenotypes
