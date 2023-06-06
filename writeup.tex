@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage[hidelinks]{hyperref}
 \usepackage{natbib}
+\usepackage{xcolor}
 
 \newcommand{\E}{\mathbb{E}}
 \renewcommand{\P}{\mathbb{P}}
@@ -130,6 +131,11 @@ on the primate phylogeny
 better than either a Brownian model.
 \comment{more}
 
+\comment{TODO expand, put somewhere:}
+There are several justifications for why a ``stable infinitesimal model'' might be useful:
+(1) as a phenomenological model;
+(2) if it matches empirical observations; or
+(3) if there is a central limit theorem suggesting it would be a good approximation in a wide range of situations.
 
 \subsection*{Orphaned text}
 The ways in which genetic variants combine to determine an organisms' trait can be complex,
@@ -172,7 +178,7 @@ Taken at face value, these provide for each phenotype a set of estimates of the 
 of the alternative allele at a set of SNPs on the phenotype relative to the reference allele.
 The phenotypes we consider were all coded as 0/1,
 so estimates could be thought of as additive adjustments to the risk
-(so, \emph{not} on a logit scale).
+(so, effects are \emph{not} on a logit scale).
 These estimates were obtained as the coefficient for the SNP in a simple linear model
 fit to each phenotype for each SNP,
 with the first 20 principal components and all combinations of age, age squared, and inferred sex as covariates.
@@ -182,18 +188,50 @@ and we know of no reason that possible methodological artifacts
 (e.g., confounding by uncorrected variables)
 would specifically affect the decay of the tail of effect sizes.
 
-Suppose that the phenotype of each individual is additive: $X_f = \sum_i a_i$ and $X_m = \sum_i b_i$, for instance,
-where each $a_i = 0$ if the individual is homozygous for the reference allele,
-and that each contribution is inherited by the offspring with probability 1/2 (as if these were additive effects of rare, unlinked SNPs).
-Then we would have the deviation of the offspring phenotype
-from the midparent value equal to
+Suppose that the phenotype of each individual is additive:
+the maternal trait value is $x = \sum_i x_{i,1} + x_{i,2}$
+and the paternal trait value is $y = \sum_i y_{i,1} + y_{i,2}$,
+where $x_{i,1}$ and $x_{i,2}$ are the effects of the alleles carried
+by the mother on each of the two chromosomes
+at the $i^\text{th}$ locus, respectively.
+Then the offspring's trait is $z = \sum_i z_{i,m} + z_{i,p}$,
+where $z_{i,m} = \theta_{i,m} x_{i,1} + (1-\theta_{i,m}) x_{i,2}$,
+and $\theta_{i,m} = 1$ with probability 1/2 and $\theta_{i,m} = 0$ otherwise;
+and likewise $z_{i,p} = \theta_{i,p} y_{i,1} + (1-\theta_{i,p}) y_{i,2}$.
+With this notation, the segregation noise $z - \frac{x+y}{2}$
+is a sum of terms of the form
 $$
-\epsilon = \sum_i (\theta_i a_i + \eta_i b_i)/2,
+    \left( \theta_{i,m} - 1/2 \right) x_{i,1}
+    + \left( 1/2 - \theta_{i,m} \right) x_{i,2} 
 $$
-where each $\theta_i$ and $\eta_j$ are independent Bernoulli(1/2).
-So, the appropriate central limit theorem for $\epsilon$
-is determined by the distribution of $\theta a_i$,
-i.e., 
+(and similar terms with $y$ in place of $x$).
+Now let $X$ be the effect of a uniformly chosen allele carried by a uniformly chosen individual
+at a uniformly chosen locus.
+The appropriate central limit theorem is determined by the tail behavior of $|(\theta - 1/2) X| = |X|/2$;
+i.e., we'd like to know
+$$
+    \lim_{t \to \infty} \frac{ \log \P\{ |X| > 2 t \} }{ \log t } = \alpha ,
+$$
+if the limit exists.
+Let $p_i$ be the minor allele frequency at the $i^\text{th}$ locus;
+since the data we have assigns effect 0 to the major allele,
+$x_i = 0$ with probability $1-p_i$.
+Therefore, if we have estimated effects for $N$ SNPs
+with minor allele frequency $p_i$ and effect size $e_i$ for the minor allele,
+for $1 \le i \le N$,
+then
+$$
+    \P\{ |X| > 2t \} \approx \frac{1}{N} \sum_{i : |e_i| > 2t} p_i .
+$$
+So, to obtain a per-trait estimate of $\alpha$,
+we plot $\frac{1}{N} \sum_{i : |e_i| > t} p_i$ against $t$
+for a sequence of values of $t$,
+and fit a linear model to the tail
+(which we take to be all values of $t$ for which the number of SNPs with absolute effect above $t$
+is between 20 and 10\% of all SNPs).
+Examples are shown in figure \comment{XXX}.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Extending the infinitesimal model}  % TODD

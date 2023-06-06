@@ -1,0 +1,76 @@
+Let's check this works for the Cauchy.
+
+```{r fake_data}
+n <- 1e3
+gwas <- data.frame(minor_AF=runif(n),
+                   beta=rcauchy(n)/100)
+
+min_num <- 20
+max_prop <- 0.5
+```
+
+Now let's let $(P, Z)$ be a random draw from this table, all $Z > 0$,
+and $X = Z$ with probability $P$, and $X=0$ otherwise.
+Here's the complementary cumulative distribution function of $X$,
+i.e., if $N$ is the number of rows in the table,
+$$\begin{aligned}
+   \mathbb{P}\{X > x \}  
+   &= \frac{1}{N} \sum_i P_i \mathbb{1}_{Z_i > x} \\
+   &= \mathbb{P}\{X > 0\} - \frac{1}{N} \sum_i P_i \mathbb{1}_{Z_i \le x} \\
+   &= \frac{1}{N}\sum_i P_i - \frac{1}{N} \sum_i P_i \mathbb{1}_{Z_i \le x} .
+\end{aligned}$$
+
+```{r plotit}
+estim_alpha <- function (gwas, num_breaks=1001) {
+    xx <- c(seq(0, 2 * quantile(abs(gwas$beta), 0.99), length.out=num_breaks), Inf)
+    disc_beta <- cut(abs(gwas$beta), xx)
+    num_points <- table(disc_beta)
+    dpx <- tapply(gwas$minor_AF, disc_beta, sum)
+    dpx[is.na(dpx)] <- 0
+    p_zero <- mean(gwas$minor_AF)
+    tail_prob <- p_zero - cumsum(dpx) / nrow(gwas)
+    tail_nums <- nrow(gwas) - cumsum(num_points)
+    x <- xx[-1]
+    xlm <- lm(log(tail_prob) ~ log(x),
+              subset=(is.finite(log(tail_prob))
+                      & tail_nums > min_num
+                      & tail_nums < max_prop * nrow(gwas)))
+    return(xlm)
+}
+
+xlm <- estim_alpha(gwas)
+logx <- xlm$model[[1]]
+logy <- xlm$model[[2]]
+plot(logx, logy, ylab='log(prob > x)', xlab='log(x)')
+abline(coef(xlm))
+
+summary(xlm)
+```
+
+## Power
+
+Huh, how good of an estimator is this?
+```{r boot}
+boots <- replicate(200, {
+    gwas <- data.frame(minor_AF=runif(n),
+                       beta=rcauchy(n)/100)
+    xlm <- estim_alpha(gwas)
+    return(coef(xlm)) })
+hist(boots[2,], breaks=30)
+abline(v=-1, col='red')
+```
+Looks ok.
+
+## Gaussian
+
+And, what if we give this Gaussian data?
+```{r gboot}
+boots <- replicate(200, {
+    gwas <- data.frame(minor_AF=runif(n),
+                       beta=rnorm(n)/100)
+    xlm <- estim_alpha(gwas)
+    return(coef(xlm)) })
+hist(boots[2,], breaks=30)
+abline(v=-1, col='red')
+```
+Looks ok.
