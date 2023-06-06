@@ -60,15 +60,16 @@ translation <- read.csv("gwas_manifest_lookup.csv", header=FALSE)
 
 for (k in 1:nrow(manifest)) {
     code <- manifest$Phenotype.Code[k]
-    if (!dir.exists(code)) dir.create(code)
-    basename <- file.path(code, filebase)
+    code_dir <- file.path("phenotypes", "code")
+    if (!dir.exists(code_dir)) dir.create(code_dir)
+    basename <- file.path(code_dir, filebase)
     donefile <- paste0(basename, "done")
     xlm_file <- paste0(basename, "xlm.RData")
     plot_file <- paste0(basename, "plot.pdf")
 
     gwas_file <- file.path(code, manifest$File[k])
     if (!file.exists(gwas_file)) {
-        wgot <- system(paste("cd", code, "&&", manifest$wget.command[k]))
+        wgot <- system(paste("cd", code_dir, "&&", manifest$wget.command[k]))
         if (wgot != 0) {
             cat("Failed to get", code, "\n")
             next
