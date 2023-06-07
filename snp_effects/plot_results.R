@@ -24,11 +24,12 @@ dev.off()
 
 
 ## Next run with prop 10%
-results <- read.table("snp_results_10.tsv")
+results <- read.table("snp_results_10.tsv", stringsAsFactors=FALSE)
 results$name <- manifest$Phenotype.Description[match(results$code, manifest$Phenotype.Code)]
 results$name[results$name == "NA"] <- NA
 results <- subset(results, !grepl("Job code", results$name))
 results <- subset(results, !grepl("Type of", results$name)) # seems to be all diet-related
+results <- subset(results, !grepl("Own or rent", results$name))
 
 pheno_names <- c("phenotype", "n_non_missing", "n_missing", "n_controls", "n_cases")
 pheno <- phenotypes[,pheno_names]
@@ -89,17 +90,33 @@ for (cname in categories) {
 }
 dev.off()
 
-plot_code <- function (code) {
+clean_name <- function (x) {
+    clean <- c("Non-cancer illness code, self-reported: ", 
+               "Diagnoses - main ICD10: ",
+               "Cancer code, self-reported: "
+    )
+    for (u in clean) {
+        x <- gsub(u, "", x)
+    }
+    return(x)
+}
+
+plot_code <- function (code, lab) {
     ij <- match(code, results$code)
     if (is.na(ij)) stop(sprintf("Code %s not in results.", code))
     code_dir <- file.path("phenotypes", code)
     xlm_file <- file.path(code_dir, paste0("tail_10_", "xlm.RData"))
     if (!file.exists(xlm_file)) stop(sprintf("File %s does not exist.", xlm_file))
+    load(xlm_file)
     logx <- xlm$model[["log(x)"]]
     logy <- xlm$model[["log(tail_prob)"]]
-    plot(logx, logy, ylab='log(prob > x)', xlab='log(x)', main=results$name[ij], sub=code)
-    abline(coef(xlm))
-    legend("topright", lty=c(1, NA, NA),
+    plot(logx, logy, ylab='log(prob > x)', xlab='log(x)', type='l')#, sub=code)
+    cnp <- strsplit(clean_name(results$name[ij]), " ")[[1]]
+    title(paste(c(lab, cnp[1:min(5, length(cnp))]), collapse=" "), cex.main=0.9)
+    if (length(cnp) > 5)
+        title(paste(cnp[6:length(cnp)], collapse=" "), line=0.2, cex.main=0.9)
+    abline(coef(xlm), col='red')
+    legend("topright", lty=c(1, NA, NA), cex=0.8, col=c('red', NA, NA),
            legend=c(sprintf("y = %0.2f %0.2f x", coef(xlm)[1], coef(xlm)[2]),
                     sprintf("num snps = %d", results$nsnps[ij]),
                     sprintf("num cases = %d", results$n_cases[ij])
@@ -107,7 +124,7 @@ plot_code <- function (code) {
     )
 }
 
-set.seed(12)
+set.seed(8)
 examples <- lapply(categories, function (cname) {
        with(subset(results, category==cname & !pruned & !is.na(name)), {
             xc <- cut(slope, c(-100,-2,-1.5,0))
@@ -115,8 +132,11 @@ examples <- lapply(categories, function (cname) {
        })
 })
 
-pdf(file="examples.pdf", width=7, height=9, pointsize=10)
-for (code in unlist(examples)) {
-    plot_code(code)
+pdf(file="examples.pdf", width=6.5, height=8, pointsize=10)
+layout(matrix(1:12, nrow=4, byrow=TRUE))
+par(mar=c(4, 4, 2, 1))
+for (j in 1:12) {
+    cname <- unlist(examples)[j]
+    plot_code(cname, paste0("(", letters[j], ")"))
 }
 dev.off()

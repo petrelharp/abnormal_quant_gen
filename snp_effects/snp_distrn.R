@@ -60,7 +60,7 @@ translation <- read.csv("gwas_manifest_lookup.csv", header=FALSE)
 
 for (k in 1:nrow(manifest)) {
     code <- manifest$Phenotype.Code[k]
-    code_dir <- file.path("phenotypes", "code")
+    code_dir <- file.path("phenotypes", code)
     if (!dir.exists(code_dir)) dir.create(code_dir)
     basename <- file.path(code_dir, filebase)
     donefile <- paste0(basename, "done")
