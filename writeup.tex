@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{fullpage}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath,amssymb,amsthm,bm,enumerate,mathtools}
 \usepackage[hidelinks]{hyperref}
 \usepackage{natbib}
 \usepackage{xcolor}
@@ -8,8 +8,28 @@
 
 \newcommand{\E}{\mathbb{E}}
 \renewcommand{\P}{\mathbb{P}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+\newcommand{\ie}{\textit{i.e.,}\,}
+\newcommand{\eg}{\textit{e.g.,}\,}
+\newcommand{\nb}{\textit{n.b.,}\, }
+\newcommand{\defn}{:=}
 
 \newcommand{\comment}[1]{{\color{blue} \it #1}}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{remark} 
+	\newtheorem{rem}{Remark}
+	\newtheorem{assn}{Assumption}
+\theoremstyle{definition} 
+	\newtheorem{mydef}{Definition} 
+	\newtheorem{exmp}{Example} 
+	\newtheorem{cond}{Condition}
+	\newtheorem{conj}{Conjecture}
+
 
 \begin{document}
 
@@ -309,6 +329,273 @@ between more and less common phenotypes.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Extending the infinitesimal model}  % TODD
 
+\comment{Copied from \texttt{eugene\_notes.tex}:}
+
+Let $X$ be a population of size $N$, recorded as the empirical distribution on phenotypes
+\begin{align*}
+    X = \frac{1}{N} \sum_{i=1}^N \delta_{x_i} .
+\end{align*}
+This evolves as a Moran process under the infinitesimal model
+with death rates depending on state $x$.
+Concretely, an individual whose phenotype is $x$
+dies at rate $1 + \mu(x)$
+and is replaced by a new individual of phenotype
+\begin{align*}
+  \frac{y + z}{2} + \xi ,
+\end{align*}
+where $y$ and $z$ are independent draws from $X$
+and $\xi$ is an independent $N(0, \eta^2)$.
+Let $\nu(X)$ denote the distribution of $\frac{y + z}{2} + \xi$.
+This has generator
+\begin{align*}
+    \mL \Phi(X)
+    &=
+    \int \int \int \int
+    \left( \Phi(X + \frac{1}{N} \delta_{(y+z)/2 + \xi} - \frac{1}{N} \delta_x) - \Phi(X) \right)
+    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi \\
+    &=
+    \int \int
+    \left( \Phi(X + \frac{1}{N} \delta_u - \frac{1}{N} \delta_x) - \Phi(X) \right)
+    (1 + \mu(x)) X(dx) \nu(X)(du) .
+\end{align*}
+
+For a test function $\phi$, setting $\Phi(X) = \ip{\phi}{X}$
+we get the first moment
+\begin{align*}
+    \mL \ip{\phi}{X}
+    &=
+    \frac{1}{N} \int \int \int \int
+    \left( \phi \left( \frac{y+z}{2} + \xi \right)
+         - \phi(x) \right)
+    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi  \\
+    &=
+    \frac{1}{N} \ip{\phi}{\nu(X)}\ip{1+\mu}{X}
+    - \frac{1}{N} \ip{\phi}{(1+\mu) X} .
+\end{align*}
+Note that $\ip{\phi}{\partial_{\nu(X)} X} = \ip{\phi}{\nu(X)}$,
+so that this is a first derivative in the direction of
+$\ip{1+\mu}{X} \nu(X) - (1+\mu) X$.
+
+More generally, if $\Phi(X) = \prod_i \ip{\phi_i}{X}$ then
+\begin{align*}
+    \mL \Phi(X)
+    &=
+    \frac{1}{N} \sum_i \left( 
+        \ip{1+\mu}{X} \ip{\phi_i}{\nu(X)}  - \ip{\phi_i}{(1+\mu)X}
+    \right)
+    \prod_{j \neq i} \ip{\phi_j}{X} 
+    + O(1/N^2) .
+\end{align*}
+This implies that after rescaling time by $N$
+and suitible other caveats,
+the limiting process is a deterministic flow in the direction of 
+$\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
+
+\paragraph{Stable measures}
+If $Z$ is a fixed point of this flow,
+then $\nu(Z)\ip{1+\mu}{Z} = (1+\mu)Z$.
+Any measure $Z$ that is a fixed point has the property that
+(the average of two independent draws plus segregation noise)
+is equal in distribution to
+(a $1+\mu$-weighted draw).
+Concretely, with $A$, $B$, and $C$ independent draws from $Z$,
+$$\begin{aligned}
+    \E\left[ f\left( \frac{A+B}{2} + \xi \right) \right]
+    &=
+    \frac{\E\left[ f(C) (1+\mu(C)) \right]}{\E[1+\mu(C)]} .
+\end{aligned}$$
+
+\comment{Copied from \texttt{MeanFlow.tex}:}
+
+Assume that $Z$ is a finite measure, and without loss of generality normalized to have total mass one.
+
+Throughout, I'll be using the characteristic function of $Z$, which I'll denote by 
+\[
+	\phi(\theta) = \mathbb{E}\left[e^{i\theta Z}\right],
+\]
+and the characteristic function of $\xi$, $\Phi(\theta)$.
+
+\section{No Selection}
+
+First, consider the case without selection, so $\mu$ is a constant.  Then, our condition on the characteristic function simplifies to
+\begin{equation}\label{CHARACTERISTIC}
+	{\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta) %e^{-\frac{\eta^{2}\theta^{2}}{2}} 
+	= \phi(\theta),
+\end{equation}
+\ie $\phi(\theta)$ is a fixed point of $F$, where
+ \[
+	F(\phi)(\theta) = {\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta).
+\]
+In particular, we can characterize all possible fixed points by considering the iterates of an arbitrary characteristic function, $\varphi(\theta)$, for  any distribution on $\mathbb{R}$.  
+
+Iterating $F$ $n$ times, we get
+\[
+	F^{(n)}(\varphi)(\theta)
+	=  {\textstyle \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}}\prod_{k=1}^{n-1} {\textstyle \Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}},
+\]
+so that
+\[
+	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
+\]
+is a fixed point whenever this limit exists.  
+
+Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = 1$, and thus non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \ln{\varphi}(\theta)$ and $\Psi(\theta) = \ln{\Phi(\theta)}$ exist in some neighbourhood of 0 as well.  From the above, we have
+\[
+	\ln{F^{(n)}(\varphi)(\theta)} = {\textstyle 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)} 
+		+ \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
+\]
+
+\subsection{Noise Terms}
+
+We now analyse the component arising from the noise $\xi$.  First, we consider the case when $\Psi(\theta)$ is twice continuously differentiable, so $\xi$ has finite mean $m = \Psi'(0)$ and variance $\eta^{2 = \Psi''(0)}$.   Taylor's theorem then tells us that for $\theta$ sufficiently small, 
+\[
+	\Psi(\theta) = m\theta + \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
+\]
+where $r(\theta) \to 0$ as $\theta \to 0$.  Then,
+\begin{align*}
+	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
+	 &=  \sum_{k=1}^{n-1} 2^{k} {\textstyle \left(m \frac{\theta}{2^{k}} - \frac{\eta^{2}}{2}  \frac{\theta^{2}}{2^{2k}}
+		+ r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{2k}}\right)}\\
+	&= (n-1) m - \eta^{2} \theta^{2} (1 - 2^{-n+1}) 
+		+ \sum_{k=1}^{n-1} {\textstyle r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{k}}}
+ \end{align*}
+
+Immediately, we see that for the limit to exist, we must have $m = 0$; if we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, then the limiting distribution is $N(0,2\eta^{2})$. We note that when  $r(\theta)$ is non-zero, we don't expect the higher order terms to vanish.
+
+Now, consider the case when $\Psi(\theta)$ corresponds to a stable law, so
+\[
+	\Psi(\theta) = im\theta + c|\theta|^{\alpha} (1-i\beta \text{sgn}(\theta)\omega_{\alpha}(\theta))
+\]
+for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ and
+\[
+	\omega_{\alpha}(\theta) = \begin{cases}
+		\tan{\frac{\pi\alpha}{2}} & \text{if $\alpha \neq 1$, and}\\
+		-\frac{2}{\pi}\ln{|\theta|} & \text{if $\alpha = 1$.}
+	\end{cases}
+\]
+We then have
+\begin{multline*}
+	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
+	 =  \sum_{k=1}^{n-1} im\theta + 2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\text{sgn}(\theta)\left(\frac{\theta}{2^{k}}\right)
+	 	 \omega_{\alpha}\left(\frac{\theta}{2^{k}}\right)\right)}\\
+	= 
+	\begin{cases}
+		 im(n-1)\theta + c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \text{sgn}(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
+		 \begin{multlined}
+		 im(n-1)\theta + c|\theta|^{\alpha}  \left(\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}
+		 \left(1+i \beta \text{sgn}(\theta)\frac{2}{\pi}\ln{|\theta|} \right)\right.\\
+		\left. -i\beta \text{sgn}(\theta) \frac{2^{1-\alpha} + (n(2^{1-\alpha}-1)-1)2^{(1-\alpha)n})}{(1-2^{1-\alpha})^{2}}\frac{2}{\pi}\ln{2}
+		\right)    
+		\end{multlined}
+		& \text{if $\alpha = 1$.}
+	\end{cases}
+\end{multline*}
+This converges as $n \to \infty$ if and only if $m = 0$ and $\alpha > 1$, in which case the limit is 
+\[
+	 \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \text{sgn}(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
+\]
+which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
+
+\subsection{Reproductive Terms}
+
+We now consider the terms $2^{n} \psi\left(\frac{\theta}{2^{n}}\right)$, which we call the reproductive terms.  Proceeding as below, we consider the limit
+%We note that this does not exclude the possibility of distributions without a mean; % \eg if $\eta =0$, then \eqref{CHARACTERISTIC} is satisfied by the family of Cauchy distributions with characteristic functions $\phi(\theta) = e^{i m \theta - \gamma |\theta|}$; one can check that these are the only stable laws satisfying \eqref{CHARACTERISTIC}.%  One can similarly exclude the stable laws without mean ($\alpha \leq 1$) by inspection in the case of $\eta > 0$. 
+%Now, to exhaust all possibilities, observe that by iterating, we we also have that 
+%\[
+%	\psi(\theta) = 2^{n}\psi\left(\frac{\theta}{2^{n}}\right) 
+%\]
+%\ie we must have 
+\[
+		\alpha(\theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{\theta}{2^{n}}\right).
+\]
+Because $\psi(\theta)$ is the logarithm characteristic function, it must be uniformly continuous and vanish at 0, and thus $\alpha(\theta)$ as well.  We also have that for all integers $k$, 
+\[
+	\alpha(2^{k} \theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{2^{k} \theta}{2^{n}}\right) =  \lim_{n \to \infty} 2^{k} 2^{n-k} \psi\left(\frac{\theta}{2^{n-k}}\right) = 2^{k} \alpha(\theta).
+\]
+In particular, we see that given any continuous function $\alpha(\theta)$, $\theta \in [1,2]$, such that $\alpha(2) = 2\alpha(1)$, $\alpha$ is defined for all positive reals.  We can extend the definition to the negative reals via the Hermitian property for $\phi(\theta)$: $\phi(-\theta) = \overline{\phi(\theta)}$ implies that $\alpha(-\theta) = \overline{\alpha(\theta)}$. 
+
+Now, from the above, 
+\[
+	\frac{\alpha(\theta)}{\theta} = \frac{\alpha(2^{k} \theta)}{2^{k}\theta} \to \alpha'(0+),
+\]
+as $k \to - \infty$ if the latter exists (\ie there is a unique left-hand limit at zero).  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
+\[
+	\alpha(\theta) = \begin{cases} 
+		i m\theta - \gamma \theta & \text{if $\theta \geq 0$, and}\\
+		i m\theta + \gamma \theta & \text{if $\theta < 0$}.
+	\end{cases}
+\]
+\ie if $\gamma > 0$, then $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ is the characteristic function of a Cauchy distribution and $\phi(\theta)$ is the characteristic function of the sum of Cauchy and Gaussian random variables, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, so the limiting random variable is the Gaussian $N(m,\eta^{2})$. 
+
+Finally, we remark that if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. 
+
+\subsection{Other Solutions?}
+
+We would naturally like to know if these two exhaust the possible solutions.  To this end, we recall Bochner's theorem, which tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
+\begin{enumerate}[(i)]
+\item $\phi(\theta)$ is uniformly continuous,
+\item $\phi(0) = 1$,
+\item $\phi(-\theta) = \overline{\phi(\theta)}$, and
+\item $\phi(\theta)$ is \textit{positive definite}: for all $n$ and all $\theta_{1},\ldots,\theta_{n} \in \mathbb{R}$, the matrix with entries
+\[
+	a_{ij} = \phi(\theta_{i}-\theta_{j})
+\]
+is positive definite.
+\end{enumerate}
+Given $\alpha(\theta)$ as above, the corresponding function $\phi(\theta) = e^{\alpha(\theta)-\eta^{2}\theta^{2}}$ 
+or $\phi(\theta) = e^{\alpha(\theta) - \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \text{sgn}(\theta) \tan{\frac{\pi\alpha}{2}}\right)}$ satisfies the first three criteria.  We will now seek to identify which $\alpha(\theta)$ result in positive definite $\phi(\theta)$.  When $\alpha(\theta) = im \theta -\gamma|\theta|$ for $\gamma > 0$, this is immediate, as $e^{\alpha(\theta)}$ is then the characteristic function of a Cauchy random variable.
+
+We can also easily exclude the case $\gamma < 0$ using a simple consequence of positive definiteness in the case when $n=2$ (name criterion): if $\phi(\theta)$ is positive definite, then $|\phi(\theta)| \leq 1$.  For us, this requires that 
+\[
+	\Re \alpha(\theta) \leq  \eta^{2} \theta^{2},\; resp. \; < \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}
+\]
+which is violated for small values of $\theta$ when $\gamma < 0$ (recall $\alpha > 1$). 
+
+\noindent\emph{Question:} how can we use positive definiteness to exclude $\alpha(\theta)$ with $\Re \alpha(\theta) \leq  \eta^{2} \theta^{2}$ so that $\alpha'(0+)$ does not exist?
+
+\begin{rem}
+Polya has shown that if $\phi(\theta)$ is convex and satisfies the first three criteria of Bochner's theorem, then $\phi(\theta)$ is a characteristic function.  In our case, if $\alpha(\theta)$ is convex, then $e^{\alpha(\theta)}$ is as well; a proof-by-picture, however, shows that the only choice of $\alpha(\theta)$ that is convex (or concave, for that matter) for $\theta > 0$ is a linear function, so Polya's criterion doesn't give us any new characteristic functions.
+\end{rem}
+
+
+\subsection{Stabilizing Selection}
+
+\subsubsection{Gaussian Solution}
+
+Now, consider the case when $1+ \mu(x) = e^{a x^{2}}$.  In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
+\[
+	\phi(\theta) = e^{i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}}.
+\]
+Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)}]$  to conclude that
+\[
+	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
+	= e^{i \frac{m}{1-2 a \sigma^{2}}\theta 
+		- \frac{1}{2} \frac{\sigma^{2}}{1-2 a \sigma^{2}}\theta^{2}},
+\]
+which, equating real and complex components, has a solution provided $m = 0$ and
+\[
+	\sigma^{2} = \frac{\sqrt{16 a^{2} \eta^{4} + 24 a \eta^{2}+1} - 4a \eta^{2} -1}{4a} 
+	=  2\eta^{2}(1-4a\eta^{2}) + O(a^{2}).
+\]
+
+\subsubsection{Cauchy Solution}
+
+In the case of a Cauchy random variable, we again have an explicit expression for the probability distribution, which, proceeding as above, allows us to construct an explicit solution when $1+ \mu(x) = \frac{\delta^{2}}{\gamma^{2}} \frac{\gamma^{2} + x^{2}}{\delta^{2} + x^{2}}$ for $\delta > \gamma > 0$ and the noise is given by a $\text{Cauchy}(0,\delta-\gamma)$ random variable (\ie corresponding to a stable $(0,0,\delta-\gamma,0)$ law).
+
+If we now suppose that $Z$ is a $\text{Cauchy}(0,\gamma)$ random variable.  Then $Z$ has probability density function $\frac{\gamma}{\pi} \frac{1}{\gamma^{2} + x^{2}}$, whereas 
+\[
+	\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]}
+	= e^{-\delta |\theta|} = e^{-2\gamma \left|\frac{\theta}{2}\right|-(\delta-\gamma)|\theta|}
+\]
+which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta)$. 
+
+%(here, see a saturating cost to being away from the optimal phenotype $x = 0$: the mortality is maximized at  $\frac{\beta^{2}}{\alpha^{2}}$.
+
+\bigskip
+
+\noindent\emph{Question:} other stable laws?
+
+
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Convergence to the non-infinitesimal model}  % TODD
 
@@ -317,6 +604,7 @@ between more and less common phenotypes.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Simulations}  % PETER
+
 
 
 \bibliographystyle{plainnat}
