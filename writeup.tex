@@ -559,14 +559,19 @@ Polya has shown that if $\phi(\theta)$ is convex and satisfies the first three c
 
 
 \subsection{Stabilizing Selection}
+    \label{sec:stabilizing_selection}
 
 \subsubsection{Gaussian Solution}
+    \label{sec:stabilizing_gaussian}
 
 Now, consider the case when $1+ \mu(x) = e^{a x^{2}}$.  In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
 \[
 	\phi(\theta) = e^{i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}}.
 \]
-Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)}]$  to conclude that
+Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]}$  to conclude that
+if $\xi$ is Gaussian with mean zero and variance $\eta^2$,
+then equation~\eqref{CHARACTERISTIC} is
+\comment{something not right here? need a factor of 2 on the left?}
 \[
 	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
 	= e^{i \frac{m}{1-2 a \sigma^{2}}\theta 
@@ -579,15 +584,17 @@ which, equating real and complex components, has a solution provided $m = 0$ and
 \]
 
 \subsubsection{Cauchy Solution}
+    \label{sec:stabilizing_cauchy}
 
-In the case of a Cauchy random variable, we again have an explicit expression for the probability distribution, which, proceeding as above, allows us to construct an explicit solution when $1+ \mu(x) = \frac{\delta^{2}}{\gamma^{2}} \frac{\gamma^{2} + x^{2}}{\delta^{2} + x^{2}}$ for $\delta > \gamma > 0$ and the noise is given by a $\text{Cauchy}(0,\delta-\gamma)$ random variable (\ie corresponding to a stable $(0,0,\delta-\gamma,0)$ law).
+In the case of a Cauchy random variable, we again have an explicit expression for the probability distribution, which, proceeding as above, allows us to construct an explicit solution when $1+ \mu(x) = \frac{\delta^{2}}{\gamma^{2}} \frac{\gamma^{2} + x^{2}}{\delta^{2} + x^{2}}$ for $\delta > \gamma > 0$ and the noise $\xi$ is given by a $\text{Cauchy}(0,\delta-\gamma)$ random variable (\ie corresponding to a stable $(0,0,\delta-\gamma,0)$ law).
 
 If we now suppose that $Z$ is a $\text{Cauchy}(0,\gamma)$ random variable.  Then $Z$ has probability density function $\frac{\gamma}{\pi} \frac{1}{\gamma^{2} + x^{2}}$, whereas 
 \[
 	\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]}
 	= e^{-\delta |\theta|} = e^{-2\gamma \left|\frac{\theta}{2}\right|-(\delta-\gamma)|\theta|}
 \]
-which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta)$. 
+which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta)$,
+and so solves equation~\eqref{CHARACTERISTIC}.
 
 %(here, see a saturating cost to being away from the optimal phenotype $x = 0$: the mortality is maximized at  $\frac{\beta^{2}}{\alpha^{2}}$.
 
@@ -605,6 +612,61 @@ which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Simulations}  % PETER
 
+In Section~\ref{sec:stabilizing_selection}
+we have found two explicit conditions in which
+if the form of segregation noise and stabilizing selection
+satisfy certain conditions,
+then the limiting phenotype distribution
+will be either Gaussian (Subsection~\ref{sec:stabilizing_gaussian}
+or Cauchy (Subsection~\ref{sec:stabilizing_cauchy}.
+Furthermore, we expect based on
+\citet{barton2017infinitesimal} and arguments above
+that the distribution of segreation noise
+is determined by the tail exponent of the distribution of effect sizes
+(under appropriate assumptions; e.g., that most mutations are of small effect).
+However, it is not clear how selection would affect these arguments,
+especially in the stable case where some number of mutations are expected to
+\emph{not} have small effect (and therefore such mutations will not be nearly neutral).
+
+Therefore,
+to study how this works in practice, we turn to simulation.
+We used SLiM v3 \comment{(cite)}
+to simulate a discrete-time approximation to the continuous-time Moran model described above
+as follows.
+Individuals are diploid and sexual;
+the genome is of lenth $10^8$bp with a uniform recombination rate of $10^{-8}$ crossovers per bp;
+mutations occur at a rate of $m$ per bp.
+Each new mutation is independently assigned an ``effect''
+drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
+The phenotype of each individual is determined additively
+by summing the effects of all mutations they carry across both chromosomes.
+Let $f(z) = 1 + \mu(z)$
+be the ``fitness'' of an individual with phenotype $z$,
+and let $dt$ be a small constant (we took $dt=0.01$).
+Then, at each time step
+each individual dies with probability $1 - \exp(-dt f(z))$;
+if there are $k$ such individuals chosen to die in a given time step,
+then we choose $k$ individuals uniformly and without replacement
+to produce new offspring;
+for each such reproduction event the parent chooses a mate uniformly at random from the population.
+This maintains the population at a fixed size, $N$.
+(Note that individuals may self and individuals chosen to die may also reproduce,
+but in a large population these details should be unimportant.)
+
+We compared two situations:
+(1) the effect size distribution was Gaussian with mean zero and standard deviation $\sigma_g$,
+and $f(z) = e^{\alpha z^2}$; and
+(2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
+and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$.
+\comment{TODO: just refer to equations above?}
+We ran simulations of each with $N=XXX$ for XXX time steps of ``burn-in''
+(judged to be long enough as the number of segregating mutations had plateaued),
+following which we recorded the phenotypes of each new offspring and their two parents
+for XXX time steps (a total of around YYY offspring).
+
+Figure XXX shows the resulting distributions of segregation noise:
+i.e., the distribution of child phenotype minus average of parents' phenotypes,
+across all offspring following burn-in.
 
 
 \bibliographystyle{plainnat}
