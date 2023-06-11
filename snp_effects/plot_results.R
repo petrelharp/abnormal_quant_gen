@@ -25,11 +25,17 @@ dev.off()
 
 ## Next run with prop 10%
 results <- read.table("snp_results_10.tsv", stringsAsFactors=FALSE)
+results <- subset(results, !is.na(slope))
 results$name <- manifest$Phenotype.Description[match(results$code, manifest$Phenotype.Code)]
 results$name[results$name == "NA"] <- NA
 results <- subset(results, !grepl("Job code", results$name))
 results <- subset(results, !grepl("Type of", results$name)) # seems to be all diet-related
 results <- subset(results, !grepl("Own or rent", results$name))
+results <- subset(results, !grepl("employment", results$name))
+results <- subset(results, !grepl("Milk type", results$name))
+results <- subset(results, !grepl("Spread type", results$name))
+results <- subset(results, !grepl("Bread type", results$name))
+results <- subset(results, !grepl("Types of transport", results$name))
 
 pheno_names <- c("phenotype", "n_non_missing", "n_missing", "n_controls", "n_cases")
 pheno <- phenotypes[,pheno_names]
@@ -37,7 +43,7 @@ names(pheno) <- c("code", pheno_names[-1])
 stopifnot(all(results$code %in% pheno$code))
 results <- merge(results, pheno, all.x=TRUE)
 # very common things (with > 10000 cases) have Something Different going on
-results$pruned <- !(results$n_non_missing > 300000 & results$n_cases < 10000)
+results$pruned <- !(!is.na(results$n_cases) & results$n_non_missing > 300000 & results$n_cases < 10000)
 
 categories <- c(
     "Non-cancer illness code",
@@ -59,24 +65,40 @@ for (cname in categories) {
     pdf(sprintf("%s_results_10.pdf", gsub(" ", "_", cname)), width=7, height=6)
     with(subset(results, category == cname), {
         layout(matrix(c(1,2,1,3,1,4), nrow=2))
-        hist(slope, breaks=30, xlab='exponent', main=cname)
-        plot(nsnps, slope, pch=20, cex=0.5, xlab='number of snps',
+        hist(slope, breaks=30, xlab='tail exponent', main=cname)
+        plot(nsnps, slope, pch=20, cex=0.5, xlab='number of snps', ylab='tail exponent',
              col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
-        plot(n_cases, slope, pch=20, cex=0.5, xlab='number of cases',
+        plot(n_cases, slope, pch=20, cex=0.5, xlab='number of cases', ylab='tail exponent',
              col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
-        plot(n_non_missing, slope, pch=20, cex=0.5, xlab='number of non-missing subjects',
+        plot(n_non_missing, slope, pch=20, cex=0.5, xlab='number of non-missing subjects', ylab='tail exponent',
              col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
     })
     dev.off()
 }
 
+pdf("unfiltered_results_10.pdf", width=7, height=6, pointsize=10)
+with(results, {
+    layout(matrix(c(1,2,1,3,1,4), nrow=2))
+    hist(slope, breaks=30, xlab='tail exponent', main='')
+    plot(nsnps, slope, pch=20, cex=0.5, xlab='number of snps', ylab='tail exponent',
+         col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
+    plot(n_cases, slope, pch=20, cex=0.5, xlab='number of cases', ylab='tail exponent',
+         col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
+    plot(n_non_missing, slope, pch=20, cex=0.5, xlab='number of non-missing subjects', ylab='tail exponent',
+         col=adjustcolor(ifelse(pruned, "red", "black"), 0.5))
+})
+dev.off()
 
-pdf(file="results_10.pdf", width=6, height=8, pointsize=10)
+pdf(file="results_10.pdf", width=6, height=4, pointsize=10)
 layout(matrix(c(1,2,1,3), nrow=2))
 with(subset(results, !pruned), {
-    hist(slope, breaks=50, xlab='exponent', main="tail proportion: 10%")
-    plot(nsnps, slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x')
-    plot(n_cases, slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x')
+    par(mar=c(4, 4, 1, 1), mgp=c(2.1,1,0))
+    hist(slope, breaks=50, xlab='tail exponent', main='')
+mtext("(A)", 3, adj=-0.1, line=0)
+    plot(nsnps, slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x', xlab="number of SNPs", ylab='tail exponent')
+mtext("(B)", 3, adj=-0.25, line=0)
+    plot(n_cases, slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x', xlab="number of cases", ylab='tail exponent')
+mtext("(C)", 3, adj=-0.25, line=0)
 })
 dev.off()
 
@@ -110,7 +132,7 @@ plot_code <- function (code, lab) {
     load(xlm_file)
     logx <- xlm$model[["log(x)"]]
     logy <- xlm$model[["log(tail_prob)"]]
-    plot(logx, logy, ylab='log(prob > x)', xlab='log(x)', type='l')#, sub=code)
+    plot(logx, logy, ylab='log(prob > t)', xlab='log(t)', type='l')#, sub=code)
     cnp <- strsplit(clean_name(results$name[ij]), " ")[[1]]
     title(paste(c(lab, cnp[1:min(5, length(cnp))]), collapse=" "), cex.main=0.9)
     if (length(cnp) > 5)

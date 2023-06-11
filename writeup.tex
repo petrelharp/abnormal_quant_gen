@@ -4,6 +4,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{natbib}
 \usepackage{xcolor}
+\usepackage{graphics}
 
 \newcommand{\E}{\mathbb{E}}
 \renewcommand{\P}{\mathbb{P}}
@@ -174,14 +175,16 @@ In this paper we focus primarily on the theory,
 but first take a brief and imperfect look at what some data have to say on the topic.
 To do this, we downloaded the GWAS results provided by~\citet{biobankSNPs}
 for 7,221 phenotypes from 361,194 individuals from the March 2018 release of the UK Biobank.
+After filtering (see details below) we were left with 695 binary illness-related phenotypes.
 Taken at face value, these provide for each phenotype a set of estimates of the additive effect
 of the alternative allele at a set of SNPs on the phenotype relative to the reference allele.
-The phenotypes we consider were all coded as 0/1,
+The phenotypes we consider were all binary and coded as 0/1,
 so estimates could be thought of as additive adjustments to the risk
-(so, effects are \emph{not} on a logit scale).
+(i.e., effects are \emph{not} on a logit scale).
 These estimates were obtained as the coefficient for the SNP in a simple linear model
 fit to each phenotype for each SNP,
-with the first 20 principal components and all combinations of age, age squared, and inferred sex as covariates.
+with the first 20 principal components and all combinations of age, age squared, and inferred sex as covariates;
+we considered effects of those SNPs with a reported $p$-value less than $10^{-8}$.
 There are a great many possible issues with these data;
 however, the results seem consistent across many SNPs and phenotypes,
 and we know of no reason that possible methodological artifacts
@@ -207,8 +210,8 @@ $$
 (and similar terms with $y$ in place of $x$).
 Now let $X$ be the effect of a uniformly chosen allele carried by a uniformly chosen individual
 at a uniformly chosen locus.
-The appropriate central limit theorem is determined by the tail behavior of $|(\theta - 1/2) X| = |X|/2$;
-i.e., we'd like to know
+The appropriate central limit theorem is determined by the tail behavior of $|(\theta - 1/2) X| = |X|/2$.
+So, we'd like to know the value of
 $$
     \lim_{t \to \infty} \frac{ \log \P\{ |X| > 2 t \} }{ \log t } = \alpha ,
 $$
@@ -224,13 +227,83 @@ $$
     \P\{ |X| > 2t \} \approx \frac{1}{N} \sum_{i : |e_i| > 2t} p_i .
 $$
 So, to obtain a per-trait estimate of $\alpha$,
-we plot $\frac{1}{N} \sum_{i : |e_i| > t} p_i$ against $t$
+we plot $\log \frac{1}{N} \sum_{i : |e_i| > t} p_i$ against $\log t$
 for a sequence of values of $t$,
 and fit a linear model to the tail
 (which we take to be all values of $t$ for which the number of SNPs with absolute effect above $t$
 is between 20 and 10\% of all SNPs).
-Examples are shown in figure \comment{XXX}.
+Examples are shown in figure~\ref{fig:example_snps}.
 
+\begin{figure}
+    \begin{center}
+    \includegraphics{snp_effects/examples}
+    \end{center}
+    \caption{
+        TODO: cut this down to just 2 SNPs and move this figure to the supplement; change 'x' to 't' in axis labels.
+        Tail distributions of frequency-weighted effects
+        for twelve randomly chosen phenotypes.
+        In each, for a phenotype with $N$ SNPs,
+        effect sizes $e_i$ and frequencies $p_i$,
+        the black line shows
+        $\log \frac{1}{N} \sum_{i : |e_i| > t} p_i$ (vertical axis)
+        against $\log t$ (horizontal axis);
+        the red line shows the least-squares linear fit;
+        each plot only covers the 10\% largest-effect SNPs.
+        Legends show the coefficients of the red line; the slope on `x' is $\alpha$,
+        the estimated exponent;
+        ``num snps'' is the number of SNPs for the phenotype with $p$-value less than $10^{-8}$,
+        and ``num cases'' is the reported number of the rougly 360,000 individuals
+        recorded as having the listed phenotype.
+        \label{fig:example_snps}
+    }
+\end{figure}
+
+We applied this procedure to results from models fit on both sexes,
+after removed phenotypes related to employment, drug treatments, and diet.
+This left us with 1,108 phenotypes for which which could estimate the tail exponent.
+For the main results,
+we then restricted to phenotypes having non-missing numbers of ``cases'' and ``controls''
+and a sample size of at least 300,000 (i.e., not more than 61,194 of 361,194 missing phenotypes).
+We also removed
+the 65 remaining phenotypes that are common (more than 10,000 cases),
+as these often showed very different patterns
+(e.g., effect size distributions).
+This left us with 695 phenotypes;
+plots including the 413 ``filtered'' phenotypes are provided in
+Supplementary Figure~\ref{sfig:unfiltered_hist}.
+
+Resulting values of the tail exponent $\alpha$ are shown in Figure~\ref{fig:exponent_hist}.
+Estimated tail exponents range from about 1 to 2.5,
+and 28.9\% had estimated values less than 1.5.
+A concern could be that ``noisier'' phenotypes,
+for which estimated effect sizes are less reliable,
+might lead to larger estimated tail exponents;
+for this reasons, we looked for an association between
+tail exponent and two proxies for power,
+number of SNPs (i.e., number of SNPs with $p$-value less than $10^{-8}$)
+and number of cases.
+Interestingly, the result in nonmonotonic,
+with exponents closer to $\alpha=2$ for phenotypes with around 1000 cases,
+and lower exponents for rarer \emph{and} more common phenotypes.
+(A similar pattern is seen for ``number of SNPs'',
+but this may be due to association with number of cases.)
+This may indicate a statistical artifact,
+or it may be a result of biological differences in genetic architecture
+between more and less common phenotypes.
+
+\begin{figure}
+    \begin{center}
+    \includegraphics{snp_effects/results_10}
+    \end{center}
+    \caption{
+        Estimated values of the tail exponent, $\alpha$,
+        for 775 illness-related binary phenotypes:
+        \textbf{(A)} distribution of values; and plotted against
+        \textbf{(B)} number of SNPs, and
+        \textbf{(C)} number of cases.
+        \label{fig:exponent_hist}
+    }
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -248,5 +321,24 @@ Examples are shown in figure \comment{XXX}.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
+
+\appendix
+
+\begin{figure}
+    \begin{center}
+    \includegraphics{snp_effects/unfiltered_results_10}
+    \end{center}
+    \caption{
+        Estimated values of the tail exponent, $\alpha$,
+        for 1108 illness-related binary phenotypes,
+        including the 333 phenotypes removed in filtering,
+        which are shown as red points in lower plots.
+        \textbf{(A)} distribution of values; and plotted against
+        \textbf{(B)} number of SNPs,
+        \textbf{(C)} number of cases, and
+        \textbf{(C)} number of non-missing subjects.
+        \label{fig:unfiltered_hist}
+    }
+\end{figure}
 
 \end{document}
