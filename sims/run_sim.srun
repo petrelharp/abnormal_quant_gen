@@ -2,11 +2,11 @@
 #SBATCH -A kernlab
 #SBATCH --partition=kern                ### Partition
 #SBATCH --job-name=run_slim             ### Job Name
-#SBATCH --time=72:00:00                 ### WallTime
+#SBATCH --time=96:00:00                 ### WallTime
 #SBATCH --nodes=1                       ### Number of Nodes
 #SBATCH --ntasks=1                      ### Number of tasks per array job
 #SBATCH --cpus-per-task=1               ### Number of CPU cores per task
-#SBATCH --mem=12G
+#SBATCH --mem=2G
 
 slim -v
 
