@@ -10,7 +10,7 @@ initialize() {
 	defineConstant("OUTFILE", "sim_cauchy_" + getSeed() + ".repro.tsv");
 	defineConstant("POPOUTFILE", "sim_cauchy_" + getSeed() + ".pop.tsv");
 	defineConstant("FIXOUTFILE", "sim_cauchy_" + getSeed() + ".fix.tsv");
-	defineConstant("params", Dictionary("N", N, "DT", DT, "DELTA", DELTA, "GAMMA", GAMMA, "type", "cauchy"));
+	defineConstant("params", Dictionary("N", N, "DT", DT, "DELTA", DELTA, "GAMMA", GAMMA, "XOPT", XOPT, "type", "cauchy"));
 	initializeSLiMModelType("nonWF");
 	initializeTreeSeq();
 	initializeMutationRate(MUTRATE);

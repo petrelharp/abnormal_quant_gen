@@ -8,6 +8,7 @@
 
 \newcommand{\E}{\mathbb{E}}
 \renewcommand{\P}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\ie}{\textit{i.e.,}\,}
@@ -329,12 +330,15 @@ between more and less common phenotypes.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Extending the infinitesimal model}  % TODD
 
+\comment{Proposal: change $1 + \mu$ to $f$ (or, something else, but a single letter).}
+
 \comment{Copied from \texttt{eugene\_notes.tex}:}
 
 Let $X$ be a population of size $N$, recorded as the empirical distribution on phenotypes
 \begin{align*}
     X = \frac{1}{N} \sum_{i=1}^N \delta_{x_i} .
 \end{align*}
+So, $X$ is a point measure of total mass 1 on $\R$.
 This evolves as a Moran process under the infinitesimal model
 with death rates depending on state $x$.
 Concretely, an individual whose phenotype is $x$
@@ -344,22 +348,23 @@ and is replaced by a new individual of phenotype
   \frac{y + z}{2} + \xi ,
 \end{align*}
 where $y$ and $z$ are independent draws from $X$
-and $\xi$ is an independent $N(0, \eta^2)$.
-Let $\nu(X)$ denote the distribution of $\frac{y + z}{2} + \xi$.
+and $\xi$ is an independent draw from the segregation noise distribution.
+Let $p_\xi$ denote the distribution of $\xi$,
+and $\nu(X)$ denote the distribution of $\frac{y + z}{2} + \xi$.
 This has generator
 \begin{align*}
     \mL \Phi(X)
     &=
     \int \int \int \int
-    \left( \Phi(X + \frac{1}{N} \delta_{(y+z)/2 + \xi} - \frac{1}{N} \delta_x) - \Phi(X) \right)
-    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi \\
+    \left( \Phi\left( X + \frac{1}{N} \delta_{(y+z)/2 + \xi} - \frac{1}{N} \delta_x \right) - \Phi(X) \right)
+    (1 + \mu(x)) X(dx) X(dy) X(dz) p_\xi(d\xi) \\
     &=
     \int \int
-    \left( \Phi(X + \frac{1}{N} \delta_u - \frac{1}{N} \delta_x) - \Phi(X) \right)
+    \left( \Phi\left(X + \frac{1}{N} \delta_u - \frac{1}{N} \delta_x\right) - \Phi(X) \right)
     (1 + \mu(x)) X(dx) \nu(X)(du) .
 \end{align*}
 
-For a test function $\phi$, setting $\Phi(X) = \ip{\phi}{X}$
+For a test function $\phi$, setting $\Phi(X) = \ip{\phi}{X} := \int \phi(x) X(dx)$
 we get the first moment
 \begin{align*}
     \mL \ip{\phi}{X}
@@ -367,14 +372,16 @@ we get the first moment
     \frac{1}{N} \int \int \int \int
     \left( \phi \left( \frac{y+z}{2} + \xi \right)
          - \phi(x) \right)
-    (1 + \mu(x)) X(dx) X(dy) X(dz) e^{-(\xi/\eta)^2/2} d\xi  \\
+    (1 + \mu(x)) X(dx) X(dy) X(dz) p_\xi(d\xi) \\
     &=
     \frac{1}{N} \ip{\phi}{\nu(X)}\ip{1+\mu}{X}
     - \frac{1}{N} \ip{\phi}{(1+\mu) X} .
 \end{align*}
-Note that $\ip{\phi}{\partial_{\nu(X)} X} = \ip{\phi}{\nu(X)}$,
-so that this is a first derivative in the direction of
-$\ip{1+\mu}{X} \nu(X) - (1+\mu) X$.
+Note that for $Y$ another finite measure on $\R$,
+the Fr\'echet derivative \comment{(is that the right name?)} of $X$ in the direction of $Y$
+satisfies $\ip{\phi}{\partial_Y X} = \lim_{\epsilon \to 0} \epsilon^{-1} (\ip{\phi}{X + \epsilon Y} - \ip{\phi}{X}) = \ip{\phi}{Y}$,
+so that this is a first derivative in the direction of the measure
+$$ \ip{1+\mu}{X} \nu(X) - (1+\mu) X . $$
 
 More generally, if $\Phi(X) = \prod_i \ip{\phi_i}{X}$ then
 \begin{align*}
@@ -394,16 +401,16 @@ $\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
 \paragraph{Stable measures}
 If $Z$ is a fixed point of this flow,
 then $\nu(Z)\ip{1+\mu}{Z} = (1+\mu)Z$.
-Any measure $Z$ that is a fixed point has the property that
+In other words, any measure $Z$ that is a fixed point has the property that
 (the average of two independent draws plus segregation noise)
 is equal in distribution to
 (a $1+\mu$-weighted draw).
 Concretely, with $A$, $B$, and $C$ independent draws from $Z$,
-$$\begin{aligned}
+\begin{align} \label{eqn:ABC_condition}
     \E\left[ f\left( \frac{A+B}{2} + \xi \right) \right]
     &=
     \frac{\E\left[ f(C) (1+\mu(C)) \right]}{\E[1+\mu(C)]} .
-\end{aligned}$$
+\end{align}
 
 \comment{Copied from \texttt{MeanFlow.tex}:}
 
@@ -447,7 +454,8 @@ Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely con
 
 \subsection{Noise Terms}
 
-We now analyse the component arising from the noise $\xi$.  First, we consider the case when $\Psi(\theta)$ is twice continuously differentiable, so $\xi$ has finite mean $m = \Psi'(0)$ and variance $\eta^{2 = \Psi''(0)}$.   Taylor's theorem then tells us that for $\theta$ sufficiently small, 
+We now analyse the component arising from the noise $\xi$.  First, we consider the case when $\Psi(\theta)$ is twice continuously differentiable, so $\xi$ has finite mean $m = \Psi'(0)$
+and variance $\eta^{2} = \Psi''(0)$.   Taylor's theorem then tells us that for $\theta$ sufficiently small, 
 \[
 	\Psi(\theta) = m\theta + \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
 \]
@@ -564,14 +572,14 @@ Polya has shown that if $\phi(\theta)$ is convex and satisfies the first three c
 \subsubsection{Gaussian Solution}
     \label{sec:stabilizing_gaussian}
 
-Now, consider the case when $1+ \mu(x) = e^{a x^{2}}$.  In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
+Now, consider the case when $1+ \mu(x) = e^{a x^{2}}$. 
+In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
 \[
 	\phi(\theta) = e^{i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}}.
 \]
 Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]}$  to conclude that
 if $\xi$ is Gaussian with mean zero and variance $\eta^2$,
-then equation~\eqref{CHARACTERISTIC} is
-\comment{something not right here? need a factor of 2 on the left?}
+then equation~\eqref{eqn:ABC_condition} with $f(x)=e^{i\theta x}$ is
 \[
 	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
 	= e^{i \frac{m}{1-2 a \sigma^{2}}\theta 
@@ -617,8 +625,8 @@ we have found two explicit conditions in which
 if the form of segregation noise and stabilizing selection
 satisfy certain conditions,
 then the limiting phenotype distribution
-will be either Gaussian (Subsection~\ref{sec:stabilizing_gaussian}
-or Cauchy (Subsection~\ref{sec:stabilizing_cauchy}.
+will be either Gaussian (Subsection~\ref{sec:stabilizing_gaussian})
+or Cauchy (Subsection~\ref{sec:stabilizing_cauchy}).
 Furthermore, we expect based on
 \citet{barton2017infinitesimal} and arguments above
 that the distribution of segreation noise
@@ -630,11 +638,11 @@ especially in the stable case where some number of mutations are expected to
 
 Therefore,
 to study how this works in practice, we turn to simulation.
-We used SLiM v3 \comment{(cite)}
+We used SLiM v4 \citep{haller2022slim4}
 to simulate a discrete-time approximation to the continuous-time Moran model described above
 as follows.
-Individuals are diploid and sexual;
-the genome is of lenth $10^8$bp with a uniform recombination rate of $10^{-8}$ crossovers per bp;
+Individuals are diploid, hermaphroditic, and sexual;
+the genome is of length $10^8$bp with a uniform recombination rate of $10^{-8}$ crossovers per bp;
 mutations occur at a rate of $m$ per bp.
 Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
