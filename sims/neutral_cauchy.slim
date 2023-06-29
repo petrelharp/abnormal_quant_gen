@@ -1,34 +1,29 @@
 initialize() {
 	if (!exists("N")) defineConstant("N", 1e4);
-	if (!exists("XOPT")) defineConstant("XOPT", 0.0);
-	defineConstant("DT", 0.01);
-	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
-	defineConstant("GAMMA", 0.2);
 	if (!exists("BURNIN")) defineConstant("BURNIN", 100);
 	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
 	if (!exists("L")) defineConstant("L", 1e8);
+    if (!exists("GAMMA")) defineConstant("GAMMA", 1.0);
     if (!exists("EPSILON")) defineConstant("EPSILON", c(0, 4, 5, 6, 7, 8, 9, 10, 11, 12));
-	defineConstant("OUTFILE", "sim_cauchy_" + getSeed() + ".repro.tsv");
-	defineConstant("POPOUTFILE", "sim_cauchy_" + getSeed() + ".pop.tsv");
-	defineConstant("FIXOUTFILE", "sim_cauchy_" + getSeed() + ".fix.tsv");
-	defineConstant("params", Dictionary("N", N, "EPSILON", EPSILON, "DT", DT, "DELTA", DELTA, "GAMMA", GAMMA, "XOPT", XOPT, "type", "cauchy"));
+    defineConstant("DT", 1.0);
+	defineConstant("OUTFILE", "sim_neutral_cauchy_" + getSeed() + ".repro.tsv");
+	defineConstant("POPOUTFILE", "sim_neutral_cauchy_" + getSeed() + ".pop.tsv");
+	defineConstant("FIXOUTFILE", "sim_neutral_cauchy_" + getSeed() + ".fix.tsv");
+	defineConstant("TREEOUTFILE", "sim_neutral_cauchy_" + getSeed() + ".trees");
+	defineConstant("params", Dictionary("N", N, "GAMMA", GAMMA, "EPSILON", EPSILON, "DT", DT, "type", "cauchy"));
 	initializeSLiMModelType("nonWF");
     initializeSLiMOptions(keepPedigrees=T);
 	// initializeTreeSeq();
 	initializeMutationRate(MUTRATE);
     // divide effect sizes by 4 N L mu because we should have O(this many) segregating;
     // this way typical phenotypes will be O(1)
-	initializeMutationType("m1", 0.5, "s", paste0("rcauchy(1,0,", (DELTA - GAMMA)/(4 * N * L * MUTRATE), ");"));
+	initializeMutationType("m1", 0.5, "s", paste0("rcauchy(1,0,", GAMMA/(4 * N * L * MUTRATE), ");"));
 	initializeGenomicElementType("g1", m1, 1.0);
 	initializeGenomicElement(g1, 0, L-1);
 	initializeRecombinationRate(1e-8);
     catn("N: " + N
-        + " DT: " + DT
-        + " DELTA: " + DELTA
         + " GAMMA: " + GAMMA
-	+ " EPSILON: " + EPSILON
-        + " XOPT: " + XOPT
         + " BURNIN: " + BURNIN
         + " MUTRATE: " + MUTRATE
         + " NUMGENS: " + NUMGENS
@@ -62,13 +57,7 @@ mutationEffect(m1) {
 first() {
 	n = p1.individualCount;
 	inds = p1.individuals;
-	if (community.tick <= BURNIN/DT) {
-		x = inds.tagF;
-	} else {
-		x = inds.tagF - XOPT;
-	}
-	z = (DELTA/GAMMA) * (GAMMA + x^2) / (DELTA + x^2); // 1 + mu
-	dead = (runif(n) < 1 - exp(-DT * z));
+	dead = (runif(n) < 1 - exp(-DT));
 	k = sum(dead);
 	inds[dead].fitnessScaling = 0.0;
 	parents = sample(inds, size=k, replace=F);
@@ -95,9 +84,18 @@ reproduction() {
 }
 
 2: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
       inds = p1.individuals;
       muts = sim.mutations;
+      if (F) { // efficiently(?) get for everyone
+			for (j in seqAlong(EPSILON)) {
+				eps = EPSILON[j];
+				ut = (sim.mutations.selectionCoeff > eps);
+				big_muts = sim.mutations[ut];
+				s = matrix(rep(sim.mutations.selectionCoeff[ut], 2), nrow=1);
+				M = matrix(p1.individuals.genomes.containsMutations(big_muts), ncol=length(big_muts));
+				p1.individuals.setValue("big_effects_" + j, matrixMult(s, M));
+			}
+		}
       writeFile(FIXOUTFILE,
           community.tick * DT
           + "\t" + sum(sim.mutationFrequencies(NULL) == 1.0)
@@ -108,7 +106,6 @@ reproduction() {
           + "\t" + quantile(abs(muts.selectionCoeff), 0.99)
           + "\t" + quantile(abs(muts.selectionCoeff), 0.999)
       , append=T);
-    }
 }
 
 s98 10000: early() {
@@ -127,6 +124,14 @@ s99 12000 late() {
 	for (ind in p1.individuals) {
 		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
 	}
+    // metadata = Dictionary(
+    //                  "params", params,
+    //                  "id", p1.individuals.pedigreeID,
+    //                  "trait", p1.individuals.getValue("effects"),
+    //                  "ma", p1.individuals.getValue("ma"),
+    //                  "pa", p1.individuals.getValue("pa")
+    // );
+    // sim.treeSeqOutput(TREEOUTFILE, metadata=metadata);
     catn("Done! In tick " + community.tick + ", time " + community.tick/DT);
 	sim.simulationFinished();
 }

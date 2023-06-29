@@ -50,8 +50,10 @@ repro$plot <- cut(repro$t, num_plots)
 
 if (params$type == "normal") {
     qfun <- qnorm
+    qname <- "normal"
 } else if (params$type == "cauchy") {
     qfun <- qcauchy
+    qname <- "cauchy"
 }
 
 # pdf(sprintf("%s.seg.pdf", basename), width=8, height=2*num_plots, pointsize=10)
@@ -67,7 +69,7 @@ for (k in levels(repro$plot)) {
          xlab="trait - midparent",
          xlim=xlim
     )
-    qqplot(qfun(ppoints(sub$seg)), sub$seg, ylab="trait value", xlab="cauchy quantiles", main=title)
+    qqplot(qfun(ppoints(sub$seg)), sub$seg, ylab="trait value", xlab=paste(qname, "quantiles"), main=title)
     qqline(sub$seg, distribution = function(p) qfun(p), probs = c(0.1, 0.6), col = 2)
     x <- sort(abs(sub$seg))
     tail_prob <- 1 - seq_along(x)/(length(x) + 1)

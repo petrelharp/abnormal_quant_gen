@@ -1,7 +1,7 @@
 #!/usr/bin/Rscript
 
 usage <- "
-   parse_output.R (basename)
+   make_figs.R (basename)
 where basename.repro.tsv and basename.pop.tsv and basename.fix.tsv should be files,
 and the 'repro' file should have a first line with parameters,
 and remaining lines of the form
@@ -26,6 +26,8 @@ repro <- do.call(rbind, lapply(strsplit(readLines(infile), "\t"), function (x) {
 }))
 close(infile)
 
+if (! "DT" %in% names(params)) params$DT <- 1.0
+
 pop <- read.table(paste0(basename, ".pop.tsv"), sep="\t", header=TRUE)
 pop$age <- pop$age * params$DT
 fix <- read.table(paste0(basename, ".fix.tsv"), sep="\t", header=TRUE)
@@ -43,10 +45,11 @@ png(sprintf("%s_independence.png", basename), width=6.5, height=4, pointsize=10,
     # ut <- sort(unique(c(ut, which(
     #            pmax(rank(abs(repro$midp)), rank(abs(repro$seg))) > nrow(repro) * .99
     # ))))
-    ut <- sample.int(nrow(repro),
-                prob=pmax(rank(abs(repro$midp)), rank(abs(repro$seg)))^3,
-                size=3e4
-    )
+    # # another way of doing this??
+    # ut <- sample.int(nrow(repro),
+    #             prob=pmax(rank(abs(repro$midp)), rank(abs(repro$seg)))^3,
+    #             size=min(3e4, nrow(repro))
+    # )
     ut <- TRUE
     for (q in c(.98, .998)) {
         lims <- quantile(abs(repro$midp), q)
