@@ -14,16 +14,16 @@ and the 'fix' file should have 'time' and 'num_fixations' columns.
 library(jsonlite)
 library(pracma)
 
-if (!exists("basename")) {
+if (!exists("base")) {
     args <- commandArgs(TRUE)
     if (length(args) != 1) {
         stop(usage)
     }
 
-    basename <- args[1]
+    base <- args[1]
 }
 
-infile <- file(paste0(basename, ".repro.tsv"), "r")
+infile <- file(paste0(base, ".repro.tsv"), "r")
 params <- fromJSON(readLines(infile, 1))
 repro <- read.table(infile, sep="\t", header=TRUE)
 close(infile)
@@ -39,11 +39,11 @@ repro_pa <- repro[,grepl("pa_", names(repro))] |> revCumRowSums()
 midp <- (repro_ma + repro_pa)/2
 seg <- repro_self - midp
 
-pop <- read.table(paste0(basename, ".pop.tsv"), sep="\t", header=TRUE)
+pop <- read.table(paste0(base, ".pop.tsv"), sep="\t", header=TRUE)
 pop$age <- pop$age * params$DT
-fix <- read.table(paste0(basename, ".fix.tsv"), sep="\t", header=TRUE)
+fix <- read.table(paste0(base, ".fix.tsv"), sep="\t", header=TRUE)
 
-png(sprintf("%s_stratified.png", basename), width=6.5, height=length(params$EPSILON)*1.5, pointsize=10, units='in', res=144)
+png(sprintf("%s_stratified.png", base), width=6.5, height=length(params$EPSILON)*1.5, pointsize=10, units='in', res=144)
 {
     layout(matrix(seq_along(params$EPSILON), ncol=2, byrow=TRUE))
     par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
@@ -58,7 +58,7 @@ png(sprintf("%s_stratified.png", basename), width=6.5, height=length(params$EPSI
 }
 dev.off()
 
-plot_independence <- function (midp, seg) {
+plot_conditional_hists <- function (midp, seg) {
     layout(1:3)
     par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
     # lims <- quantile(abs(seg), 0.98)
@@ -77,10 +77,37 @@ plot_independence <- function (midp, seg) {
 }
 
 for (j in seq_along(params$EPSILON)) {
-    png(sprintf("%s_ind_%d.png", basename, j), width=3.5, height=5, pointsize=10, units='in', res=144)
-    plot_independence(midp[,j], seg[,j])
+    png(sprintf("%s_ind_%d.png", base, j), width=3.5, height=5, pointsize=10, units='in', res=144)
+    plot_conditional_hists(midp[,j], seg[,j])
     dev.off()
 }
+
+plot_conditional_ratios <- function (midp, seg, do_legend=TRUE, title=NA, ...) {
+    pbreaks <- pmax(0.01, pmin(0.99, seq(0, 1, length.out=51)))
+    qbreaks <- c(-Inf, quantile(seg, pbreaks), Inf)
+    total_xh <- hist(seg, breaks=qbreaks, plot=FALSE)
+    uk <- seq(2, length(qbreaks)-1)
+    par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
+    plot(0, 0, type='n', xlim=range(qbreaks, finite=TRUE), ylim=c(0, 2), 
+         xlab="", ylab="enrichment", ...)
+    cols = c(2, 1, 3)
+    qvals <- c(.1, .5, .9)
+    for (k in seq_along(qvals)) {
+        q <- qvals[k]
+        ut <- (abs(rank(midp)/length(midp) - q) < 0.025)
+        xh <- hist(seg[ut], breaks=qbreaks, plot=FALSE)
+        lines(total_xh$mids[uk], xh$density[uk] / total_xh$density[uk], col=cols[k])
+    }
+    mtext("segregation noise", 1, line=2.5, cex=0.75)
+    if (do_legend) legend("top", lty=1, lwd=2, col=cols, legend=sprintf("midparent q=%.0f%%", 100*qvals), title=title)
+}
+
+pdf(sprintf("%s_cond.pdf", base), width=9, height=6, pointsize=10)
+par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
+for (j in 1:ncol(seg)) {
+    plot_conditional_ratios(midp[,j], seg[,j], title=sprintf("effects <= %.2f", c(params$EPSILON, Inf)[j+1]))
+}
+dev.off()
 
 ft <- function (t, x) {
     out <- rep(NA, length(t))
@@ -124,29 +151,31 @@ tt <- seq(0, 4, length.out=51)
 seg_var <- apply(seg, 2, var)
 seg_ft <- do.call(cbind, lapply(1:ncol(seg), function (j) ft(tt, seg[,j]/sqrt(seg_var[j]))))
 
-# compare to Gaussian
-png(file=sprintf("%s_theory_observed.png", basename), width=6.5, height=8, pointsize=10, units='in', res=144)
-matplot(tt, seg_ft, type='l', lty=1, col=rainbow(10)[1:ncol(seg_ft)],
-        xlab='t', ylab='E[exp(itX)]')
-lines(tt, exp(-tt^2/2), lty=2)
-legend("topright", lty=c(rep(1, ncol(seg_ft)), 2), col=c(rainbow(10)[1:ncol(seg_ft)], 'black'),
-       legend=c(sprintf("effects <= %.3f", c(params$EPSILON[-1], Inf)), 'Gaussian'))
+pdf(file=sprintf("%s_theory_observed_ft.pdf", base), width=9, height=6, pointsize=10)
+layout(matrix(seq_along(params$EPSILON), nrow=2))
+gvals <- seq(0.5, 4, length.out=11)
+# variance is 2 * scale * gamma / pi
+theory_ft <- do.call(cbind, lapply(gvals, function (g) { theory(tt, scale=g, gamma=pi / (2 * g)) }))
+for (j in seq_along(params$EPSILON)) {
+    plot(tt, seg_ft[,j], type='l', lwd=2,
+            xlab='t', ylab='E[exp(itX)]')
+    matlines(tt, theory_ft, lty=2, col=rainbow(10))
+    lines(tt, exp(-tt^2/2), lty=3, col='black')
+    legend("topright", lty=1:3, legend=c(paste('effects <=', c(params$EPSILON[-1], Inf)[j]), 'theory', 'gaussian'),
+            col=c('black', 'red', 'black'))
+    # legend("bottomleft", lty=2, col=rainbow(10)[seq_along(gvals)], legend=sprintf("g=%.3f", gvals))
+}
 dev.off()
 
-# which_j <- 3
-# png(file=sprintf("%s_theory_observed.png", basename), width=6.5, height=8, pointsize=10, units='in', res=144)
-# layout(1:2)
-# svals <- exp(seq(log(0.01), log(10), length.out=11))
-#     par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
-# plot(tt, seg_ft, type='l', xlab="t", ylab="fourier transform")
-#     for (g in gvals) {
-#         lines(tt, theory(tt, var(seg[,which_j]), g), lty=3, col=rainbow(20)[match(g, gvals)])
-#     }
-#     legend("topright", lty=c(1, rep(3, length(gvals))), lwd=2, col=c('black', rainbow(20)[seq_along(gvals)]), legend=c('observed', sprintf("gamma = %.3f", gvals)))
-# 
-# ghat <- 0.013
-# shat <- sqrt(var(seg[,which_j]) * pi / (ghat * 2))
-# simvals <- rtcauchy(1e5, scale=shat, gamma=ghat)
-# plot(sort(sample(seg[,which_j], length(simvals))), sort(simvals), xlab='observed', ylab='simulated')
-# abline(0, 1)
-# dev.off()
+# compare simulated distributions to observed
+gvals <- seq(0.5, 4, length.out=11)
+simvals <- do.call(cbind, lapply(gvals, function (g) sort(rtcauchy(1e5, scale=g, gamma=pi/(2*g)))))
+
+png(file=sprintf("%s_sim_observed.png", base), width=9, height=6, pointsize=10, units='in', res=144)
+par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
+layout(matrix(seq_along(params$EPSILON), nrow=2))
+for (j in seq_along(params$EPSILON)) {
+    matplot(sort(sample(seg[,j], min(nrow(simvals), nrow(seg))))/sqrt(seg_var[j]), simvals, pch=20, xlab='observed', ylab='simulated')
+    abline(0, 1)
+}
+dev.off()
