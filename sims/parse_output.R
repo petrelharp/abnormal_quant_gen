@@ -38,6 +38,13 @@ layout(1:2)
     hist(diff(fix$num_fixations), xlab='number of fixations/tick', breaks=40)
 dev.off()
 
+pdf(sprintf("%s.traits.pdf", basename), width=3, height=4, pointsize=10)
+layout((1:2))
+par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
+    plot(fix$time, fix$med_trait, type='l', xlab='time', ylab='median trait value')
+    hist(pop$trait, xlab='trait values at final time', breaks=100, main="")
+dev.off()
+
 pdf(sprintf("%s.ages.pdf", basename), width=6, height=8, pointsize=10)
 layout(1:3)
     hist(pop$age, main=toJSON(params), xlab="age", breaks=30)

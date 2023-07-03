@@ -13,6 +13,7 @@ and the 'fix' file should have 'time' and 'num_fixations' columns.
 
 library(jsonlite)
 library(pracma)
+source("helpers.R")
 
 if (!exists("base")) {
     args <- commandArgs(TRUE)
@@ -27,11 +28,6 @@ infile <- file(paste0(base, ".repro.tsv"), "r")
 params <- fromJSON(readLines(infile, 1))
 repro <- read.table(infile, sep="\t", header=TRUE)
 close(infile)
-
-revCumRowSums <- function (x) {
-    for (j in ncol(x):2) x[,j] <- rowSums(x[,1:j])
-    return(x)
-}
 
 repro_self <- repro[,grepl("self_", names(repro))] |> revCumRowSums()
 repro_ma <- repro[,grepl("ma_", names(repro))] |> revCumRowSums()

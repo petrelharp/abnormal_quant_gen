@@ -111,7 +111,7 @@ reproduction() {
 }
 
 s98 10000: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
+	if (community.tick - asInteger(floor(community.tick * DT / STEP) * STEP / DT) == 0) {
 		inds = p1.individuals;
 		children = inds[inds.age == 0];
 		for (child in children) {

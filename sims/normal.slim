@@ -5,6 +5,7 @@ initialize() {
 	defineConstant("ALPHA", 0.2);
 	if (!exists("L")) defineConstant("L", 1e8);
 	defineConstant("SD", 1.0);
+    if (!exists("EPSILON")) defineConstant("EPSILON", c(0, 4, 5, 6, 7, 8, 9, 10, 11, 12));
 	if (!exists("BURNIN")) defineConstant("BURNIN", 10000);
 	if (!exists("NUMGENS")) defineConstant("NUMGENS", 2000);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
@@ -112,7 +113,7 @@ reproduction() {
 }
 
 s98 10000: early() {
-	if (community.tick - asInteger(floor(community.tick * DT * STEP) / DT / STEP) == 0) {
+	if (community.tick - asInteger(floor(community.tick * DT / STEP) * STEP / DT) == 0) {
 		inds = p1.individuals;
 		children = inds[inds.age == 0];
 		for (child in children) {

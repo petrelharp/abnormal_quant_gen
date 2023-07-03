@@ -4,7 +4,7 @@ initialize() {
 	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
 	if (!exists("L")) defineConstant("L", 1e8);
-	defineConstant("SD", 0.2);
+	defineConstant("SD", 1.0);
     if (!exists("EPSILON")) defineConstant("EPSILON", c(0, 4, 5, 6, 7, 8, 9, 10, 11, 12));
     defineConstant("DT", 1.0);
 	defineConstant("OUTFILE", "sim_neutral_normal_" + getSeed() + ".repro.tsv");
@@ -16,9 +16,9 @@ initialize() {
     initializeSLiMOptions(keepPedigrees=T);
 	// initializeTreeSeq();
 	initializeMutationRate(MUTRATE);
-    // divide effect sizes by 4 N L mu because we should have O(this many) segregating;
+    // divide effect sizes by sqrt(4 N L mu) because we should have O(this many) segregating;
     // this way typical phenotypes will be O(1)
-	initializeMutationType("m1", 0.5, "n", 0.0, SD/(4 * N * L * MUTRATE));
+	initializeMutationType("m1", 0.5, "n", 0.0, SD/sqrt(4 * N * L * MUTRATE));
 	initializeGenomicElementType("g1", m1, 1.0);
 	initializeGenomicElement(g1, 0, L-1);
 	initializeRecombinationRate(1e-8);
