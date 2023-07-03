@@ -671,7 +671,7 @@ We then have
 		& \text{if $\alpha = 1$.}
 	\end{cases}
 \end{multline*}
-This converges as $n \to \infty$ if and only if $m = 0$ and $\alpha > 1$, in which case the limit is 
+This converges as $n \to \infty$ if and only if $m = 0$ and $\alpha \ge 1$, in which case the limit is 
 \[
 	 \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \text{sgn}(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
 \]
@@ -816,7 +816,7 @@ to simulate a discrete-time approximation to the continuous-time Moran model des
 as follows.
 Individuals are diploid, hermaphroditic, and sexual;
 the genome is of length $10^8$bp with a uniform recombination rate of $10^{-8}$ crossovers per bp;
-mutations occur at a rate of $m$ per bp.
+mutations occur at a rate of $10^{-9}$ per bp.
 Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
 The phenotype of each individual is determined additively
@@ -871,5 +871,29 @@ across all offspring following burn-in.
         \label{fig:unfiltered_hist}
     }
 \end{figure}
+
+\subsection{Notes}
+
+Let $x_\ell$ and $p_\ell$ be sequences of numbers.
+When is, for given $s_1$, $s_2$, $t_1$, and $t_2$,
+\begin{align*}
+    &
+    \prod_{\ell=1}^M
+    \left\{
+    \frac{1}{2}
+        \left( 1 + p_\ell(e^{i s_1 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_\ell(e^{i s_2 x_\ell/M^{1/\alpha}} - 1) \right)
+        +
+    \frac{1}{2}
+        \left( 1 + p_\ell(e^{i t_1 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_\ell(e^{i t_2 x_\ell/M^{1/\alpha}} - 1) \right)
+    \right\}
+\\ & \qquad \approx
+    \prod_{\ell=1}^M
+        \left( 1 + p_\ell (e^{i s_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_\ell (e^{i s_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_\ell (e^{i t_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_\ell (e^{i t_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+\end{align*}
 
 \end{document}
