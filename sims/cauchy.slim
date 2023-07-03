@@ -32,6 +32,7 @@ initialize() {
         + " MUTRATE: " + MUTRATE
         + " NUMGENS: " + NUMGENS
         + " OUTFILE: " + OUTFILE);
+   defineGlobal("POST_BURNIN", F);
 }
 
 1 first() {
@@ -50,6 +51,7 @@ initialize() {
 	}
 	writeFile(OUTFILE, ah + bh + ch, append=T);
 	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations" + "\t" + "num_mutations" + "\t" + "med_trait" + "\t" + "mad_trait" + "\t" + "mutq.9" + "\t" + "mutq.99" + "\t" + "mutq.999");
+	community.rescheduleScriptBlock(s97, ticks=asInteger(BURNIN/DT)-1);
 	community.rescheduleScriptBlock(s98, start=asInteger(BURNIN/DT), end=asInteger((BURNIN+NUMGENS)/DT));
 	community.rescheduleScriptBlock(s99, ticks=asInteger((BURNIN+NUMGENS)/DT));
 }
@@ -59,9 +61,10 @@ mutationEffect(m1) {
 }
 
 first() {
+	defineGlobal("POST_BURNIN", community.tick * DT >= BURNIN);
 	n = p1.individualCount;
 	inds = p1.individuals;
-	if (community.tick <= BURNIN/DT) {
+	if (!POST_BURNIN) {
 		x = inds.tagF;
 	} else {
 		x = inds.tagF - XOPT;
@@ -79,17 +82,20 @@ reproduction() {
 	if (individual.tag > 0) {
 		mate = p1.sampleIndividuals(1);
 		child = p1.addCrossed(individual, mate);
-		x = rep(0.0, length(EPSILON));
-		s = child.genomes.mutations.selectionCoeff;
-		k = findInterval(abs(s), EPSILON);
-		for (j in seqAlong(EPSILON)) {
-			x[j] = sum(s[k == j]);
+		if (POST_BURNIN) {
+			x = rep(0.0, length(EPSILON));
+			s = child.genomes.mutations.selectionCoeff;
+			k = findInterval(abs(s), EPSILON);
+			for (j in seqAlong(EPSILON)) {
+				x[j] = sum(s[k == j]);
+			}
+			child.setValue("effects", x);
+			child.tagF = sum(x);
+			child.setValue("ma", individual.getValue("effects"));
+			child.setValue("pa", mate.getValue("effects"));
+		} else {
+			child.tagF = child.sumOfMutationsOfType(m1);
 		}
-		child.setValue("effects", x);
-		child.tagF = sum(x);
-		child.setValue("ma", individual.getValue("effects"));
-		child.setValue("pa", mate.getValue("effects"));
-
 	}
 }
 
@@ -108,6 +114,19 @@ reproduction() {
           + "\t" + quantile(abs(muts.selectionCoeff), 0.999)
       , append=T);
     }
+}
+
+s97 10000 early() {
+	catn("Passed burnin, in tick " + community.tick + ", time " + community.tick/DT);
+	for (ind in p1.individuals) {
+		x = rep(0.0, length(EPSILON));
+		s = ind.genomes.mutations.selectionCoeff;
+		k = findInterval(abs(s), EPSILON);
+		for (j in seqAlong(EPSILON)) {
+			x[j] = sum(s[k == j]);
+		}
+		ind.setValue("effects", x);
+	}
 }
 
 s98 10000: early() {
