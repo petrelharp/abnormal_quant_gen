@@ -23,10 +23,14 @@ num_plots <- as.numeric(args[2])
 
 infile <- file(paste0(basename, ".repro.tsv"), "r")
 params <- fromJSON(readLines(infile, 1))
-repro <- do.call(rbind, lapply(strsplit(readLines(infile), "\t"), function (x) {
-           x <- as.numeric(x); n <- (length(x) - 1) / 3; data.frame(t=x[1], x=x[1+(1:n)], ma=x[1+n+(1:n)], pa=x[1+2*n+(1:n)])
-}))
+repro <- read.table(infile, sep="\t", header=TRUE)
 close(infile)
+
+repro_self <- repro[,grepl("self_", names(repro))] |> revCumRowSums()
+repro_ma <- repro[,grepl("ma_", names(repro))] |> revCumRowSums()
+repro_pa <- repro[,grepl("pa_", names(repro))] |> revCumRowSums()
+midp <- (repro_ma + repro_pa)/2
+seg <- repro_self - midp
 
 pop <- read.table(paste0(basename, ".pop.tsv"), sep="\t", header=TRUE)
 pop$age <- pop$age * params$DT
@@ -52,8 +56,7 @@ layout(1:3)
     hist(log(abs(pop$trait)), xlab='log|trait|', main='log|trait|', breaks=30)
 dev.off()
 
-repro$seg <- repro$x - (repro$ma + repro$pa)/2
-repro$plot <- cut(repro$t, num_plots)
+repro_plot <- cut(repro$time, num_plots)
 
 if (params$type == "normal") {
     qfun <- qnorm
@@ -66,13 +69,14 @@ if (params$type == "normal") {
 # pdf(sprintf("%s.seg.pdf", basename), width=8, height=2*num_plots, pointsize=10)
 png(sprintf("%s.seg.png", basename), width=8, height=2*num_plots, pointsize=10, units='in', res=144)
 layout(matrix(1:(3*num_plots), ncol=3, byrow=TRUE))
-xlim <- range(repro$seg)
-xh <- hist(repro$seg, breaks=200, plot=FALSE)
-for (k in levels(repro$plot)) {
-    title <- if (k == levels(repro$plot)[1]) toJSON(params) else ""
-    sub <- repro[repro$plot == k,]
-    hist(sub$seg, breaks=xh$breaks,
-         main=sprintf("times %0.2f-%0.2f", min(sub$t), max(sub$t)),
+j <- ncol(seg)
+xlim <- range(seg[,j])
+xh <- hist(seg[,j], breaks=200, plot=FALSE)
+for (k in levels(repro_plot)) {
+    title <- if (k == levels(repro_plot)[1]) toJSON(params) else ""
+    sub <- (repro_plot == k)
+    hist(seg[sub,j], breaks=xh$breaks,
+         main=sprintf("times %0.2f-%0.2f", min(repro$time[sub]), max(repro$time[sub])),
          xlab="trait - midparent",
          xlim=xlim
     )
