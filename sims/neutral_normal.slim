@@ -1,33 +1,30 @@
 initialize() {
 	if (!exists("N")) defineConstant("N", 1e4);
-	if (!exists("XOPT")) defineConstant("XOPT", 1.0);
-	defineConstant("DT", 0.01);
-	defineConstant("ALPHA", 0.2);
-	if (!exists("L")) defineConstant("L", 1e8);
-	defineConstant("SD", 1.0);
-	if (!exists("BURNIN")) defineConstant("BURNIN", 10000);
-	if (!exists("NUMGENS")) defineConstant("NUMGENS", 2000);
+	if (!exists("BURNIN")) defineConstant("BURNIN", 100);
+	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
-    defineConstant("OUTFILE", "sim_normal_" + getSeed() + ".repro.tsv");
-    defineConstant("POPOUTFILE", "sim_normal_" + getSeed() + ".pop.tsv");
-    defineConstant("FIXOUTFILE", "sim_normal_" + getSeed() + ".fix.tsv");
-	defineConstant("params", Dictionary("N", N, "EPSILON", EPSILON, "DT", DT, "SD", SD, "XOPT", XOPT, "type", "normal"));
+	if (!exists("L")) defineConstant("L", 1e8);
+	defineConstant("SD", 0.2);
+    if (!exists("EPSILON")) defineConstant("EPSILON", c(0, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+    defineConstant("DT", 1.0);
+	defineConstant("OUTFILE", "sim_neutral_normal_" + getSeed() + ".repro.tsv");
+	defineConstant("POPOUTFILE", "sim_neutral_normal_" + getSeed() + ".pop.tsv");
+	defineConstant("FIXOUTFILE", "sim_neutral_normal_" + getSeed() + ".fix.tsv");
+	defineConstant("TREEOUTFILE", "sim_neutral_normal_" + getSeed() + ".trees");
+	defineConstant("params", Dictionary("N", N, "EPSILON", EPSILON, "DT", DT, "SD", SD, "type", "normal"));
 	initializeSLiMModelType("nonWF");
     initializeSLiMOptions(keepPedigrees=T);
 	// initializeTreeSeq();
 	initializeMutationRate(MUTRATE);
     // divide effect sizes by 4 N L mu because we should have O(this many) segregating;
     // this way typical phenotypes will be O(1)
-	initializeMutationType("m1", 0.5, "n", 0.0, SD);
+	initializeMutationType("m1", 0.5, "n", 0.0, SD/(4 * N * L * MUTRATE));
 	initializeGenomicElementType("g1", m1, 1.0);
 	initializeGenomicElement(g1, 0, L-1);
 	initializeRecombinationRate(1e-8);
     catn("N: " + N
-        + " DT: " + DT
-        + " ALPHA: " + ALPHA
         + " SD: " + SD
 	+ " EPSILON: " + EPSILON
-        + " XOPT: " + XOPT
         + " BURNIN: " + BURNIN
         + " MUTRATE: " + MUTRATE
         + " NUMGENS: " + NUMGENS
@@ -61,13 +58,7 @@ mutationEffect(m1) {
 first() {
 	n = p1.individualCount;
 	inds = p1.individuals;
-	if (community.tick <= BURNIN/DT) {
-		x = inds.tagF;
-	} else {
-		x = inds.tagF - XOPT;
-	}
-	z = exp(ALPHA * x^2);
-	dead = (runif(n) < 1 - exp(-DT * z));
+	dead = (runif(n) < 1 - exp(-DT));
 	k = sum(dead);
 	inds[dead].fitnessScaling = 0.0;
 	parents = sample(inds, size=k, replace=F);
@@ -94,7 +85,6 @@ reproduction() {
 }
 
 2: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
       inds = p1.individuals;
       muts = sim.mutations;
       writeFile(FIXOUTFILE,
@@ -107,7 +97,6 @@ reproduction() {
           + "\t" + quantile(abs(muts.selectionCoeff), 0.99)
           + "\t" + quantile(abs(muts.selectionCoeff), 0.999)
       , append=T);
-    }
 }
 
 s98 10000: early() {
@@ -126,6 +115,14 @@ s99 12000 late() {
 	for (ind in p1.individuals) {
 		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
 	}
+    // metadata = Dictionary(
+    //                  "params", params,
+    //                  "id", p1.individuals.pedigreeID,
+    //                  "trait", p1.individuals.getValue("effects"),
+    //                  "ma", p1.individuals.getValue("ma"),
+    //                  "pa", p1.individuals.getValue("pa")
+    // );
+    // sim.treeSeqOutput(TREEOUTFILE, metadata=metadata);
     catn("Done! In tick " + community.tick + ", time " + community.tick/DT);
 	sim.simulationFinished();
 }
