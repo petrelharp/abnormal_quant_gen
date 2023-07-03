@@ -54,48 +54,10 @@ png(sprintf("%s_stratified.png", base), width=6.5, height=length(params$EPSILON)
 }
 dev.off()
 
-plot_conditional_hists <- function (midp, seg) {
-    layout(1:3)
-    par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
-    # lims <- quantile(abs(seg), 0.98)
-    lims <- max(abs(seg))
-    for (q in c(.1, .5, .9)) {
-        ut <- (abs(rank(midp)/length(midp) - q) < 0.025)
-        outl <- (seg > -lims) & (seg < lims)
-        hist(seg[ut & outl], breaks=100, main=sprintf("midparent %0.0f%%", 100*q),
-             # xlab="segregation noise",
-             xlab='',
-             xlim=c(-1,1) * lims)
-        legend("bottomleft", title=sprintf("tail: %.2f%% < %.0f", 100 * mean(seg[ut] < -lims), -lims), legend='', bty='n')
-        legend("bottomright", title=sprintf("tail: %.2f%% > %.0f", 100 * mean(seg[ut] > lims), lims), legend='', bty='n')
-    }
-    mtext("segregation noise", 1, line=2.5, cex=0.75)
-}
-
 for (j in seq_along(params$EPSILON)) {
     png(sprintf("%s_ind_%d.png", base, j), width=3.5, height=5, pointsize=10, units='in', res=144)
     plot_conditional_hists(midp[,j], seg[,j])
     dev.off()
-}
-
-plot_conditional_ratios <- function (midp, seg, do_legend=TRUE, title=NA, ...) {
-    pbreaks <- pmax(0.01, pmin(0.99, seq(0, 1, length.out=51)))
-    qbreaks <- c(-Inf, quantile(seg, pbreaks), Inf)
-    total_xh <- hist(seg, breaks=qbreaks, plot=FALSE)
-    uk <- seq(2, length(qbreaks)-1)
-    par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
-    plot(0, 0, type='n', xlim=range(qbreaks, finite=TRUE), ylim=c(0, 2), 
-         xlab="", ylab="enrichment", ...)
-    cols = c(2, 1, 3)
-    qvals <- c(.1, .5, .9)
-    for (k in seq_along(qvals)) {
-        q <- qvals[k]
-        ut <- (abs(rank(midp)/length(midp) - q) < 0.025)
-        xh <- hist(seg[ut], breaks=qbreaks, plot=FALSE)
-        lines(total_xh$mids[uk], xh$density[uk] / total_xh$density[uk], col=cols[k])
-    }
-    mtext("segregation noise", 1, line=2.5, cex=0.75)
-    if (do_legend) legend("top", lty=1, lwd=2, col=cols, legend=sprintf("midparent q=%.0f%%", 100*qvals), title=title)
 }
 
 pdf(sprintf("%s_cond.pdf", base), width=9, height=6, pointsize=10)

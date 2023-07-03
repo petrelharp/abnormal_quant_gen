@@ -915,26 +915,28 @@ across all offspring following burn-in.
 
 \subsection{Notes}
 
-Let $x_\ell$ and $p_\ell$ be sequences of numbers.
+Let $x_\ell$ and $p_{\ell,M}$ be sequences of numbers.
 When is, for given $s_1$, $s_2$, $t_1$, and $t_2$,
 \begin{align*}
     &
     \prod_{\ell=1}^M
     \left\{
     \frac{1}{2}
-        \left( 1 + p_\ell(e^{i s_1 x_\ell/M^{1/\alpha}} - 1) \right)
-        \left( 1 + p_\ell(e^{i s_2 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_{\ell,M}(e^{i s_1 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_{\ell,M}(e^{i s_2 x_\ell/M^{1/\alpha}} - 1) \right)
         +
     \frac{1}{2}
-        \left( 1 + p_\ell(e^{i t_1 x_\ell/M^{1/\alpha}} - 1) \right)
-        \left( 1 + p_\ell(e^{i t_2 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_{\ell,M}(e^{i t_1 x_\ell/M^{1/\alpha}} - 1) \right)
+        \left( 1 + p_{\ell,M}(e^{i t_2 x_\ell/M^{1/\alpha}} - 1) \right)
     \right\}
 \\ & \qquad \approx
     \prod_{\ell=1}^M
-        \left( 1 + p_\ell (e^{i s_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_\ell (e^{i s_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_\ell (e^{i t_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_\ell (e^{i t_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_{\ell,M} (e^{i s_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_{\ell,M} (e^{i s_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_{\ell,M} (e^{i t_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
+        \left( 1 + p_{\ell,M} (e^{i t_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
 \end{align*}
+
+\textbf{Answer:} when $\sum_{\ell=1}^M p_{\ell,M}^2  \to 0$.
 
 \end{document}
