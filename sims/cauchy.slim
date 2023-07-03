@@ -5,6 +5,7 @@ initialize() {
 	defineConstant("DELTA", 0.5); // must have DELTA > GAMMA
 	defineConstant("GAMMA", 0.2);
 	if (!exists("BURNIN")) defineConstant("BURNIN", 100);
+	if (!exists("STEP")) defineConstant("STEP", 1);
 	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
 	if (!exists("L")) defineConstant("L", 1e8);
@@ -93,7 +94,7 @@ reproduction() {
 }
 
 2: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
+	if (community.tick - asInteger(floor(community.tick * DT * STEP) / DT / STEP) == 0) {
       inds = p1.individuals;
       muts = sim.mutations;
       writeFile(FIXOUTFILE,

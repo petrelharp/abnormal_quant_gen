@@ -7,6 +7,7 @@ initialize() {
 	if (!exists("BURNIN")) defineConstant("BURNIN", 10000);
 	if (!exists("NUMGENS")) defineConstant("NUMGENS", 2000);
 	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
+	if (!exists("STEP")) defineConstant("STEP", 1);
     defineConstant("OUTFILE", "sim_normal_" + getSeed() + ".repro.tsv");
     defineConstant("POPOUTFILE", "sim_normal_" + getSeed() + ".pop.tsv");
     defineConstant("FIXOUTFILE", "sim_normal_" + getSeed() + ".fix.tsv");
@@ -71,7 +72,7 @@ reproduction() {
 }
 
 s98 10000: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
+	if (community.tick - asInteger(floor(community.tick * DT * STEP) / DT / STEP) == 0) {
 		inds = p1.individuals;
 		children = inds[inds.age == 0];
 		if (length(children) > 0) {
