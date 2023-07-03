@@ -383,7 +383,7 @@ between more and less common phenotypes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\section{Non-Gaussian effects}
+\section{Independence and the Gaussian assumption}
 
 We generally follow the notation of \citet{barton2017infinitesimal},
 although in a simpler situation,
@@ -433,15 +433,15 @@ The following calculations suggest the answer is ``no``.
     given $Z^{[1]}=z_1$ and/or $Z^{[2]}=z_2$ depends nontrivially on $z_1$ and $z_2$.
 \end{lem}
 
-\begin{proof}[of Lemma~\ref{lem:nongaussian_nonindep}]
+\begin{proof}[Proof of Lemma~\ref{lem:nongaussian_nonindep}]
     \comment{calculations with characteristic functions?}
 \end{proof}
 
-This result should perhaps not be surprising:
-there is a deep connection between independence and the Gaussian distribution.
-For instance, a proof of the basic properties of the (Gaussian) infinitesimal model
-might be sketched as follows:
-divide the parental loci into groups according to the results of inheritance,
+Is there a converse? In other words,
+does independence of segregation noise imply a Gaussian distribution of trait values?
+It is not clear to us in how much generality such a statement might be made,
+but we can at least prove the following.
+Divide the parental loci into groups according to the results of inheritance,
 defining
 \begin{align*}
     U_M^{[i]} = \sum_{\ell=1}^M X_\ell \eta_\ell^{[i]} 
@@ -455,33 +455,50 @@ $Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, so
     Z_M = U_M^{[1]} + V_M^{[2]} \qquad \text{ and } \qquad
     R_M = \frac{U_M^{[1]} - V_M^{[1]} - U_M^{[2]} + V_M^{[2]}}{ 2 } .
 \end{align*}
-Suppose we then can prove (as is indeed true in the Gaussian case) that
-(a) $(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ converge in distribution;
-(b) the limiting random variables are independent; and
-defining $R$, $Z^{[1]}$ and $Z^{[2]}$ as is natural in the limit,
-(c) $R$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
-The Kac-Bernstein theorem states that if two independent random variables
-have the property that if their sum and difference are independent of each other,
-then the random variables have a Gaussian distribution
-(\citet{kac1939characterization,bernstein1941property},
-but see \citet{kagan1973characterization} for many much more general results).
-It is not hard to see that (c) implies that $U^{[1]}$ and $V^{[1]}$
-are such a pair of random variables, and therefore Gaussian.
+It turns out that independence of the portions inherited and not inherited by the offspring
+implies a Gaussian distribution:
 
-Is there a converse? In other words,
-does independence of segregation noise imply a Gaussian distribution of trait values?
-It is not clear to us in how much generality such a statement might be made,
-but we can at least prove the following:
+\begin{lem}\label{lem:parental_contribs}
+    Suppose that
+    $(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ converge in distribution as $M \to \infty$
+    to independent random variables $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$
+    (and so $Z_M$, $R_M$, $Z_M^{[1]}$ and $Z_M^{[2]}$ converge to $Z$, $R$, $Z^{[1]}$ and $Z^{[2]}$
+    defined in the natural way).
+    Then if $R$ is independent of $Z^{[1]}$ and $Z^{[2]}$,
+    $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$ are jointly Gaussian.
+\end{lem}
 
-\begin{lemma}\label{lem:parental_contribs}
-    Under the conditions of Lemma~\ref{lem:nongaussian_nonindep},
-    $U^{[1]}$ and $V^{[1]}$ are not independent.
-    \comment{OR SOMETHING?}
-\end{lemma}
-
-\begin{proof}[of Lemma~\ref{lem:parental_contribs}]
-    \comment{more calcs with characteristic functions?}
+\begin{proof}[Proof of Lemma~\ref{lem:parental_contribs}]
+    The Kac-Bernstein theorem states that if two independent random variables
+    have the property that if their sum and difference are independent of each other,
+    then the random variables have a Gaussian distribution
+    (\citet{kac1939characterization,bernstein1941property},
+    but see \citet{kagan1973characterization} for many much more general results).
+    The assumptions imply that $U^{[1]}$ and $V^{[1]}$
+    are such a pair of random variables, and therefore Gaussian.
 \end{proof}
+
+It is clear in the Gaussian case
+that $U^{[1]}$ and $V^{[1]}$ are asymptotically independent.
+More generally, independence depends on how the model is set up.
+If the allelic effects $\eta_\ell^{[i]}$ are i.i.d.,
+then even for finite $M$, the parental contributions
+$(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ are independent.
+If the distribution of $\eta_\ell^{[i]}$ is chosen to obtain a non-Gaussian limit,
+then Lemma~\ref{lem:parental_contribs} implies that $R$ cannot be independent of the parental traits.
+
+However, the presence of a large effect polymorphic allele
+makes $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$ dependent:
+consider the extreme case where $\eta^{[i]}_\ell$ are i.i.d.{} with variance 1 for $\ell \ge 2$,
+while $\eta^{[i]}_1 = \pm 10$ with probability 1/2 each,
+and $Z^{[1]} = \eta_1^{[1]} + \sum_{\ell=2}^M \eta_\ell^{[1]} / \sqrt{M}$.
+Then in the limit $U^{[i]}$ and $V^{[i]}$ are Gaussian with mean either 0 or $\pm 10$ and variance 1/2,
+and are highly dependent: $|U^{[i]}| \approx 10$ or $|V^{[i]}| \approx 10$ but not both.
+(Segregation noise, meanwhile, depends strongly on parental trait values:
+if $Z^{[1]} \approx Z^{[2]}$ then most likely
+$\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
+but in the other case then $R$ has equal probabilities of being close to $+5$ or $-5$.)
+
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Extending the infinitesimal model}  % TODD
