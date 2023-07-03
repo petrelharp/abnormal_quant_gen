@@ -15,6 +15,8 @@
 \newcommand{\eg}{\textit{e.g.,}\,}
 \newcommand{\nb}{\textit{n.b.,}\, }
 \newcommand{\defn}{:=}
+\newcommand{\var}{\mathop{\mbox{Var}}}
+\newcommand{\cov}{\mathop{\mbox{Cov}}}
 
 \newcommand{\comment}[1]{{\color{blue} \it #1}}
 
@@ -34,6 +36,42 @@
 
 \begin{document}
 
+% Intro:
+%  - the infinitesimal model is useful because it is a "trait-only" model: it allows for predictions and modeling without knowing the underlying genetics.
+%  - Its key properties are: (a) independence of seg noise, and (b) Gaussian-ness.
+%  - It is basically a CLT, and in particular, (b) derives from a the CLT deriving from similar effect sizes.
+%  - Motivating Q: there are other CLTs; can we generalize (b) to non-Gaussian effects, while keeping independence of seg variation?
+% 
+% Data motivation:
+%  First, to see if this is worth asking we look at some data
+%  ... and find that yeah, maybe effect sizes don't fall into the Gaussian domain of attraction.
+% 
+% First answer to the motivating question:  "No"
+% Non-Gaussian effects (sometimes) imply nonindependence of segregation noise:
+%   In at least some cases, natural non-gaussian models produce nonindependence:
+%   1. all loci are uniformly small except there's one big one
+%   2. loci are Cauchy
+%   3. (is there a simple statement we can make more generally?)
+% 
+% Second answer, weaker but also "no":
+%  - Observation: Let A and B be the contributions to parent phenotype, with A inherited by the offspring and B not. If A and B are independent, and seg noise is independent of parent phenotype, then A and B are Gaussian.
+%  - When would A and B be asymptotically independent? One case is the rare-mutation limit that obtains a "thinned Poisson process" limit for A and B (I think: if all allele frequencies are at frequency O(1/M)?)
+%  - (I have other thoughts to be sorted out here)
+%  - Open Q (maybe?): is there any non-Gaussian model where segregation noise is independent of parental traits?
+% 
+% Simulations: let's see how this stuff works in practice
+%  - neutral simulations
+%  - also, stabilizing selection with theoretical motivation for form of stabilizing selection
+%  - plot: (A) trait mean over time and trait distribution at the end
+%  - plot: (B) (distrn of seg noise), (seg noise vs midparent), and (Radon-Nicodym deriv of conditional seg noise for a few values of midparent)
+% 
+% If we remove 'big loci' is what's left the infinitesimal model?
+%  - people do this in practice (animal breeding papers)
+%  - theory:  form of limiting conditional distribution
+%  - theory: something about independence  (?? if we get there ??)
+%  - plots (A) & (B) above from simulation, but for only small effects
+
+%%%% LAST VERSION
 % 1. *Intro*: Motivation about how many results about quant gen and methods assume Gaussian distributions.
 %     Mention Levy walk macroevolution papers.
 %     Point out that usual quant gen has *no* sweeps, while stable distributions would have sweeps (since some s would be bigger than 1/N).
@@ -51,8 +89,9 @@
 % 
 % 6. Simulations (PETER)
 
+
 \title{\large{\bf
-    Quantitative genetics with stable laws
+    Abnormal quantitative genetics?
 }}
 
 \author{ \begin{small}
@@ -85,8 +124,9 @@ have been made assuming that the distribution of trait values in a population is
 despite the absence of a plausible model that would make this true (cite turelli and barton).
 One of the oldest and most concrete models of heritable trait evolution is the \emph{infinitesimal model}
 which assumes a simple, explicit form for how an offspring's trait is inherited from their parents':
-it is Normally distributed, with mean equal to the average of the parents' values.
-Despite the inherent plausibility of this model,
+it is Normally distributed, with mean equal to the average of the parents' values
+and a variance independent of their values.
+Despite the plausibility of this model,
 (thanks to the Central Limit Theorem),
 it was not until \citet{barton2017infinitesimal} that conditions under which this would be a good approximation
 were made explicit,
@@ -117,10 +157,25 @@ perhaps the distribution of effect sizes within each gene is Normal,
 but with a standard deviation that varies with ``proximity'' to the trait;
 such mixtures can easily have large proportions of extreme values.
 
-The infinitesimal model gains a great deal of generality by appealing to the Central Limit Theorem:
-as shown by \citet{barton2017infinitesimal},
-the distribution of segregation noise will be Normal, regardless of most of the details,
-thanks to the universality of adding up a great many very small and independent things.
+Concretely, the infinitesimal model postulates that
+if the parents' genetic contributions to the trait (i.e., their \emph{breeding values})
+are $z^{[1]}$ and $z^{[2]}$,
+and the offspring's genetic contribution to the trait is $z$,
+and $R = z - (z^{[1]} + z^{[2]})/2$ is the deviation from the midparent
+(which we call the \emph{segregation noise}), then
+\begin{enumerate}
+    \item $R$ is independent of $z^{[1]}$ and $z^{[2]}$, and
+    \item $R$ has a Gaussian distribution.
+\end{enumerate}
+(This is not a full definition,
+since the model makes broader statements involving conditioning on the full pedigree;
+see \citet{barton2017infinitesimal}.)
+We set out here to see whether (2) can be generalized,
+and find that (1) is apparently inexitrably connected.
+
+The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
+i.e., the universality
+of adding up a great many very small and independent things.
 However, as is well known to probabilists,
 there is a wider class of Central Limit Theorems,
 which describe the distributions of sums of a great many independent and exchangeable things:
@@ -133,9 +188,9 @@ In such ensembles, sinle large entries are important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
 
-This suggests exploring whether stable distributions might reasonably stand in for the Normal
+This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
 in the infinitesimal model.
-In this paper, we make rather preliminary explorations in that direction:
+In this paper, we make preliminary explorations in that direction:
 Does the universality shown by \citet{barton2017infinitesimal}
 carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
 What can be said about equilibrium trait distributions in this case?
@@ -326,6 +381,107 @@ between more and less common phenotypes.
     }
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Non-Gaussian effects}
+
+We generally follow the notation of \citet{barton2017infinitesimal},
+although in a simpler situation,
+as we consider only the haploid offspring of a single set of haploid parents
+rather than full pedigrees,
+and ignore non-genetic contributions to the trait;
+so, below we say ``trait'' to mean ``genetic contribution to the trait''.
+
+Suppose that the focal individual's trait is
+$$
+    Z_M = \sum_{\ell=1}^M \eta_\ell / M^{1/\alpha},
+$$
+where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus.
+The effects of the alleles carried by the two parents
+are $\eta_\ell^{[1]}$ and $\eta_\ell^{[2]}$, respectively,
+and their traits are
+$Z_M^{[1]} = \sum_\ell \eta_\ell^{[1]} / M^{1/\alpha}$ and
+$Z_M^{[2]} = \sum_\ell \eta_\ell^{[2]} / M^{1/\alpha}$.
+We assume the loci are unlinked and inheritance is fair, so
+letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are independent of everything else,
+$$
+    \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[1]} .
+$$
+
+We know from \citet{barton2017infinitesimal} that if the $\eta^{[i]}_\ell$ are
+independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$,
+then with $\alpha=2$,
+the traits $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converge in distribution to a multivariate Gaussian distribution
+$(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
+
+Now let us choose the distribution of allelic effects so that
+the trait distributions converge to a nontrivial limit after rescaling by a different exponent $\alpha$.
+Can the property of independence be preserved?
+The following calculations suggest the answer is ``no``.
+
+\begin{lem} \label{lem:nongaussian_nonindep}
+    \comment{SOMETHING LIKE THE FOLLOWING?}
+    Suppose that the allelic effects are such that
+    $$
+        \lim_{M \to \infty} \log \E[ \prod_{\ell=1}^M e^{it\eta^{[i]}} ]
+        = c |t|^\alpha .
+    $$
+    Then $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converges in distribution
+    to $(Z, Z^{[1]}, Z^{[2]})$ for which each of the three traits
+    marginally has a standard $\alpha$-stable distribution,
+    but the conditional distribution of $R = Z - (Z^{[1]} - Z^{[2]}))/2$
+    given $Z^{[1]}=z_1$ and/or $Z^{[2]}=z_2$ depends nontrivially on $z_1$ and $z_2$.
+\end{lem}
+
+\begin{proof}[of Lemma~\ref{lem:nongaussian_nonindep}]
+    \comment{calculations with characteristic functions?}
+\end{proof}
+
+This result should perhaps not be surprising:
+there is a deep connection between independence and the Gaussian distribution.
+For instance, a proof of the basic properties of the (Gaussian) infinitesimal model
+might be sketched as follows:
+divide the parental loci into groups according to the results of inheritance,
+defining
+\begin{align*}
+    U_M^{[i]} = \sum_{\ell=1}^M X_\ell \eta_\ell^{[i]} 
+    \qquad \text{ and } \qquad
+    V_M^{[i]} = \sum_{\ell=1}^M (1-X_\ell) \eta_\ell^{[i]} ,
+\end{align*}
+so that 
+$Z_M^{[1]} = U_M^{[1]} + V_M^{[1]}$ and
+$Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, so
+\begin{align*}
+    Z_M = U_M^{[1]} + V_M^{[2]} \qquad \text{ and } \qquad
+    R_M = \frac{U_M^{[1]} - V_M^{[1]} - U_M^{[2]} + V_M^{[2]}}{ 2 } .
+\end{align*}
+Suppose we then can prove (as is indeed true in the Gaussian case) that
+(a) $(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ converge in distribution;
+(b) the limiting random variables are independent; and
+defining $R$, $Z^{[1]}$ and $Z^{[2]}$ as is natural in the limit,
+(c) $R$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
+The Kac-Bernstein theorem states that if two independent random variables
+have the property that if their sum and difference are independent of each other,
+then the random variables have a Gaussian distribution
+(\citet{kac1939characterization,bernstein1941property},
+but see \citet{kagan1973characterization} for many much more general results).
+It is not hard to see that (c) implies that $U^{[1]}$ and $V^{[1]}$
+are such a pair of random variables, and therefore Gaussian.
+
+Is there a converse? In other words,
+does independence of segregation noise imply a Gaussian distribution of trait values?
+It is not clear to us in how much generality such a statement might be made,
+but we can at least prove the following:
+
+\begin{lemma}\label{lem:parental_contribs}
+    Under the conditions of Lemma~\ref{lem:nongaussian_nonindep},
+    $U^{[1]}$ and $V^{[1]}$ are not independent.
+    \comment{OR SOMETHING?}
+\end{lemma}
+
+\begin{proof}[of Lemma~\ref{lem:parental_contribs}]
+    \comment{more calcs with characteristic functions?}
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Extending the infinitesimal model}  % TODD

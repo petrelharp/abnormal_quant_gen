@@ -103,6 +103,7 @@ plot_conditional_ratios <- function (midp, seg, do_legend=TRUE, title=NA, ...) {
 }
 
 pdf(sprintf("%s_cond.pdf", base), width=9, height=6, pointsize=10)
+layout(matrix(seq_along(params$EPSILON), nrow=2))
 par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
 for (j in 1:ncol(seg)) {
     plot_conditional_ratios(midp[,j], seg[,j], title=sprintf("effects <= %.2f", c(params$EPSILON, Inf)[j+1]))
@@ -169,13 +170,13 @@ dev.off()
 
 # compare simulated distributions to observed
 gvals <- seq(0.5, 4, length.out=11)
-simvals <- do.call(cbind, lapply(gvals, function (g) sort(rtcauchy(1e5, scale=g, gamma=pi/(2*g)))))
+simvals <- do.call(cbind, lapply(gvals, function (g) sort(rtcauchy(min(1e5,nrow(seg)), scale=g, gamma=pi/(2*g)))))
 
 png(file=sprintf("%s_sim_observed.png", base), width=9, height=6, pointsize=10, units='in', res=144)
 par(mar=c(4,4,1,1), mgp=c(2.5, 1, 0))
 layout(matrix(seq_along(params$EPSILON), nrow=2))
 for (j in seq_along(params$EPSILON)) {
-    matplot(sort(sample(seg[,j], min(nrow(simvals), nrow(seg))))/sqrt(seg_var[j]), simvals, pch=20, xlab='observed', ylab='simulated')
+    matplot(sort(sample(seg[,j], nrow(simvals)))/sqrt(seg_var[j]), simvals, pch=20, xlab='observed', ylab='simulated')
     abline(0, 1)
 }
 dev.off()
