@@ -904,11 +904,30 @@ We next compared two situations of stabilizing selection, motivated by the resul
 and $f(z) = e^{\alpha z^2}$; and
 (2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
 and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$.
-Figure XXX shows the resulting distributions of segregation noise:
-i.e., the distribution of child phenotype minus average of parents' phenotypes,
-across all offspring following burn-in.
+Figures~\ref{fig:sel_trait_distrns} and~\ref{fig:sel_seg_noise}
+show that the picture is largely unchanged by stabilizing selection
+except that, unsurprisingly, the median trait is no longer constrained to wander
+(but still shows substantially larger fluctuations under the Cauchy model).
 
+\begin{figure}
+    \begin{center}
+        \includegraphics{sims/selected_seg_noise_small}
+    \end{center}
+    \caption{
+        As in Figure~\ref{fig:seg_noise},
+        except computed using only mutations with absolute value effect size less than 0.1.
+        \label{fig:seg_noise_small}
+    }
+\end{figure}
 
+However, as suggested above,
+the two models look much more similar when considering only alleles of small effect.
+Figure~\ref{fig:seg_noise_small} shows that ``midparent value''
+and ``segregation noise'' computed using only mutations with effect size less than 0.2
+(excluding less than 1\% of mutations)
+are quite close to independent.
+The result does not depend strongly on the cutoff chosen,
+and are similar even if less 0.1\% of mutations are excluded.
 
 
 \bibliographystyle{plainnat}

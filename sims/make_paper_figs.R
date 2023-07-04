@@ -2,30 +2,6 @@
 library(jsonlite)
 source("helpers.R")
 
-load_files <- function (base) {
-    infile <- file(paste0(base, ".repro.tsv"), "r")
-    params <- fromJSON(readLines(infile, 1))
-    repro <- read.table(infile, sep="\t", header=TRUE)
-    close(infile)
-    if (! "DT" %in% names(params)) params$DT <- 1.0
-    pop <- read.table(paste0(base, ".pop.tsv"), sep="\t", header=TRUE)
-    pop$age <- pop$age * params$DT
-    fix <- read.table(paste0(base, ".fix.tsv"), sep="\t", header=TRUE)
-    repro_self <- repro[,grepl("self_", names(repro))] |> revCumRowSums()
-    repro_ma <- repro[,grepl("ma_", names(repro))] |> revCumRowSums()
-    repro_pa <- repro[,grepl("pa_", names(repro))] |> revCumRowSums()
-    midp <- (repro_ma + repro_pa)/2
-    seg <- repro_self - midp
-    return(list(
-                basename=base,
-                params=params,
-                midp=midp,
-                seg=seg,
-                pop=pop,
-                fix=fix
-    ))
-}
-
 load_params <- function (base) {
     infile <- file(paste0(base, ".repro.tsv"), "r")
     params <- fromJSON(readLines(infile, 1))
@@ -46,10 +22,10 @@ load_pop <- function (base) {
     return(pop)
 }
 
-load_seg_midp <- function (base) {
+load_seg_midp <- function (base, max_n=as.integer(1e6)) {
     infile <- file(paste0(base, ".repro.tsv"), "r")
     params <- fromJSON(readLines(infile, 1))
-    repro <- read.table(infile, sep="\t", header=TRUE)
+    repro <- read.table(infile, sep="\t", header=TRUE, nrows=max_n)
     close(infile)
     if (! "DT" %in% names(params)) params$DT <- 1.0
     repro_self <- repro[,grepl("self_", names(repro))] |> revCumRowSums()
@@ -99,7 +75,6 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
         par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
             hist(this_seg, breaks=40, main='',
                  xlab='segregation noise')
-
         mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
             plot_conditional_ratios(this_midp, this_seg, do_legend=(x == names(examples)[1]), ...)
         mtext(labels[[x]][3], 3, adj=-0.0, line=0.2)
