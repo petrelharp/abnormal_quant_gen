@@ -130,13 +130,11 @@ s97 10000 early() {
 }
 
 s98 10000: early() {
-	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
-		inds = p1.individuals;
-		children = inds[inds.age < 1/DT];
-		for (child in children) {
-			outline = paste(c(child.getValue("effects"), child.getValue("ma"), child.getValue("pa")), sep="\t");
-			writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
-		}
+    inds = p1.individuals;
+    children = inds[inds.age == 0];
+    for (child in children) {
+        outline = paste(c(child.getValue("effects"), child.getValue("ma"), child.getValue("pa")), sep="\t");
+        writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
     }
 }
 

@@ -98,7 +98,8 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
         mtext(labels[[x]][1], 3, adj=-0.0, line=0.2)
         par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
             hist(this_seg, breaks=40, main='',
-                 xlab='segreation noise')
+                 xlab='segregation noise')
+
         mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
             plot_conditional_ratios(this_midp, this_seg, do_legend=(x == names(examples)[1]), ...)
         mtext(labels[[x]][3], 3, adj=-0.0, line=0.2)
@@ -109,8 +110,10 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
 ###########
 # Neutral examples
 examples <- list(
-                 "neutral Normal" = "sim_neutral_normal_831",
-                 "neutral Cauchy" = "sim_neutral_cauchy_831"
+                 # "neutral Normal" = "sim_neutral_normal_831",
+                 # "neutral Cauchy" = "sim_neutral_cauchy_831"
+                 "neutral Normal" = "sim_neutral_normal_813566",
+                 "neutral Cauchy" = "sim_neutral_cauchy_81356610"
 )
 
 # 1. Plots of median trait value over time and final trait distribution
