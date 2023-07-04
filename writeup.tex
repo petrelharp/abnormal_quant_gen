@@ -414,29 +414,6 @@ then with $\alpha=2$,
 the traits $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converge in distribution to a multivariate Gaussian distribution
 $(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
 
-Now let us choose the distribution of allelic effects so that
-the trait distributions converge to a nontrivial limit after rescaling by a different exponent $\alpha$.
-Can the property of independence be preserved?
-The following calculations suggest the answer is ``no``.
-
-\begin{lem} \label{lem:nongaussian_nonindep}
-    \comment{SOMETHING LIKE THE FOLLOWING?}
-    Suppose that the allelic effects are such that
-    $$
-        \lim_{M \to \infty} \log \E[ \prod_{\ell=1}^M e^{it\eta^{[i]}} ]
-        = c |t|^\alpha .
-    $$
-    Then $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converges in distribution
-    to $(Z, Z^{[1]}, Z^{[2]})$ for which each of the three traits
-    marginally has a standard $\alpha$-stable distribution,
-    but the conditional distribution of $R = Z - (Z^{[1]} - Z^{[2]}))/2$
-    given $Z^{[1]}=z_1$ and/or $Z^{[2]}=z_2$ depends nontrivially on $z_1$ and $z_2$.
-\end{lem}
-
-\begin{proof}[Proof of Lemma~\ref{lem:nongaussian_nonindep}]
-    \comment{calculations with characteristic functions?}
-\end{proof}
-
 Is there a converse? In other words,
 does independence of segregation noise imply a Gaussian distribution of trait values?
 It is not clear to us in how much generality such a statement might be made,
@@ -456,28 +433,52 @@ $Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, so
     R_M = \frac{U_M^{[1]} - V_M^{[1]} - U_M^{[2]} + V_M^{[2]}}{ 2 } .
 \end{align*}
 It turns out that independence of the portions inherited and not inherited by the offspring
+combined with independence of segregation noise and midparent value
 implies a Gaussian distribution:
 
 \begin{lem}\label{lem:parental_contribs}
-    Suppose that
-    $(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ converge in distribution as $M \to \infty$
-    to independent random variables $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$
-    (and so $Z_M$, $R_M$, $Z_M^{[1]}$ and $Z_M^{[2]}$ converge to $Z$, $R$, $Z^{[1]}$ and $Z^{[2]}$
-    defined in the natural way).
-    Then if $R$ is independent of $Z^{[1]}$ and $Z^{[2]}$,
-    $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$ are jointly Gaussian.
+    Suppose that $\{\eta_\ell^{[i]}\}$ are independent for all $\ell$ and $i$,
+    that the distribution of $\eta_\ell^{[i]}$ only depends on $\ell$,
+    and that $\{X_\ell\}$ are independent of $\{\eta_\ell^{[i]}\}$.
+    If the segregation noise is independent of the midparent value
+    (i.e., $R_M$ is independent of $(Z^{[1]} + Z^{[2]})/2$)
+    then $R_M$ is Gaussian.
 \end{lem}
 
 \begin{proof}[Proof of Lemma~\ref{lem:parental_contribs}]
-    The Kac-Bernstein theorem states that if two independent random variables
+    Note that if inheritance (the $X_\ell$) is independent of the per-locus effects ($\eta_\ell^{[i]}$),
+    the latter are all independent of each other,
+    and all effects at a given locus are drawn from the same distribution,
+    then the inherited allele, 
+    $\eta_\ell^{[1]} X_\ell + \eta_\ell^{[2]} (1-X_\ell)$
+    is independent of (and has the same distribution as)
+    the non-inherited allele,
+    $\eta_\ell^{[1]} (1-X_\ell) + \eta_\ell^{[2]} X_\ell$
+    -- they are simply two independent draws from the distribution of effects at locus $\ell$.
+    Therefore, the sum of inherited alleles, $U_M^{[1]} + V_M^{[2]}$
+    are independent of the non-inherited alleles, $U_M^{[2]} + V_M^{[1]}$.
+
+    Now, the Kac-Bernstein theorem states that if two independent random variables
     have the property that if their sum and difference are independent of each other,
-    then the random variables have a Gaussian distribution
+    then the random variables have a joint Gaussian distribution
     (\citet{kac1939characterization,bernstein1941property},
     but see \citet{kagan1973characterization} for many much more general results).
-    The assumptions imply that $U^{[1]}$ and $V^{[1]}$
-    are such a pair of random variables, and therefore Gaussian.
+    Since $R_M$ is (half) the difference and $(Z^{[1]} + Z^{[2]})/2$ is (half) the sum
+    of $U_M^{[1]} + V_M^{[2]}$ and $U_M^{[2]} + V_M^{[1]}$,
+    both are therefore jointly Gaussian.
 \end{proof}
 
+Since models can be easily set up for which $Z$ is not Gaussian,
+the content of this is that for such models, independence of segregation noise
+is not likely a good assumption.
+Note that the proof does not depend on independence of the $X_\ell$:
+indeed, alleles may be inherited together,
+although in practice this would quickly create dependencies between nearby allelic effects.
+Also note that it is \emph{not} usually true that the components --
+for instance, $U_M^{[1]}$ and $U_M^{[2]}$ --
+are independent of each other.
+
+\comment{remove the following?}
 It is clear in the Gaussian case
 that $U^{[1]}$ and $V^{[1]}$ are asymptotically independent.
 More generally, independence depends on how the model is set up.
@@ -912,31 +913,5 @@ across all offspring following burn-in.
         \label{fig:unfiltered_hist}
     }
 \end{figure}
-
-\subsection{Notes}
-
-Let $x_\ell$ and $p_{\ell,M}$ be sequences of numbers.
-When is, for given $s_1$, $s_2$, $t_1$, and $t_2$,
-\begin{align*}
-    &
-    \prod_{\ell=1}^M
-    \left\{
-    \frac{1}{2}
-        \left( 1 + p_{\ell,M}(e^{i s_1 x_\ell/M^{1/\alpha}} - 1) \right)
-        \left( 1 + p_{\ell,M}(e^{i s_2 x_\ell/M^{1/\alpha}} - 1) \right)
-        +
-    \frac{1}{2}
-        \left( 1 + p_{\ell,M}(e^{i t_1 x_\ell/M^{1/\alpha}} - 1) \right)
-        \left( 1 + p_{\ell,M}(e^{i t_2 x_\ell/M^{1/\alpha}} - 1) \right)
-    \right\}
-\\ & \qquad \approx
-    \prod_{\ell=1}^M
-        \left( 1 + p_{\ell,M} (e^{i s_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_{\ell,M} (e^{i s_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_{\ell,M} (e^{i t_1 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-        \left( 1 + p_{\ell,M} (e^{i t_2 x_\ell/M^{1/\alpha}} - 1)/2 \right)
-\end{align*}
-
-\textbf{Answer:} when $\sum_{\ell=1}^M p_{\ell,M}^2  \to 0$.
 
 \end{document}
