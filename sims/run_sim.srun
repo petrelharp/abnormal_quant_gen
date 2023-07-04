@@ -10,7 +10,7 @@
 
 slim -v
 
-SLIMSCRIPT=$1
+SLIMSCRIPT="$@"
 
 echo "Doing:"
 echo "slim $SLIMSCRIPT"
