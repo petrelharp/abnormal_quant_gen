@@ -73,7 +73,7 @@
 
 
 \title{\large{\bf
-    Normality and large effect loci in quantitative genetics
+    Large effects and the infinitesimal model
 }}
 
 \author{ \begin{small}
@@ -85,48 +85,70 @@
 \maketitle
 
 \begin{abstract}
+    The infinitesimal model of quantitative genetics
+    relies on the Central Limit Theorem to stipulate that
+    under additive models of quantitative traits
+    determined by many loci having similar effect size,
+    the difference between an offspring's genetic trait component
+    and the average of their two parents' genetic trait components
+    is Normally distributed and independent of the parents' values.
+    Here, we investigate how the assumption of similar effect sizes
+    affects the model:
+    in particular, if the tail of the effect size distribution is polynomial
+    with exponent $\alpha < 2$, then sums of effects
+    should be well-approximated by a ``stable distribution'',
+    and find tail exponents between 1 and 2 in 
+    effect sizes estimated by genome-wide association studies
+    of many human disease-related traits.
+    We show that the independence of offspring trait deviations from parental averages
+    in many cases implies a Gaussian distribution,
+    suggesting that non-Gaussian models of trait evolution must expicitly
+    track the underlying genetics, at least for loci of large effect.
+    We also characterize possible limiting trait distributions
+    of the infinitesimal model with infinitely divisible noise distributions,
+    and compare our results to simulations.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Much of the work to give a quantitative understanding to the observation that
-offspring of sexual organisms resemble their parent,
-has focused on \emph{quantitative genetics},
-which is interestingly intermediate between a mechanistic model of genetics
-and a purely phenomenological model.
-The action of natural selection on genetic variants in the absence of genetic variation
-is relatively well-understood (cite ewens),
-but tractable mathematical models of evolution for recombining species
-are elusive,
-at least with some results of when the model might be a good description of reality.
-For instance, a great deal of conceptual understanding and even quantitative predictions
-have been made assuming that the distribution of trait values in a population is Gaussian
-(cite Lande etcetera)
-despite the absence of a plausible model that would make this true (cite turelli and barton).
-One of the oldest and most concrete models of heritable trait evolution is the \emph{infinitesimal model}
-which assumes a simple, explicit form for how an offspring's trait is inherited from their parents':
-it is Normally distributed, with mean equal to the average of the parents' values
-and a variance independent of their values.
-Despite the plausibility of this model,
-(thanks to the Central Limit Theorem),
-it was not until \citet{barton2017infinitesimal} that conditions under which this would be a good approximation
-were made explicit,
-through a formal convergence proof.
+Much of the work to 
+understand the evolution of quantitative traits in sexual species
+has focused on models in quantitative genetics
+that describe evolution of trait values without explicitly representing underlying genetic variation,
+but in a manner deriving from our understanding of how genetic variation works in practice.
+Such models are therefore
+interestingly intermediate between mechanistic models of genetics and purely phenomenological.
+% The action of natural selection on genetic variants in the absence of genetic variation is relatively well-understood (cite ewens),
+% but tractable mathematical models of evolution for recombining species are elusive,
+% at least with some results of when the model might be a good description of reality.
+% For instance, a great deal of conceptual understanding and even quantitative predictions
+% have been made assuming that the distribution of trait values in a population is Gaussian (cite Lande etcetera)
+% despite the absence of a plausible model that would make this true (cite turelli and barton).
+One concrete model of heritable trait evolution is the \emph{infinitesimal model},
+which assumes a simple, explicit form for how the genetic component of offsprings' traits are determined by their parents:
+they are Normally distributed, with the mean for each offspring equal to the average of the parents' values,
+and a covariance independent of the parental trait values (but that depends on how they are related).
+\citet{barton2017infinitesimal} give a history of the model
+and a formal proof of conditions under which this would be a good approximation to reality,
+which they extended to include dominance in \citet{barton2022infinitesimal}.
 
-As suggested by its name, under the infinitesimal model the effects of any given genetic variant on the trait
+\comment{TODO: citations below}
+
+As suggested by its name,
+under the infinitesimal model the effects of any given genetic variant on the trait
 is small (indeed, vanishing),
-and so selection-driven trait shifts are mediated by small changes in frequencies of many alleles of small effect.
+and selection-driven trait shifts are mediated by small changes in frequencies of many alleles of small effect.
 However, empirical understanding of the genetic basis of trait variation in real-world species
 often finds a significant portion of heritable variation explained by variants at only a few loci.
 There are many possible explanations for this observation,
-including selection/publication bias,
+including selection or publication bias,
 filters for larger-effect variants due to spatially varying selection (cite),
-ond/or grouping together of concordant alleles by linkage or inversions (cite).
-However, it seems clear that in at least those cases where we understand the underlying molecular mechanisms
-that mutations of large effect can be important in practice
-(cite examples: insecticide resistance, coloration, etc),
-and the consensus in the field is that traits exist on a spectrum between monogenic and polygenic,
+and/or grouping together of concordant alleles by linkage or inversions (cite).
+However, it seems clear that in at least those cases where we understand the underlying molecular mechanisms,
+mutations of large effect can be important in practice
+(cite examples: insecticide resistance, coloration, etcetera).
+The consensus in the field seems to be that traits exist on a spectrum between monogenic and polygenic,
 and that many - if not most - are firmly in the intermediate, ``oligogenic'' region (cite),
 where heritable trait variation is due both to segregating large- and small-effect variants.
 Indeed, some sensible verbal models of the biological mechanisms by which a genetic change
@@ -139,89 +161,102 @@ perhaps the distribution of effect sizes within each gene is Normal,
 but with a standard deviation that varies with ``proximity'' to the trait;
 such mixtures can easily have large proportions of extreme values.
 
-Concretely, the infinitesimal model postulates that
-if the parents' genetic contributions to the trait (i.e., their \emph{breeding values})
-are $z^{[1]}$ and $z^{[2]}$,
-and the offspring's genetic contribution to the trait is $z$,
-and $R = z - (z^{[1]} + z^{[2]})/2$ is the deviation from the midparent
-(which we call the \emph{segregation noise}), then
-\begin{enumerate}
-    \item $R$ is independent of $z^{[1]}$ and $z^{[2]}$, and
-    \item $R$ has a Gaussian distribution.
-\end{enumerate}
-(This is not a full definition,
-since the model makes broader statements involving conditioning on the full pedigree;
-see \citet{barton2017infinitesimal}.)
-We set out here to see whether (2) can be generalized,
-and find that (1) is apparently inexitrably connected.
-
 The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
 i.e., the universality
 of adding up a great many very small and independent things.
-However, as is well known to probabilists,
-there is a wider class of Central Limit Theorems,
+However, there is a wider class of Central Limit Theorems,
 which describe the distributions of sums of a great many independent and exchangeable things:
 the \emph{stable laws}.
 Roughly speaking, these say that if we add together $n$ independent copies of a random variable $X$
-for which $\P\{ X > t \} \propto t^{-\alpha}$ for some $0 < \alpha < 2$,
+for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha < 2$,
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
-is well-approximated by a universal form, the $\alpha$-stable distribution (and becomes exact, as $n \to \infty$).
-In such ensembles, sinle large entries are important:
+is well-approximated by a universal form, an $\alpha$-stable distribution
+(and the approximation becomes exact, as $n \to \infty$).
+In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
 in the infinitesimal model.
 In this paper, we make preliminary explorations in that direction:
-Does the universality shown by \citet{barton2017infinitesimal}
+Do the results of \citet{barton2017infinitesimal}
 carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
-What can be said about equilibrium trait distributions in this case?
-And, is there any biological evidence that this theory might be relevant?
+The immediate answer to this will be ``no'' --
+in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution in some sense.
+This independence is a key reason why the infinitesimal model is tractable,
+and so a conclusion is that additive models with non-Gaussian effects may not be well-approximated
+by ``trait-only'' models that do not explicitly represent underlying genetic variation.
+Having thus shown that ``infinitesimal models with non-Gaussian noise'' is on weak footing as a model of reality,
+we then go on to analyze exactly these models.
+(As motivation,
+we have not shown that such models are \emph{not} good approximations to reality,
+and it is interesting and perhaps informative to understand how the noise distribution affects results.)
 
 Stable distributions are by no means new to population biology.
 For instance, it is a long-standing question how often the motions of organisms
 are better modeled by essentially Brownian random walks or by L\'evy processes (cite),
-and a growing literature studies the effects of such ``fat-tailed'' distributions
+and a growing literature studies the effects of such power law distributions
 on the shapes and dynamics of traveling waves such as biological invasions (cite).
 \comment{Other examples?}
 More directly analogous to the problem we study here, \citet{landis2012phylogenetic}
 found that an $\alpha$-stable process (with $\alpha \approx 1.5$) fit the evolution of log endocranial volume
 on the primate phylogeny
 better than either a Brownian model.
-\comment{more}
+It is also important to note that
+the infinitesimal model implies a Gaussian distribution for the difference between an offspring's trait and their parents' average,
+\emph{not} for the entire population.
+The question of when the trait distribution in an evolving population
+might be modeled as a Gaussian has been discussed extensively, e.g., by \comment{cite}.
 
-\comment{TODO expand, put somewhere:}
-There are several justifications for why a ``stable infinitesimal model'' might be useful:
-(1) as a phenomenological model;
-(2) if it matches empirical observations; or
-(3) if there is a central limit theorem suggesting it would be a good approximation in a wide range of situations.
+The ways in which genetic variants affect an organisms' trait can be complex,
+and interactions between alleles, between loci, and with the environment are often important in practice.
+In fact, many traits claimed to be genetically determined
+in fact only appear heritable through non-genetic means,
+e.g., systematic inequalities in resource distribution partitioned by class or race. \comment{e.g., cite}
+In this paper, we follow the literature in working with the relatively simple purely additive case
+of a trait that can be decomposed into a sum across loci of the contributions of the alleles from each locus,
+even omitting an independent effect of ``the environment''.
+However, we emphasize that such models should \emph{not} always be the default for understanding biological variation,
+especially for human traits.
 
-\subsection*{Orphaned text}
-The ways in which genetic variants combine to determine an organisms' trait can be complex,
-and epistatic interactions between alleles and between loci can be important in practice.
-However, the question is sufficiently complex in the purely additive case
-that a trait can be decomposed into a sum across loci of the contributions of the alleles from each locus.
-Under this additive assumption it makes sense to discuss the ``effect size distribution'',
-i.e., the distribution of how much alleles affect the trait value.
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Notation}
 
-An offspring's trait differs from their parents for many reasons,
-often most importantly because of differences in the environment in which they live.
-The focus of quantitative genetics is on the contribution of heritable material to this variation:
-the offspring's genetic material 
+We generally follow the notation of \citet{barton2017infinitesimal},
+although in a simpler situation,
+as we do not consider full pedigrees
+but rather only the haploid offspring of a single set of haploid parents
+(as produced, for instance, by a round of meiosis in a diploid stage),
+and ignore non-genetic contributions to the trait;
+so, below we say ``trait'' to mean ``genetic contribution to the trait''.
+
+Suppose that the focal individual's trait is
+$$
+    Z_M = \sum_{\ell=1}^M \eta_\ell / M^{1/\alpha},
+$$
+where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus.
+The effects of the alleles carried by the two parents
+are $\eta_\ell^{[1]}$ and $\eta_\ell^{[2]}$, respectively,
+and their traits are
+$Z_M^{[1]} = \sum_\ell \eta_\ell^{[1]} / M^{1/\alpha}$ and
+$Z_M^{[2]} = \sum_\ell \eta_\ell^{[2]} / M^{1/\alpha}$.
+We assume the loci are unlinked and inheritance is fair, so
+letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are independent of everything else,
+$$
+    \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[2]} .
+$$
+The \emph{transmission noise}, $R_M$, is the offspring's trait minus the midparent value, $\bar Z_M$:
+\begin{align*}
+    \bar Z_M &= \frac{Z_M^{[1]} + Z_M^{[2]}}{2} \\
+    R_M &= Z_M - \bar Z_M \\
+        &= \sum_{\ell=1}^M
+            \frac{
+                X_\ell (\eta_\ell^{[1]} - \eta_\ell^{[2]})
+                + (1 - X_\ell) (\eta_\ell^{[2]} - \eta_\ell^{[1]})
+            }{ 2 } .
+\end{align*}
 
 
-\comment{Will need this notation below:}
-We focus on the \emph{infinitesimal model},
-as described by \citet{barton2017infinitesimal},
-which supposes that the trait value of an offspring
-is equal to the average of their parents' trait values,
-plus independent Gaussian noise with fixed variance,
-\begin{equation} \label{eqn:offspring_model}
-    X_o = \frac{X_m + X_f}{2} + \epsilon,
-\end{equation}
-where $\epsilon$, the ``segregation noise'',
-is Gaussian with mean zero and variance $V_0$.
-\comment{should call this something besides $\epsilon$}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Empirical observations}
@@ -328,7 +363,7 @@ as these often showed very different patterns
 (e.g., effect size distributions).
 This left us with 695 phenotypes;
 plots including the 413 ``filtered'' phenotypes are provided in
-Supplementary Figure~\ref{sfig:unfiltered_hist}.
+Supplementary Figure~\ref{fig:unfiltered_hist}.
 
 Resulting values of the tail exponent $\alpha$ are shown in Figure~\ref{fig:exponent_hist}.
 Estimated tail exponents range from about 1 to 2.5,
@@ -423,7 +458,7 @@ implies a Gaussian distribution:
     that the distribution of $\eta_\ell^{[i]}$ only depends on $\ell$,
     and that $\{X_\ell\}$ are independent of $\{\eta_\ell^{[i]}\}$.
     If the segregation noise is independent of the midparent value
-    (i.e., $R_M$ is independent of $(Z^{[1]} + Z^{[2]})/2$)
+    (i.e., $R_M$ is independent of $\bar Z_M$)
     then $R_M$ is Gaussian.
 \end{lem}
 
@@ -835,26 +870,26 @@ but in a large population these details should be unimportant.)
     \begin{center}
         \includegraphics{sims/neutral_seg_noise}
     \end{center}
-    Segregation noise with Gaussian \textbf{(A-C)} and Cauchy \textbf{(D-F)} effect size distributions,
-    from the same simulations shown in Figure~\ref{fig:trait_distrns},
-    for all individuals born during the last 1,000 time units of the simulation.
-    \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
-    \textbf{(B,E)} Histograms of segregation noise.
-    \textbf{(B,E)} Enrichment in quantiles of segregation noise conditional on midparent value.
-    To compute the latter,
-    let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of segregation noise
-    into 50 bins with roughly equal numbers in each (i.e., the quantiles),
-    let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
-    is in $[a, b)$ whose segregation noise is in $[q_{k-1}, q_k)$,
-    and let $p_k$ be the proportion of all offspring with segreation noise in $[q_{k-1}, q_k)$
-    (so, $p_k \approx 0.02$).
-    Then, each line shows $p_k(a,b)/p_k$
-    plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
-    for $(a,b)$ chosen to span the 5\% of midparents centered on:
-    (red) the 10\% quantile,
-    (black) the median, and
-    (green) the 90\% quantile of midparent value.
     \caption{
+        Segregation noise with Gaussian \textbf{(A-C)} and Cauchy \textbf{(D-F)} effect size distributions,
+        from the same simulations shown in Figure~\ref{fig:trait_distrns},
+        for all individuals born during the last 1,000 time units of the simulation.
+        \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
+        \textbf{(B,E)} Histograms of segregation noise.
+        \textbf{(B,E)} Enrichment in quantiles of segregation noise conditional on midparent value.
+        To compute the latter,
+        let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of segregation noise
+        into 50 bins with roughly equal numbers in each (i.e., the quantiles),
+        let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
+        is in $[a, b)$ whose segregation noise is in $[q_{k-1}, q_k)$,
+        and let $p_k$ be the proportion of all offspring with segreation noise in $[q_{k-1}, q_k)$
+        (so, $p_k \approx 0.02$).
+        Then, each line shows $p_k(a,b)/p_k$
+        plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
+        for $(a,b)$ chosen to span the 5\% of midparents centered on:
+        (red) the 10\% quantile,
+        (black) the median, and
+        (green) the 90\% quantile of midparent value.
         \label{fig:seg_noise}
     }
 \end{figure}
@@ -911,14 +946,17 @@ except that, unsurprisingly, the median trait is no longer constrained to wander
 
 \begin{figure}
     \begin{center}
-        \includegraphics{sims/selected_seg_noise_small}
+        \includegraphics{sims/neutral_seg_noise_small}
     \end{center}
     \caption{
         As in Figure~\ref{fig:seg_noise},
         except computed using only mutations with absolute value effect size less than 0.1.
+        The same quantities for the simulations of Figure~\ref{fig:sel_seg_noise}
+        with stabilizing selection are shown in Figure~\ref{fig:sel_seg_noise_small}.
         \label{fig:seg_noise_small}
     }
 \end{figure}
+
 
 However, as suggested above,
 the two models look much more similar when considering only alleles of small effect.
@@ -929,11 +967,43 @@ are quite close to independent.
 The result does not depend strongly on the cutoff chosen,
 and are similar even if less 0.1\% of mutations are excluded.
 
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+Not assuming all effects are the same order of magnitude seems very bioloically realistic,
+and so it'd be nice to figure out how evolution works and how to do quant gen in such cases.
+Such models can always be simulated,
+but the way forwards with theoretical understanding seems murky.
+It would be interesting to see how changing the distribution of segregation noise
+in the infinitesimal model
+affects properties like the rate of adaptive evolution,
+levels of genetic load,
+and the rate of fixation.
+However,
+we have seen that this assumption imples a sort of ``blending inheritance''
+for the large effect alleles,
+and so such work much be accompanied by simulations
+to see if the predictions are borne out under concrete models of genetic inheritance.
+Another open question is whether there is some set of assumptions
+(perhaps involving linkage, pleiotropy, and/or environmental interactions with genetic effects)
+which leads to these non-Gaussian infinitesimal models.
+Finally, it may well be that there is a clever way to set up a trait-only model of evolution
+that is both insensitive to the underlying genetics
+and does not rely on the Gaussian central limit theorem.
+
+Above we've mostly used the Cauchy (e.g., in simulations)
+not because it seems most realistic
+(indeed data suggests $\alpha=3/2$ might be better)
+but for convenience and to make effects more obvious.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
 
 \appendix
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
 
 \begin{figure}
     \begin{center}
@@ -949,6 +1019,17 @@ and are similar even if less 0.1\% of mutations are excluded.
         \textbf{(C)} number of cases, and
         \textbf{(C)} number of non-missing subjects.
         \label{fig:unfiltered_hist}
+    }
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics{sims/selected_seg_noise_small}
+    \end{center}
+    \caption{
+        As in Figure~\ref{fig:seg_noise},
+        except computed using only mutations with absolute value effect size less than 0.1.
+        \label{fig:sel_seg_noise_small}
     }
 \end{figure}
 
