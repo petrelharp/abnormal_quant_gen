@@ -19,7 +19,6 @@ load_files <- function (base) {
     return(list(
                 basename=base,
                 params=params,
-                repro_self=repro_self,
                 midp=midp,
                 seg=seg,
                 pop=pop,
@@ -27,17 +26,71 @@ load_files <- function (base) {
     ))
 }
 
+load_params <- function (base) {
+    infile <- file(paste0(base, ".repro.tsv"), "r")
+    params <- fromJSON(readLines(infile, 1))
+    close(infile)
+    if (! "DT" %in% names(params)) params$DT <- 1.0
+    return(params)
+}
+
+load_fix <- function (base) {
+    fix <- read.table(paste0(base, ".fix.tsv"), sep="\t", header=TRUE)
+    return(fix)
+}
+
+load_pop <- function (base) {
+    params <- load_params(base)
+    pop <- read.table(paste0(base, ".pop.tsv"), sep="\t", header=TRUE)
+    pop$age <- pop$age * params$DT
+    return(pop)
+}
+
+load_seg_midp <- function (base) {
+    infile <- file(paste0(base, ".repro.tsv"), "r")
+    params <- fromJSON(readLines(infile, 1))
+    repro <- read.table(infile, sep="\t", header=TRUE)
+    close(infile)
+    if (! "DT" %in% names(params)) params$DT <- 1.0
+    repro_self <- repro[,grepl("self_", names(repro))] |> revCumRowSums()
+    repro_ma <- repro[,grepl("ma_", names(repro))] |> revCumRowSums()
+    repro_pa <- repro[,grepl("pa_", names(repro))] |> revCumRowSums()
+    midp <- (repro_ma + repro_pa)/2
+    seg <- repro_self - midp
+    return(list(midp=midp, seg=seg))
+}
+
+plot_trait_traces <- function (examples, labels) {
+    layout(matrix(1:4, nrow=2), heights=c(1.5,1))
+    for (x in names(examples)) {
+        fix <- load_fix(examples[[x]])
+        pop <- load_pop(examples[[x]])
+        par(mar=c(4,4,2,0)+.1, mgp=c(2.5,1,0))
+            plot(med_trait ~ time, data=fix, type='l',
+                 main=x, xlab='time', ylab='median trait value')
+        mtext(labels[[x]][1], 3, adj=-0.0, line=0.2)
+        par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
+            hist(pop$trait, breaks=100,
+                 xlab='trait value', main='')
+        mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
+        rm(fix)
+        rm(pop)
+    }
+}
+
 plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
     layout(matrix(1:6, nrow=3), heights=c(1.5,1, 1))
     for (x in names(examples)) {
-        j <- if (!missing(seg_col)) seg_col else ncol(examples[[x]][['seg']])
+        params <- load_params(examples[[x]])
+        sm <- load_seg_midp(examples[[x]])
+        j <- if (!missing(seg_col)) seg_col else ncol(sm[['seg']])
         main <- paste0(x, 
                        if (missing(seg_col)) ""
                        else
-                       sprintf(", effects <= %.2f", c(examples[[x]][['params']][['EPSILON']],Inf)[j+1])
+                       sprintf(", effects <= %.2f", c(params[['EPSILON']],Inf)[j+1])
         )
-        this_seg <- examples[[x]][['seg']][,j]
-        this_midp <- examples[[x]][['midp']][,j]
+        this_seg <- sm[['seg']][,j]
+        this_midp <- sm[['midp']][,j]
         par(mar=c(4,4,2,0)+.1, mgp=c(2.5,1,0))
             plot(this_midp, this_seg, pch=20, col=adjustcolor("black", 0.5), asp=1,
                  xlab="midparent trait", ylab="segregation noise",
@@ -55,10 +108,10 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
 
 ###########
 # Neutral examples
-examples <- lapply(list(
+examples <- list(
                  "neutral Normal" = "sim_neutral_normal_831",
                  "neutral Cauchy" = "sim_neutral_cauchy_831"
-    ), load_files)
+)
 
 # 1. Plots of median trait value over time and final trait distribution
 fname <- "neutral_trait_traces.pdf"
@@ -66,17 +119,7 @@ labels <- list(c("(A)", "(B)"), c("(C)", "(D)"))
 names(labels) <- names(examples)
 
 pdf(file=fname, width=6.5, height=3, pointsize=10)
-layout(matrix(1:4, nrow=2), heights=c(1.5,1))
-for (x in names(examples)) {
-    par(mar=c(4,4,2,0)+.1, mgp=c(2.5,1,0))
-        plot(med_trait ~ time, data=examples[[x]][['fix']], type='l',
-             main=x, xlab='time', ylab='median trait value')
-    mtext(labels[[x]][1], 3, adj=-0.0, line=0.2)
-    par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
-        hist(examples[[x]][['pop']]$trait, breaks=100,
-             xlab='trait value', main='')
-    mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
-}
+plot_trait_traces(examples, labels)
 dev.off()
 
 # 3. Segregation noise:
@@ -105,10 +148,10 @@ dev.off()
 
 ##########
 #  Examples with selection
-examples <- lapply(list(
+examples <- list(
                  "selected Normal" = "sim_normal_707",
                  "selected Cauchy" = "sim_cauchy_707"
-    ), load_files)
+)
 
 # 1. Plots of median trait value over time and final trait distribution
 fname <- "selected_trait_traces.pdf"
@@ -116,17 +159,7 @@ labels <- list(c("(A)", "(B)"), c("(C)", "(D)"))
 names(labels) <- names(examples)
 
 pdf(file=fname, width=6.5, height=3, pointsize=10)
-layout(matrix(1:4, nrow=2), heights=c(1.5,1))
-for (x in names(examples)) {
-    par(mar=c(4,4,2,0)+.1, mgp=c(2.5,1,0))
-        plot(med_trait ~ time, data=examples[[x]][['fix']], type='l',
-             main=x, xlab='time', ylab='median trait value')
-    mtext(labels[[x]][1], 3, adj=-0.0, line=0.2)
-    par(mar=c(4,4,0,0)+.1, mgp=c(2.5,1,0))
-        hist(examples[[x]][['pop']]$trait, breaks=100,
-             xlab='trait value', main='')
-    mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
-}
+plot_trait_traces(examples, labels)
 dev.off()
 
 # Selected

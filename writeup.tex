@@ -71,27 +71,9 @@
 %  - theory: something about independence  (?? if we get there ??)
 %  - plots (A) & (B) above from simulation, but for only small effects
 
-%%%% LAST VERSION
-% 1. *Intro*: Motivation about how many results about quant gen and methods assume Gaussian distributions.
-%     Mention Levy walk macroevolution papers.
-%     Point out that usual quant gen has *no* sweeps, while stable distributions would have sweeps (since some s would be bigger than 1/N).
-%     Motivate with mixture model of effect sizes.
-%     If stable distributions are a better model, what does that tell us? We can better understand the *noise* in evolution, i.e., predictability and saltation-ness.
-%     (PETER)
-% 
-% 2. Motivation: empirical SNPs distributions in real data (PETER)
-% 
-% 3. Introducing infinitesimal model (in this case) (TODD)
-% 
-% 4. Proof following BEV in stable case (TODD)
-% 
-% 5. Theoretical results on stationary distributions (TODD)
-% 
-% 6. Simulations (PETER)
-
 
 \title{\large{\bf
-    Abnormal quantitative genetics?
+    Normality and large effect loci in quantitative genetics
 }}
 
 \author{ \begin{small}
@@ -786,13 +768,7 @@ and so solves equation~\eqref{CHARACTERISTIC}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\section{Convergence to the non-infinitesimal model}  % TODD
-
-%%%%%%%%%%%%%%%%%%%%%%
-\section{Stationary distributions}  % TODD
-
-%%%%%%%%%%%%%%%%%%%%%%
-\section{Simulations}  % PETER
+\section{Simulations}
 
 In Section~\ref{sec:stabilizing_selection}
 we have found two explicit conditions in which
@@ -835,22 +811,6 @@ This maintains the population at a fixed size, $N$.
 (Note that individuals may self and individuals chosen to die may also reproduce,
 but in a large population these details should be unimportant.)
 
-We compared two situations:
-(1) the effect size distribution was Gaussian with mean zero and standard deviation $\sigma_g$,
-and $f(z) = e^{\alpha z^2}$; and
-(2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
-and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$.
-\comment{TODO: just refer to equations above?}
-We ran simulations of each with $N=XXX$ for XXX time steps of ``burn-in''
-(judged to be long enough as the number of segregating mutations had plateaued),
-following which we recorded the phenotypes of each new offspring and their two parents
-for XXX time steps (a total of around YYY offspring).
-
-Figure XXX shows the resulting distributions of segregation noise:
-i.e., the distribution of child phenotype minus average of parents' phenotypes,
-across all offspring following burn-in.
-
-
 \begin{figure}
     \begin{center}
         \includegraphics{sims/neutral_trait_traces}
@@ -859,7 +819,7 @@ across all offspring following burn-in.
         Median trait values over time \textbf{(A and C)}
         and distributions of final trait values \textbf{(B and D)}
         in neutral simulations
-        with Normal \textbf{(A and B)} and Cauchy \textbf{(C and D)}
+        with Gaussian \textbf{(A and B)} and Cauchy \textbf{(C and D)}
         effect size distributions.
         Simulations were begun with no genetic variation,
         had populations of size $N=1000$,
@@ -873,23 +833,82 @@ across all offspring following burn-in.
 
 \begin{figure}
     \begin{center}
+        \includegraphics{sims/neutral_seg_noise}
+    \end{center}
+    Segregation noise with Gaussian \textbf{(A-C)} and Cauchy \textbf{(D-F)} effect size distributions,
+    from the same simulations shown in Figure~\ref{fig:trait_distrns},
+    for all individuals born during the last 1,000 time units of the simulation.
+    \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
+    \textbf{(B,E)} Histograms of segregation noise.
+    \textbf{(B,E)} Enrichment in quantiles of segregation noise conditional on midparent value.
+    To compute the latter,
+    let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of segregation noise
+    into 50 bins with roughly equal numbers in each (i.e., the quantiles),
+    let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
+    is in $[a, b)$ whose segregation noise is in $[q_{k-1}, q_k)$,
+    and let $p_k$ be the proportion of all offspring with segreation noise in $[q_{k-1}, q_k)$
+    (so, $p_k \approx 0.02$).
+    Then, each line shows $p_k(a,b)/p_k$
+    plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
+    for $(a,b)$ chosen to span the 5\% of midparents centered on:
+    (red) the 10\% quantile,
+    (black) the median, and
+    (green) the 90\% quantile of midparent value.
+    \caption{
+        \label{fig:seg_noise}
+    }
+\end{figure}
+
+We first consider the neutral case (i.e., with $\mu \equiv 0$).
+As shown in Figure~\ref{fig:trait_distrns},
+a Cauchy effect size distribution, unsurprisingly,
+produces a distribution of trait values with more extreme values
+and a rougher path of population median trait value over time
+than in the Gaussian case.
+Indeed, the sum of all effects along the path from the start of the simulation
+to an arbitrary individual will approximate either Brownian motion (in the Gaussian case)
+or a Cauchy process (in the Cauchy case).
+Figure~\ref{fig:seg_noise} shows how segregation noise
+depends on midparent value.
+In the Gaussian case, segregation noise is Gaussian and independent of midparent value,
+as shown by the flat lines at 1 in Figure~\ref{fig:seg_noise}C. 
+On the other hand, in the Cauchy case we can see from either Figure~\ref{fig:seg_noise}D or F
+that segregation noise depends strongly on midparent trait,
+as we would expect in the presence of several large-effect alleles.
+
+\begin{figure}
+    \begin{center}
         \includegraphics{sims/selected_trait_traces}
     \end{center}
     \caption{
-        Median trait values over time \textbf{(A and C)}
-        and distributions of final trait values \textbf{(B and D)}
-        in neutral simulations
-        with Normal \textbf{(A and B)} and Cauchy \textbf{(C and D)}
-        effect size distributions.
-        Simulations were begun with no genetic variation,
-        had populations of size $N=1000$,
-        a genome of length $L=10^8$ and mutation rate of $\mu=10^{-9}$;
-        the effect size distributions were
-        Normal with mean 0 and standard deviation $1/\sqrt{4NL\mu}$
-        and Cauchy with center 0 and scale $1/(4NL\mu)$, respectively.
-        \label{fig:trait_distrns}
+        As in Figure~\ref{fig:trait_distrns},
+        except under a model of stabilizing selection (see text for details).
+        \label{fig:sel_trait_distrns}
     }
 \end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics{sims/selected_seg_noise}
+    \end{center}
+    \caption{
+        As in Figure~\ref{fig:seg_noise},
+        except under a model of stabilizing selection (see text for details).
+        \label{fig:sel_seg_noise}
+    }
+\end{figure}
+
+We next compared two situations of stabilizing selection, motivated by the results above
+\comment{TODO: refer to where?}:
+(1) the effect size distribution was Gaussian with mean zero and standard deviation $\sigma_g$,
+and $f(z) = e^{\alpha z^2}$; and
+(2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
+and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$.
+Figure XXX shows the resulting distributions of segregation noise:
+i.e., the distribution of child phenotype minus average of parents' phenotypes,
+across all offspring following burn-in.
+
+
 
 
 \bibliographystyle{plainnat}
