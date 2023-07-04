@@ -38,8 +38,8 @@ plot_conditional_hists <- function (midp, seg, ...) {
     mtext("segregation noise", 1, line=2.5, cex=0.75)
 }
 
-plot_conditional_ratios <- function (midp, seg, do_legend=TRUE, title=NA, ylim=c(0,3), ...) {
-    pbreaks <- pmax(0.01, pmin(0.99, seq(0, 1, length.out=51)))
+plot_conditional_ratios <- function (midp, seg, w=0.025, n=51, do_legend=TRUE, title=NA, ylim=c(0,3), ...) {
+    pbreaks <- pmax(0.01, pmin(0.99, seq(0, 1, length.out=n)))
     qbreaks <- c(-Inf, quantile(seg, pbreaks), Inf)
     total_xh <- hist(seg, breaks=qbreaks, plot=FALSE)
     uk <- seq(2, length(qbreaks)-1)
@@ -50,7 +50,7 @@ plot_conditional_ratios <- function (midp, seg, do_legend=TRUE, title=NA, ylim=c
     qvals <- c(.1, .5, .9)
     for (k in seq_along(qvals)) {
         q <- qvals[k]
-        ut <- (abs(rank(midp)/length(midp) - q) < 0.025)
+        ut <- (abs(rank(midp)/length(midp) - q) < w)
         xh <- hist(seg[ut], breaks=qbreaks, plot=FALSE)
         lines(total_xh$mids[uk], xh$density[uk] / total_xh$density[uk], col=cols[k])
     }

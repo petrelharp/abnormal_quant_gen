@@ -27,8 +27,7 @@ load_files <- function (base) {
     ))
 }
 
-plot_seg_noise <- function (fname, examples, labels, seg_col, main_append="") {
-    png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
     layout(matrix(1:6, nrow=3), heights=c(1.5,1, 1))
     for (x in names(examples)) {
         j <- if (!missing(seg_col)) seg_col else ncol(examples[[x]][['seg']])
@@ -48,10 +47,9 @@ plot_seg_noise <- function (fname, examples, labels, seg_col, main_append="") {
             hist(this_seg, breaks=40, main='',
                  xlab='segreation noise')
         mtext(labels[[x]][2], 3, adj=-0.0, line=0.2)
-            plot_conditional_ratios(this_midp, this_seg, do_legend=(x == names(examples)[1]))
+            plot_conditional_ratios(this_midp, this_seg, do_legend=(x == names(examples)[1]), ...)
         mtext(labels[[x]][3], 3, adj=-0.0, line=0.2)
     }
-    dev.off()
 }
 
 
@@ -88,7 +86,9 @@ fname <- "neutral_seg_noise.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-plot_seg_noise(fname, examples, labels)
+png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise(examples, labels)
+dev.off()
 
 # 4. Segregation noise for small effects
 # (distrn of seg noise), (seg noise vs midparent), and (Radon-Nicodym deriv of conditional seg noise for a few values of midparent)
@@ -98,7 +98,9 @@ fname <- "neutral_seg_noise_small.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-plot_seg_noise(fname, examples, labels, seg_col=1)
+png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise(examples, labels, seg_col=1)
+dev.off()
 
 
 ##########
@@ -136,7 +138,9 @@ fname <- "selected_seg_noise.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-plot_seg_noise(fname, examples, labels)
+png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise(examples, labels, w=0.1)
+dev.off()
 
 
 # 4. Segregation noise for small effects
@@ -147,5 +151,7 @@ fname <- "selected_seg_noise_small.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-plot_seg_noise(fname, examples, labels, seg_col=1)
+png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise(examples, labels, seg_col=1)
+dev.off()
 
