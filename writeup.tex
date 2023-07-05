@@ -133,8 +133,6 @@ and a covariance independent of the parental trait values (but that depends on h
 and a formal proof of conditions under which this would be a good approximation to reality,
 which they extended to include dominance in \citet{barton2022infinitesimal}.
 
-\comment{TODO: citations below}
-
 As suggested by its name,
 under the infinitesimal model the effects of any given genetic variant on the trait
 is small (indeed, vanishing),
@@ -143,30 +141,32 @@ However, empirical understanding of the genetic basis of trait variation in real
 often finds a significant portion of heritable variation explained by variants at only a few loci.
 There are many possible explanations for this observation,
 including selection or publication bias,
-filters for larger-effect variants due to spatially varying selection (cite),
-and/or grouping together of concordant alleles by linkage or inversions (cite).
-However, it seems clear that in at least those cases where we understand the underlying molecular mechanisms,
-mutations of large effect can be important in practice
-(cite examples: insecticide resistance, coloration, etcetera).
+filters for larger-effect variants due to spatially varying selection
+\citep{barton1987establishment,yeaman2011establishment,yeaman2011genetic},
+and/or grouping together of concordant alleles by linkage or inversions
+\citep{kirkpatrick2006chromosome}.
+However,
+it seems clear that in at least those cases where we understand the underlying molecular mechanisms,
+mutations of large effect can be important in practice.
+% \citep[e.g.,][]{cyclodiene-resistance,hoekstra2006genetics}.
 The consensus in the field seems to be that traits exist on a spectrum between monogenic and polygenic,
-and that many - if not most - are firmly in the intermediate, ``oligogenic'' region (cite),
+and that many - if not most - lie in the intermediate region,
 where heritable trait variation is due both to segregating large- and small-effect variants.
 Indeed, some sensible verbal models of the biological mechanisms by which a genetic change
 comes to have an effect on an organism's trait
 describe a hierarchy or range of ``proximities'' to the trait,
 by which changes to more ``nearby'' genes have the possibility of causing larger changes in the trait
-(cite omnigenic and others).
+\citep{kopp2012transcriptional,boyle2017expanded}.
 This suggests a mixture model for the effect size distribution:
 perhaps the distribution of effect sizes within each gene is Normal,
 but with a standard deviation that varies with ``proximity'' to the trait;
 such mixtures can easily have large proportions of extreme values.
 
 The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
-i.e., the universality
-of adding up a great many very small and independent things.
+i.e., the universality of adding up a great many very small and independent things.
 However, there is a wider class of Central Limit Theorems,
 which describe the distributions of sums of a great many independent and exchangeable things:
-the \emph{stable laws}.
+the \emph{stable laws} \citep{gnedenko1968limit}
 Roughly speaking, these say that if we add together $n$ independent copies of a random variable $X$
 for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha < 2$,
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
@@ -194,10 +194,10 @@ and it is interesting and perhaps informative to understand how the noise distri
 
 Stable distributions are by no means new to population biology.
 For instance, it is a long-standing question how often the motions of organisms
-are better modeled by essentially Brownian random walks or by L\'evy processes (cite),
+are better modeled by essentially Brownian random walks or by L\'evy processes \citep{benhamou2007animals}
 and a growing literature studies the effects of such power law distributions
-on the shapes and dynamics of traveling waves such as biological invasions (cite).
-\comment{Other examples?}
+on spatial genetic and dynamics
+\citep[e.g.,][]{paulose2019spatial,smith2023isolation}.
 More directly analogous to the problem we study here, \citet{landis2012phylogenetic}
 found that an $\alpha$-stable process (with $\alpha \approx 1.5$) fit the evolution of log endocranial volume
 on the primate phylogeny
@@ -206,13 +206,15 @@ It is also important to note that
 the infinitesimal model implies a Gaussian distribution for the difference between an offspring's trait and their parents' average,
 \emph{not} for the entire population.
 The question of when the trait distribution in an evolving population
-might be modeled as a Gaussian has been discussed extensively, e.g., by \comment{cite}.
+might be modeled as a Gaussian has been discussed extensively
+\citep[e.g.,][]{turelli1994genetic,dbarre2015evolution}.
 
 The ways in which genetic variants affect an organisms' trait can be complex,
 and interactions between alleles, between loci, and with the environment are often important in practice.
-In fact, many traits claimed to be genetically determined
-in fact only appear heritable through non-genetic means,
-e.g., systematic inequalities in resource distribution partitioned by class or race. \comment{e.g., cite}
+% In fact, many traits claimed to be genetically determined
+% in fact only appear heritable through non-genetic means,
+% e.g., systematic inequalities in resource distribution partitioned by class or race
+% \citep[e.g.,][]{davenport1916hereditary}.
 In this paper, we follow the literature in working with the relatively simple purely additive case
 of a trait that can be decomposed into a sum across loci of the contributions of the alleles from each locus,
 even omitting an independent effect of ``the environment''.
