@@ -1,0 +1,145 @@
+initialize() {
+	if (!exists("N")) defineConstant("N", 1e4);
+    if (!exists("ALPHA")) defineConstant("ALPHA", 3/2);
+	if (!exists("BURNIN")) defineConstant("BURNIN", 100);
+	if (!exists("NUMGENS")) defineConstant("NUMGENS", 20);
+	if (!exists("MUTRATE")) defineConstant("MUTRATE", 1e-9);
+	if (!exists("L")) defineConstant("L", 1e8);
+    if (!exists("SD")) defineConstant("SD", 1.0);
+    if (!exists("EPSILON")) defineConstant("EPSILON", c(0, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+    defineConstant("DT", 1.0);
+    basestring = "sim_neutral_stable_";
+	defineConstant("OUTFILE", basestring + getSeed() + ".repro.tsv");
+	defineConstant("POPOUTFILE", basestring + getSeed() + ".pop.tsv");
+	defineConstant("FIXOUTFILE", basestring + getSeed() + ".fix.tsv");
+	defineConstant("TREEOUTFILE", basestring + getSeed() + ".trees");
+	defineConstant("params", Dictionary("N", N, "ALPHA", ALPHA, "SD", SD, "EPSILON", EPSILON, "DT", DT, "type", "stable"));
+	initializeSLiMModelType("nonWF");
+    initializeSLiMOptions(keepPedigrees=T);
+	// initializeTreeSeq();
+	initializeMutationRate(MUTRATE);
+    // divide effect sizes by 4 N L mu because we should have O(this many) segregating;
+    // this way typical phenotypes will be O(1)
+	initializeMutationType("m1", 0.5, "s",
+      paste0("a = ", ALPHA, "/2; U = runif(1, 0, PI); ", SD,
+             " * rnorm(1) * sqrt(2) * ( sin(a*U) / sin(U) )^(1/a) * ( sin((1-a)*U) / (rexp(1) * sin(a*U) ) )^((1-a)/(2*a));"
+        )
+    );
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, L-1);
+	initializeRecombinationRate(1e-8);
+    catn("N: " + N
+        + "ALPHA: " + ALPHA
+        + " SD: " + SD
+	    + " EPSILON: " + EPSILON
+        + " BURNIN: " + BURNIN
+        + " MUTRATE: " + MUTRATE
+        + " NUMGENS: " + NUMGENS
+        + " OUTFILE: " + OUTFILE);
+}
+
+1 first() {
+	sim.addSubpop("p1", N);
+	inds = p1.individuals;
+	p1.individuals.setValue("effects", rep(0.0, length(EPSILON)));
+	p1.individuals.tagF = 0.0;
+	writeFile(OUTFILE, params.serialize(format='json'));
+	ah = "time";
+	bh = "";
+	ch = "";
+	for (eps in EPSILON) {
+		ah = ah + "\tself_" + eps;
+		bh = bh + "\tma_" + eps;
+		ch = ch + "\tpa_" + eps;
+	}
+	writeFile(OUTFILE, ah + bh + ch, append=T);
+	writeFile(FIXOUTFILE, "time" + "\t" + "num_fixations" + "\t" + "num_mutations" + "\t" + "med_trait" + "\t" + "mad_trait" + "\t" + "mutq.9" + "\t" + "mutq.99" + "\t" + "mutq.999");
+	community.rescheduleScriptBlock(s98, start=asInteger(BURNIN/DT), end=asInteger((BURNIN+NUMGENS)/DT));
+	community.rescheduleScriptBlock(s99, ticks=asInteger((BURNIN+NUMGENS)/DT));
+}
+
+mutationEffect(m1) {
+	return 1.0;
+}
+
+first() {
+	n = p1.individualCount;
+	inds = p1.individuals;
+	dead = (runif(n) < 1 - exp(-DT));
+	k = sum(dead);
+	inds[dead].fitnessScaling = 0.0;
+	parents = sample(inds, size=k, replace=F);
+	inds.tag = 0;
+	parents.tag = 1;
+}
+
+reproduction() {
+	if (individual.tag > 0) {
+		mate = p1.sampleIndividuals(1);
+		child = p1.addCrossed(individual, mate);
+		x = rep(0.0, length(EPSILON));
+		s = child.genomes.mutations.selectionCoeff;
+		k = findInterval(abs(s), EPSILON);
+		for (j in seqAlong(EPSILON)) {
+			x[j] = sum(s[k == j]);
+		}
+		child.setValue("effects", x);
+		child.tagF = sum(x);
+		child.setValue("ma", individual.getValue("effects"));
+		child.setValue("pa", mate.getValue("effects"));
+
+	}
+}
+
+2: early() {
+      inds = p1.individuals;
+      muts = sim.mutations;
+      if (F) { // efficiently(?) get for everyone
+			for (j in seqAlong(EPSILON)) {
+				eps = EPSILON[j];
+				ut = (sim.mutations.selectionCoeff > eps);
+				big_muts = sim.mutations[ut];
+				s = matrix(rep(sim.mutations.selectionCoeff[ut], 2), nrow=1);
+				M = matrix(p1.individuals.genomes.containsMutations(big_muts), ncol=length(big_muts));
+				p1.individuals.setValue("big_effects_" + j, matrixMult(s, M));
+			}
+		}
+      writeFile(FIXOUTFILE,
+          community.tick * DT
+          + "\t" + sum(sim.mutationFrequencies(NULL) == 1.0)
+          + "\t" + length(muts)
+          + "\t" + quantile(inds.tagF, 0.5)
+          + "\t" + quantile(abs(inds.tagF - quantile(inds.tagF, 0.5)), 0.5)
+          + "\t" + quantile(abs(muts.selectionCoeff), 0.9)
+          + "\t" + quantile(abs(muts.selectionCoeff), 0.99)
+          + "\t" + quantile(abs(muts.selectionCoeff), 0.999)
+      , append=T);
+}
+
+s98 10000: early() {
+	if (community.tick - asInteger(floor(community.tick * DT) / DT) == 0) {
+		inds = p1.individuals;
+		children = inds[inds.age == 0];
+		for (child in children) {
+			outline = paste(c(child.getValue("effects"), child.getValue("ma"), child.getValue("pa")), sep="\t");
+			writeFile(OUTFILE, community.tick * DT + "\t" + outline, append=T);
+		}
+    }
+}
+
+s99 12000 late() {
+	writeFile(POPOUTFILE, "trait" + "\t" + "age");
+	for (ind in p1.individuals) {
+		writeFile(POPOUTFILE, ind.tagF + "\t" + ind.age, append=T);
+	}
+    // metadata = Dictionary(
+    //                  "params", params,
+    //                  "id", p1.individuals.pedigreeID,
+    //                  "trait", p1.individuals.getValue("effects"),
+    //                  "ma", p1.individuals.getValue("ma"),
+    //                  "pa", p1.individuals.getValue("pa")
+    // );
+    // sim.treeSeqOutput(TREEOUTFILE, metadata=metadata);
+    catn("Done! In tick " + community.tick + ", time " + community.tick/DT);
+	sim.simulationFinished();
+}
