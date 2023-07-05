@@ -1,4 +1,6 @@
 #!/bin/bash
+# OLD VERSION: takes a loooong time to run the selected sims
+# see make_paper_figs.sh
 
 for type in normal cauchy
 do

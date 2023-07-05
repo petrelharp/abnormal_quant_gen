@@ -87,8 +87,8 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
 examples <- list(
                  # "neutral Normal" = "sim_neutral_normal_831",
                  # "neutral Cauchy" = "sim_neutral_cauchy_831"
-                 "neutral Normal" = "sim_neutral_normal_813566",
-                 "neutral Cauchy" = "sim_neutral_cauchy_81356610"
+                 "neutral Normal" = "sim_neutral_normal_8135",
+                 "neutral Cauchy" = "sim_neutral_cauchy_8135"
 )
 
 # 1. Plots of median trait value over time and final trait distribution
