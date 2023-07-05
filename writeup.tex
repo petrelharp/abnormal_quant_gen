@@ -47,7 +47,7 @@
 %  ... and find that yeah, maybe effect sizes don't fall into the Gaussian domain of attraction.
 % 
 % First answer to the motivating question:  "No"
-% Non-Gaussian effects (sometimes) imply nonindependence of segregation noise:
+% Non-Gaussian effects (sometimes) imply nonindependence of transmission noise:
 %   In at least some cases, natural non-gaussian models produce nonindependence:
 %   1. all loci are uniformly small except there's one big one
 %   2. loci are Cauchy
@@ -57,7 +57,7 @@
 %  - Observation: Let A and B be the contributions to parent phenotype, with A inherited by the offspring and B not. If A and B are independent, and seg noise is independent of parent phenotype, then A and B are Gaussian.
 %  - When would A and B be asymptotically independent? One case is the rare-mutation limit that obtains a "thinned Poisson process" limit for A and B (I think: if all allele frequencies are at frequency O(1/M)?)
 %  - (I have other thoughts to be sorted out here)
-%  - Open Q (maybe?): is there any non-Gaussian model where segregation noise is independent of parental traits?
+%  - Open Q (maybe?): is there any non-Gaussian model where transmission noise is independent of parental traits?
 % 
 % Simulations: let's see how this stuff works in practice
 %  - neutral simulations
@@ -102,7 +102,7 @@
     of many human disease-related traits.
     We show that the independence of offspring trait deviations from parental averages
     in many cases implies a Gaussian distribution,
-    suggesting that non-Gaussian models of trait evolution must expicitly
+    suggesting that non-Gaussian models of trait evolution must explicitly
     track the underlying genetics, at least for loci of large effect.
     We also characterize possible limiting trait distributions
     of the infinitesimal model with infinitely divisible noise distributions,
@@ -245,7 +245,8 @@ letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are indepen
 $$
     \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[2]} .
 $$
-The \emph{transmission noise}, $R_M$, is the offspring's trait minus the midparent value, $\bar Z_M$:
+What we will call the \emph{transmission noise}, $R_M$,
+is the offspring's trait minus the midparent value, $\bar Z_M$:
 \begin{align*}
     \bar Z_M &= \frac{Z_M^{[1]} + Z_M^{[2]}}{2} \\
     R_M &= Z_M - \bar Z_M \\
@@ -257,23 +258,23 @@ The \emph{transmission noise}, $R_M$, is the offspring's trait minus the midpare
 \end{align*}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Empirical observations}
 
-It is mathematically intriguing to speculate what effect a non-Gaussian distribution
-for $\epsilon$ would have on the dynamics induced by~\eqref{eqn:offspring_model}.
-But, is there any evidence that non-Gaussian segregation noise is important in practice?
+It is mathematically intriguing to speculate what effect a power law effect size distribution
+for would have on the induced evolutionary dynamics.
+But, is there any evidence that non-Gaussian transmission noise is important in practice?
 In this paper we focus primarily on the theory,
 but first take a brief and imperfect look at what some data have to say on the topic.
 To do this, we downloaded the GWAS results provided by~\citet{biobankSNPs}
-for 7,221 phenotypes from 361,194 individuals from the March 2018 release of the UK Biobank.
+for 7,221 phenotypes from 361,194 human individuals from the March 2018 release of the UK Biobank.
 After filtering (see details below) we were left with 695 binary illness-related phenotypes.
 Taken at face value, these provide for each phenotype a set of estimates of the additive effect
-of the alternative allele at a set of SNPs on the phenotype relative to the reference allele.
+of the alternative allele at a set of single nucleotide polymorphisms (SNPs)
+on the phenotype relative to the reference allele.
 The phenotypes we consider were all binary and coded as 0/1,
 so estimates could be thought of as additive adjustments to the risk
-(i.e., effects are \emph{not} on a logit scale).
+(so, effects are \emph{not} on a logit scale).
 These estimates were obtained as the coefficient for the SNP in a simple linear model
 fit to each phenotype for each SNP,
 with the first 20 principal components and all combinations of age, age squared, and inferred sex as covariates;
@@ -284,55 +285,46 @@ and we know of no reason that possible methodological artifacts
 (e.g., confounding by uncorrected variables)
 would specifically affect the decay of the tail of effect sizes.
 
-Suppose that the phenotype of each individual is additive:
-the maternal trait value is $x = \sum_i x_{i,1} + x_{i,2}$
-and the paternal trait value is $y = \sum_i y_{i,1} + y_{i,2}$,
-where $x_{i,1}$ and $x_{i,2}$ are the effects of the alleles carried
-by the mother on each of the two chromosomes
-at the $i^\text{th}$ locus, respectively.
-Then the offspring's trait is $z = \sum_i z_{i,m} + z_{i,p}$,
-where $z_{i,m} = \theta_{i,m} x_{i,1} + (1-\theta_{i,m}) x_{i,2}$,
-and $\theta_{i,m} = 1$ with probability 1/2 and $\theta_{i,m} = 0$ otherwise;
-and likewise $z_{i,p} = \theta_{i,p} y_{i,1} + (1-\theta_{i,p}) y_{i,2}$.
-With this notation, the segregation noise $z - \frac{x+y}{2}$
-is a sum of terms of the form
+Since the transmission noise is a sum of terms of the form
 $$
-    \left( \theta_{i,m} - 1/2 \right) x_{i,1}
-    + \left( 1/2 - \theta_{i,m} \right) x_{i,2} 
+    (X_\ell - 1/2) \eta_\ell^{[1]} + (1/2 - X_\ell) \eta_\ell^{[2]},
 $$
-(and similar terms with $y$ in place of $x$).
-Now let $X$ be the effect of a uniformly chosen allele carried by a uniformly chosen individual
-at a uniformly chosen locus.
-The appropriate central limit theorem is determined by the tail behavior of $|(\theta - 1/2) X| = |X|/2$.
-So, we'd like to know the value of
+where $\eta_\ell^{[i]}$ is the effect of the allele in parent $i$ at locus $\ell$,
+the appropriate central limit theorem for the sum is determined by
+the tail behavior of $|(X - 1/2) \eta| = |\eta|/2$,
+where $X$ is Bernoulli(1/2) and $\eta$ is the effect
+of a uniformly chosen allele at a uniformly chosen locus.
+So, we'd like to know
+if $\P\{|X|>2t\}$ is proportional to $t^{-\alpha}$,
+i.e., the value of
 $$
     \lim_{t \to \infty} \frac{ \log \P\{ |X| > 2 t \} }{ \log t } = \alpha ,
 $$
 if the limit exists.
-Let $p_i$ be the minor allele frequency at the $i^\text{th}$ locus;
+Let $p_\ell$ be the minor allele frequency at the $\ell^\text{th}$ locus;
 since the data we have assigns effect 0 to the major allele,
-$x_i = 0$ with probability $1-p_i$.
-Therefore, if we have estimated effects for $N$ SNPs
-with minor allele frequency $p_i$ and effect size $e_i$ for the minor allele,
-for $1 \le i \le N$,
+$\eta_\ell = 0$ with probability $1-p_\ell$.
+Therefore, if we have estimated effects for $M$ SNPs
+with minor allele frequency $p_\ell$ and effect size $e_\ell$ for the minor allele,
+for $1 \le \ell \le M$,
 then
 $$
-    \P\{ |X| > 2t \} \approx \frac{1}{N} \sum_{i : |e_i| > 2t} p_i .
+    \P\{ |\eta| > 2t \} \approx \frac{1}{M} \sum_{\ell : |e_\ell| > 2t} p_\ell .
 $$
 So, to obtain a per-trait estimate of $\alpha$,
-we plot $\log \frac{1}{N} \sum_{i : |e_i| > t} p_i$ against $\log t$
+we plot $\log \frac{1}{M} \sum_{\ell : |e_\ell| > t} p_\ell$ against $\log t$
 for a sequence of values of $t$,
 and fit a linear model to the tail
 (which we take to be all values of $t$ for which the number of SNPs with absolute effect above $t$
 is between 20 and 10\% of all SNPs).
-Examples are shown in figure~\ref{fig:example_snps}.
+Examples are shown in Figure~\ref{fig:example_snps}.
 
 \begin{figure}
     \begin{center}
     \includegraphics{snp_effects/examples}
     \end{center}
     \caption{
-        TODO: cut this down to just 2 SNPs and move this figure to the supplement; change 'x' to 't' in axis labels.
+        % TODO: cut this down to just 2 SNPs and move this figure to the supplement; change 'x' to 't' in axis labels.
         Tail distributions of frequency-weighted effects
         for twelve randomly chosen phenotypes.
         In each, for a phenotype with $N$ SNPs,
@@ -345,41 +337,41 @@ Examples are shown in figure~\ref{fig:example_snps}.
         Legends show the coefficients of the red line; the slope on `x' is $\alpha$,
         the estimated exponent;
         ``num snps'' is the number of SNPs for the phenotype with $p$-value less than $10^{-8}$,
-        and ``num cases'' is the reported number of the rougly 360,000 individuals
+        and ``num cases'' is the reported number of the roughly 360,000 individuals
         recorded as having the listed phenotype.
         \label{fig:example_snps}
     }
 \end{figure}
 
 We applied this procedure to results from models fit on both sexes,
-after removed phenotypes related to employment, drug treatments, and diet.
-This left us with 1,108 phenotypes for which which could estimate the tail exponent.
-For the main results,
-we then restricted to phenotypes having non-missing numbers of ``cases'' and ``controls''
-and a sample size of at least 300,000 (i.e., not more than 61,194 of 361,194 missing phenotypes).
-We also removed
-the 65 remaining phenotypes that are common (more than 10,000 cases),
+after removing phenotypes related to non-medical traits
+(e.g., employment, drug treatments, and dietary choices).
+This left us with 1,108 phenotypes for which we had enough data (e.g., enough significant SNPs)
+to estimate the tail exponent.
+We then restricted to phenotypes having non-missing numbers of ``cases'' and ``controls''
+and a sample size of at least 300,000 (i.e., not more than 61,194 of 361,194 missing phenotypes),
+and removed the 65 remaining phenotypes that are common (more than 10,000 cases),
 as these often showed very different patterns
 (e.g., effect size distributions).
 This left us with 695 phenotypes;
-plots including the 413 ``filtered'' phenotypes are provided in
+plots including the 413 phenotypes removed by these last steps are provided in
 Supplementary Figure~\ref{fig:unfiltered_hist}.
 
 Resulting values of the tail exponent $\alpha$ are shown in Figure~\ref{fig:exponent_hist}.
 Estimated tail exponents range from about 1 to 2.5,
 and 28.9\% had estimated values less than 1.5.
-A concern could be that ``noisier'' phenotypes,
+A concern is that ``noisier'' phenotypes,
 for which estimated effect sizes are less reliable,
 might lead to larger estimated tail exponents;
-for this reasons, we looked for an association between
+for this reason, we looked for an association between
 tail exponent and two proxies for power,
 number of SNPs (i.e., number of SNPs with $p$-value less than $10^{-8}$)
 and number of cases.
-Interestingly, the result in nonmonotonic,
+Interestingly, the relationship is nonmonotonic,
 with exponents closer to $\alpha=2$ for phenotypes with around 1000 cases,
-and lower exponents for rarer \emph{and} more common phenotypes.
+and lower exponents for both rarer and more common phenotypes.
 (A similar pattern is seen for ``number of SNPs'',
-but this may be due to association with number of cases.)
+but this may be due to association with power and hence number of cases.)
 This may indicate a statistical artifact,
 or it may be a result of biological differences in genetic architecture
 between more and less common phenotypes.
@@ -402,91 +394,76 @@ between more and less common phenotypes.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Independence and the Gaussian assumption}
 
-We generally follow the notation of \citet{barton2017infinitesimal},
-although in a simpler situation,
-as we consider only the haploid offspring of a single set of haploid parents
-rather than full pedigrees,
-and ignore non-genetic contributions to the trait;
-so, below we say ``trait'' to mean ``genetic contribution to the trait''.
-
-Suppose that the focal individual's trait is
-$$
-    Z_M = \sum_{\ell=1}^M \eta_\ell / M^{1/\alpha},
-$$
-where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus.
-The effects of the alleles carried by the two parents
-are $\eta_\ell^{[1]}$ and $\eta_\ell^{[2]}$, respectively,
-and their traits are
-$Z_M^{[1]} = \sum_\ell \eta_\ell^{[1]} / M^{1/\alpha}$ and
-$Z_M^{[2]} = \sum_\ell \eta_\ell^{[2]} / M^{1/\alpha}$.
-We assume the loci are unlinked and inheritance is fair, so
-letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are independent of everything else,
-$$
-    \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[1]} .
-$$
-
 We know from \citet{barton2017infinitesimal} that if the $\eta^{[i]}_\ell$ are
 independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$,
 then with $\alpha=2$,
 the traits $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converge in distribution to a multivariate Gaussian distribution
 $(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
 
-Is there a converse? In other words,
-does independence of segregation noise imply a Gaussian distribution of trait values?
-It is not clear to us in how much generality such a statement might be made,
-but we can at least prove the following.
-Divide the parental loci into groups according to the results of inheritance,
+Perhaps surprisingly, there is a converse --
+in at least some situations,
+independence of transmission noise implies a Gaussian distribution.
+To see this,
+divide the parental loci into groups according to the results of inheritance,
 defining
 \begin{align*}
-    U_M^{[i]} = \sum_{\ell=1}^M X_\ell \eta_\ell^{[i]} 
-    \qquad \text{ and } \qquad
-    V_M^{[i]} = \sum_{\ell=1}^M (1-X_\ell) \eta_\ell^{[i]} ,
+    U_M^{[1]} &= \sum_{\ell=1}^M X_\ell \eta_\ell^{[1]}  ,
+    \qquad \qquad
+    V_M^{[1]} = \sum_{\ell=1}^M (1-X_\ell) \eta_\ell^{[1]} ,  \\
+    U_M^{[2]} &= \sum_{\ell=1}^M (1-X_\ell) \eta_\ell^{[2]} ,
+    \qquad \qquad
+    V_M^{[2]} = \sum_{\ell=1}^M X_\ell \eta_\ell^{[2]}  ,
 \end{align*}
 so that 
 $Z_M^{[1]} = U_M^{[1]} + V_M^{[1]}$ and
-$Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, so
+$Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, while
+$Z_M = U_M^{[1]} + U_M^{[2]}$ is the transmitted portion of the parental genomes,
+and we can define $V_M = V_M^{[1]} + V_M^{[2]}$ to be the untransmitted portion.
+Furthermore,
 \begin{align*}
-    Z_M = U_M^{[1]} + V_M^{[2]} \qquad \text{ and } \qquad
-    R_M = \frac{U_M^{[1]} - V_M^{[1]} - U_M^{[2]} + V_M^{[2]}}{ 2 } .
+    \bar Z_M = \frac{Z_M + V_M}{2}
+    \qquad \text{ and } \qquad
+    R_M = \frac{Z_M - V_M}{ 2 } .
 \end{align*}
-It turns out that independence of the portions inherited and not inherited by the offspring
-combined with independence of segregation noise and midparent value
-implies a Gaussian distribution:
 
-\begin{lem}\label{lem:parental_contribs}
+Now, note that if inheritance (the $X_\ell$) is independent of the per-locus effects ($\eta_\ell^{[i]}$),
+the latter are all independent of each other,
+and all effects at a given locus are drawn from the same distribution,
+then the inherited allele, 
+$\eta_\ell^{[1]} X_\ell + \eta_\ell^{[2]} (1-X_\ell)$
+is independent of (and has the same distribution as)
+the non-inherited allele,
+$\eta_\ell^{[1]} (1-X_\ell) + \eta_\ell^{[2]} X_\ell$
+-- they are simply two independent draws from the distribution of effects at locus $\ell$.
+Therefore, the inherited alleles that sum to $Z_M$
+are independent of the non-inherited alleles that sum to $V_M$.
+
+The Kac-Bernstein theorem states that if two independent random variables
+have the property that if their sum and difference are independent of each other,
+then the random variables have a joint Gaussian distribution
+(\citet{kac1939characterization,bernstein1941property},
+and see \citet{kagan1973characterization} for many much more general results).
+Since $R_M$ is (half) the difference and $\bar Z_M$ is (half) the sum
+of $Z_M$ and $V_M$, and $Z_M$ and $V_M$ are independent,
+if we assume that also $R_M$ and $\bar Z_M$ are independent,
+then both are therefore jointly Gaussian.
+
+We have shown the following:
+
+\begin{prop}\label{prop:parental_contribs}
     Suppose that $\{\eta_\ell^{[i]}\}$ are independent for all $\ell$ and $i$,
     that the distribution of $\eta_\ell^{[i]}$ only depends on $\ell$,
     and that $\{X_\ell\}$ are independent of $\{\eta_\ell^{[i]}\}$.
-    If the segregation noise is independent of the midparent value
-    (i.e., $R_M$ is independent of $\bar Z_M$)
-    then $R_M$ is Gaussian.
-\end{lem}
+    If the transmission noise $R_M$ is independent of the midparent value $\bar Z_M$,
+    then $R_M$ and $\bar Z_M$ are jointly Gaussian.
+\end{prop}
 
-\begin{proof}[Proof of Lemma~\ref{lem:parental_contribs}]
-    Note that if inheritance (the $X_\ell$) is independent of the per-locus effects ($\eta_\ell^{[i]}$),
-    the latter are all independent of each other,
-    and all effects at a given locus are drawn from the same distribution,
-    then the inherited allele, 
-    $\eta_\ell^{[1]} X_\ell + \eta_\ell^{[2]} (1-X_\ell)$
-    is independent of (and has the same distribution as)
-    the non-inherited allele,
-    $\eta_\ell^{[1]} (1-X_\ell) + \eta_\ell^{[2]} X_\ell$
-    -- they are simply two independent draws from the distribution of effects at locus $\ell$.
-    Therefore, the sum of inherited alleles, $U_M^{[1]} + V_M^{[2]}$
-    are independent of the non-inherited alleles, $U_M^{[2]} + V_M^{[1]}$.
+% A similar statement holds for the offspring of two parents in a pedigree,
+% using the Skitovich-Darmois theorem \citet{kagan1973characterization},
+% except that the portion of the genome shared in common by the parents is unconstrained.
 
-    Now, the Kac-Bernstein theorem states that if two independent random variables
-    have the property that if their sum and difference are independent of each other,
-    then the random variables have a joint Gaussian distribution
-    (\citet{kac1939characterization,bernstein1941property},
-    but see \citet{kagan1973characterization} for many much more general results).
-    Since $R_M$ is (half) the difference and $(Z^{[1]} + Z^{[2]})/2$ is (half) the sum
-    of $U_M^{[1]} + V_M^{[2]}$ and $U_M^{[2]} + V_M^{[1]}$,
-    both are therefore jointly Gaussian.
-\end{proof}
-
-Since models can be easily set up for which $Z$ is not Gaussian,
-the content of this is that for such models, independence of segregation noise
+Since models can be easily set up for which trait distributions are not Gaussian,
+the implication of this is that for such models, independence of transmission noise
 is not likely a good assumption.
 Note that the proof does not depend on independence of the $X_\ell$:
 indeed, alleles may be inherited together,
@@ -495,27 +472,16 @@ Also note that it is \emph{not} usually true that the components --
 for instance, $U_M^{[1]}$ and $U_M^{[2]}$ --
 are independent of each other.
 
-\comment{remove or shorten the following?}
-It is clear in the Gaussian case
-that $U^{[1]}$ and $V^{[1]}$ are asymptotically independent.
-More generally, independence depends on how the model is set up.
-If the allelic effects $\eta_\ell^{[i]}$ are i.i.d.,
-then even for finite $M$, the parental contributions
-$(U_M^{[1]}, V_M^{[1]}, U_M^{[2]}, V_M^{[2]})$ are independent.
-If the distribution of $\eta_\ell^{[i]}$ is chosen to obtain a non-Gaussian limit,
-then Lemma~\ref{lem:parental_contribs} implies that $R$ cannot be independent of the parental traits.
-
-However, the presence of a large effect polymorphic allele
-makes $(U^{[1]}, V^{[1]}, U^{[2]}, V^{[2]})$ dependent:
+The presence of a large effect polymorphic allele
+makes $R_M$ and $\bar Z_M$ dependent:
 consider the extreme case where $\eta^{[i]}_\ell$ are i.i.d.{} with variance 1 for $\ell \ge 2$,
 while $\eta^{[i]}_1 = \pm 10$ with probability 1/2 each,
-and $Z^{[1]} = \eta_1^{[1]} + \sum_{\ell=2}^M \eta_\ell^{[1]} / \sqrt{M}$.
-Then in the limit $U^{[i]}$ and $V^{[i]}$ are Gaussian with mean either 0 or $\pm 10$ and variance 1/2,
-and are highly dependent: $|U^{[i]}| \approx 10$ or $|V^{[i]}| \approx 10$ but not both.
-(Segregation noise, meanwhile, depends strongly on parental trait values:
-if $Z^{[1]} \approx Z^{[2]}$ then most likely
+and $Z^{[i]} = \eta_1^{[i]} + \sum_{\ell=2}^M \eta_\ell^{[i]} / \sqrt{M}$.
+Then in the limit $R_M$ depends strongly on parental trait values:
+if $Z^{[1]} \approx Z^{[2]}$ and so $\bar Z \approx \pm 10$ then most likely
 $\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
-but in the other case then $R$ has equal probabilities of being close to $+5$ or $-5$.)
+but if $\eta_1^{[1]} \neq \eta_1^{[2]}$ (and so $\bar Z \approx 0$)
+then $R$ is close to $+5$ or $-5$ with equal probability.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -539,7 +505,7 @@ and is replaced by a new individual of phenotype
   \frac{y + z}{2} + \xi ,
 \end{align*}
 where $y$ and $z$ are independent draws from $X$
-and $\xi$ is an independent draw from the segregation noise distribution.
+and $\xi$ is an independent draw from the transmission noise distribution.
 Let $p_\xi$ denote the distribution of $\xi$,
 and $\nu(X)$ denote the distribution of $\frac{y + z}{2} + \xi$.
 This has generator
@@ -585,7 +551,7 @@ More generally, if $\Phi(X) = \prod_i \ip{\phi_i}{X}$ then
     + O(1/N^2) .
 \end{align*}
 This implies that after rescaling time by $N$
-and suitible other caveats,
+and suitable other caveats,
 the limiting process is a deterministic flow in the direction of 
 $\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
 
@@ -593,7 +559,7 @@ $\nu(X) \ip{1+\mu}{X} - (1+\mu)X$.
 If $Z$ is a fixed point of this flow,
 then $\nu(Z)\ip{1+\mu}{Z} = (1+\mu)Z$.
 In other words, any measure $Z$ that is a fixed point has the property that
-(the average of two independent draws plus segregation noise)
+(the average of two independent draws plus transmission noise)
 is equal in distribution to
 (a $1+\mu$-weighted draw).
 Concretely, with $A$, $B$, and $C$ independent draws from $Z$,
@@ -805,24 +771,8 @@ and so solves equation~\eqref{CHARACTERISTIC}.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Simulations}
 
-In Section~\ref{sec:stabilizing_selection}
-we have found two explicit conditions in which
-if the form of segregation noise and stabilizing selection
-satisfy certain conditions,
-then the limiting phenotype distribution
-will be either Gaussian (Subsection~\ref{sec:stabilizing_gaussian})
-or Cauchy (Subsection~\ref{sec:stabilizing_cauchy}).
-Furthermore, we expect based on
-\citet{barton2017infinitesimal} and arguments above
-that the distribution of segreation noise
-is determined by the tail exponent of the distribution of effect sizes
-(under appropriate assumptions; e.g., that most mutations are of small effect).
-However, it is not clear how selection would affect these arguments,
-especially in the stable case where some number of mutations are expected to
-\emph{not} have small effect (and therefore such mutations will not be nearly neutral).
-
-Therefore,
-to study how this works in practice, we turn to simulation.
+Next we turn to simulation,
+in which we can easily include realistic recombination (instead of unlinked loci) and selection.
 We used SLiM v4 \citep{haller2022slim4}
 to simulate a discrete-time approximation to the continuous-time Moran model described above
 as follows.
@@ -833,9 +783,9 @@ Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
 The phenotype of each individual is determined additively
 by summing the effects of all mutations they carry across both chromosomes.
-Let $f(z) = 1 + \mu(z)$
-be the ``fitness'' of an individual with phenotype $z$,
+Let $f(z)$ be the death rate of an individual with phenotype $z$,
 and let $dt$ be a small constant (we took $dt=0.01$).
+In all plots, one time unit is approximately one generation.
 Then, at each time step
 each individual dies with probability $1 - \exp(-dt f(z))$;
 if there are $k$ such individuals chosen to die in a given time step,
@@ -858,7 +808,7 @@ but in a large population these details should be unimportant.)
         effect size distributions.
         Simulations were begun with no genetic variation,
         had populations of size $N=1000$,
-        a genome of length $L=10^8$ and mutation rate of $\mu=10^{-9}$;
+        a genome of length $L=10^8$ bp and mutation rate of $\mu=10^{-9}$ per bp per generation;
         the effect size distributions were
         Normal with mean 0 and standard deviation $1/\sqrt{4NL\mu}$
         and Cauchy with center 0 and scale $1/(4NL\mu)$, respectively.
@@ -875,14 +825,14 @@ but in a large population these details should be unimportant.)
         from the same simulations shown in Figure~\ref{fig:trait_distrns},
         for all individuals born during the last 1,000 time units of the simulation.
         \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
-        \textbf{(B,E)} Histograms of segregation noise.
-        \textbf{(B,E)} Enrichment in quantiles of segregation noise conditional on midparent value.
+        \textbf{(B,E)} Histograms of transmission noise.
+        \textbf{(B,E)} Enrichment in quantiles of transmission noise conditional on midparent value.
         To compute the latter,
-        let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of segregation noise
+        let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of transmission noise
         into 50 bins with roughly equal numbers in each (i.e., the quantiles),
         let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
-        is in $[a, b)$ whose segregation noise is in $[q_{k-1}, q_k)$,
-        and let $p_k$ be the proportion of all offspring with segreation noise in $[q_{k-1}, q_k)$
+        is in $[a, b)$ whose transmission noise is in $[q_{k-1}, q_k)$,
+        and let $p_k$ be the proportion of all offspring with segregation noise in $[q_{k-1}, q_k)$
         (so, $p_k \approx 0.02$).
         Then, each line shows $p_k(a,b)/p_k$
         plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
@@ -894,21 +844,21 @@ but in a large population these details should be unimportant.)
     }
 \end{figure}
 
-We first consider the neutral case (i.e., with $\mu \equiv 0$).
+We first consider the neutral case (i.e., with $f \equiv 1$).
 As shown in Figure~\ref{fig:trait_distrns},
-a Cauchy effect size distribution, unsurprisingly,
-produces a distribution of trait values with more extreme values
+a simulation with a Cauchy effect size distribution, unsurprisingly,
+has a distribution of trait values with more extreme values
 and a rougher path of population median trait value over time
-than in the Gaussian case.
+than does a simulation with a Gaussian effect size distribution.
 Indeed, the sum of all effects along the path from the start of the simulation
 to an arbitrary individual will approximate either Brownian motion (in the Gaussian case)
 or a Cauchy process (in the Cauchy case).
-Figure~\ref{fig:seg_noise} shows how segregation noise
+Figure~\ref{fig:seg_noise} shows how transmission noise
 depends on midparent value.
-In the Gaussian case, segregation noise is Gaussian and independent of midparent value,
-as shown by the flat lines at 1 in Figure~\ref{fig:seg_noise}C. 
+In the Gaussian case, transmission noise is Gaussian and independent of midparent value,
+as shown by the horizontal lines at 1.0 in Figure~\ref{fig:seg_noise}C. 
 On the other hand, in the Cauchy case we can see from either Figure~\ref{fig:seg_noise}D or F
-that segregation noise depends strongly on midparent trait,
+that transmission noise depends strongly on midparent trait,
 as we would expect in the presence of several large-effect alleles.
 
 \begin{figure}
@@ -935,13 +885,13 @@ as we would expect in the presence of several large-effect alleles.
 
 We next compared two situations of stabilizing selection, motivated by the results above
 \comment{TODO: refer to where?}:
-(1) the effect size distribution was Gaussian with mean zero and standard deviation $\sigma_g$,
+(1) the effect size distribution was Gaussian with mean zero and standard deviation 1.0
 and $f(z) = e^{\alpha z^2}$; and
 (2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
-and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$.
+and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$ with $\delta=0.5$ and $\gamma=0.2$.
 Figures~\ref{fig:sel_trait_distrns} and~\ref{fig:sel_seg_noise}
 show that the picture is largely unchanged by stabilizing selection
-except that, unsurprisingly, the median trait is no longer constrained to wander
+except that, unsurprisingly, the median trait no longer wanders unconstrained
 (but still shows substantially larger fluctuations under the Cauchy model).
 
 \begin{figure}
@@ -958,10 +908,10 @@ except that, unsurprisingly, the median trait is no longer constrained to wander
 \end{figure}
 
 
-However, as suggested above,
+However,
 the two models look much more similar when considering only alleles of small effect.
 Figure~\ref{fig:seg_noise_small} shows that ``midparent value''
-and ``segregation noise'' computed using only mutations with effect size less than 0.2
+and ``transmission noise'' computed using only mutations with effect size less than 0.2
 (excluding less than 1\% of mutations)
 are quite close to independent.
 The result does not depend strongly on the cutoff chosen,
@@ -970,19 +920,28 @@ and are similar even if less 0.1\% of mutations are excluded.
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
-Not assuming all effects are the same order of magnitude seems very bioloically realistic,
-and so it'd be nice to figure out how evolution works and how to do quant gen in such cases.
-Such models can always be simulated,
-but the way forwards with theoretical understanding seems murky.
-It would be interesting to see how changing the distribution of segregation noise
-in the infinitesimal model
-affects properties like the rate of adaptive evolution,
+A substantial challenge for the field is to develop tractable models of trait evolution
+that include contributions of both ``large'' and ``small'' effect loci.
+In practice, breeders already embellish the ``animal model'' (essentially, the infinitesimal model)
+to predict traits
+by combining both effects of known large effect loci
+and calculations using a relatedness matrix.  \comment{cite}
+We can study any model with simulation,
+but the way forwards to theoretical understanding seems murky.
+
+Further analysis of the infinitesimal model with other noise distributions,
+as we have begun here,
+could be interesting,
+e.g., to see how changing the distribution of transmission noise
+affects the rate of adaptive evolution,
 levels of genetic load,
-and the rate of fixation.
+the rate of fixation,
+and the strength of linked selection.
 However,
-we have seen that this assumption imples a sort of ``blending inheritance''
+we have seen that the assumption of the infinitesimal model
+implies a sort of ``blending inheritance''
 for the large effect alleles,
-and so such work much be accompanied by simulations
+and so such work must be accompanied by simulations
 to see if the predictions are borne out under concrete models of genetic inheritance.
 Another open question is whether there is some set of assumptions
 (perhaps involving linkage, pleiotropy, and/or environmental interactions with genetic effects)
@@ -991,10 +950,14 @@ Finally, it may well be that there is a clever way to set up a trait-only model 
 that is both insensitive to the underlying genetics
 and does not rely on the Gaussian central limit theorem.
 
-Above we've mostly used the Cauchy (e.g., in simulations)
+Finally: above we've most often used the Cauchy distribution
 not because it seems most realistic
-(indeed data suggests $\alpha=3/2$ might be better)
+(indeed data suggests the L\'evy stable distribution with $\alpha=3/2$ might be better)
 but for convenience and to make effects more obvious.
+
+\subsection*{Acknowledgements}
+Thanks go to Nate Pope for useful discussion
+and to Gregor Gorjanc for references to the literature.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
