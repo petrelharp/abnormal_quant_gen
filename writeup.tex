@@ -250,7 +250,7 @@ letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are indepen
 $$
     \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[2]} .
 $$
-\comment{TODO: Gregor suggests ``mendelian sampling term''}
+\comment{TODO: Gregor suggests ``Mendelian sampling term''}
 What we will call the \emph{transmission noise}, $R_M$,
 is the offspring's trait minus the midparent value, $\bar Z_M$:
 \begin{align*}
@@ -493,85 +493,109 @@ then $R$ is close to $+5$ or $-5$ with equal probability.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abnormal quantitative genetics?}
 
-\comment{
-    Proposal: describe model, pointing out it's the infinitesimal model with gaussian noise;
-    say something about the Cauchy case (maintains diversity with blending inheritance?);
-    and jump to equation (1);
-    then present section 5.4 which we use to parameterize simulation.
-}
+As observed in \cite{turelli2017commentary}, there are at least three interpretations of what is called ``the infinitesimal model''.  The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation, assumes a large number of small-effect loci,  parental trait-independent Gaussian Mendelian sampling terms  (as rigorously justified in \cite{barton2017infinitesimal,barton2022infinitesimal}), and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution
+(\ie the \emph{fraction} of the population with trait value in $[z,z+dz)$
+is approximately $\frac{1}{2\pi\sigma^{2}} e^{-(z-m)^{2}/(2\sigma^{2})} dz$
+for suitable choices of the empirical mean and variance $m$ and $\sigma^{2}$).
+Leaving aside
+% -- as the Gaussian-population approximation frequently does --
+the question of whether or not some combination of effect sizes, dominance, and epistasis can justify non-Gaussian, trait-independent,  Mendelian sampling terms, we might reasonably ask when (or if)
+deterministic mutation-selection balance is possible in a non-Gaussian model
+that retains independence of the Mendelian sampling terms.
+(Indeed, above we have put substantial restrictions on what models of inheritance
+might lead to such models.)
+We might also ask whether such a model
+might still reasonably approximate an additive model with non-Gaussian effects,
+and for the purpose of investigating this with simulations,
+some calculations are helpful.
 
-As observed in \cite{turelli2017commentary}, there are at least three interpretations of what is called ``the infinitesimal model''.  The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation, assumes a large number of small-effect loci,  parental trait-independent Gaussian Mendelian sampling terms  (as rigorously justified in \cite{barton2017infinitesimal,barton2022infinitesimal}), and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution (\ie the \emph{fraction} of the population with trait value in $[z,z+dz)$ is approximately $\frac{1}{2\pi\sigma^{2}} e^{-\frac{(z-m)^{2}}{2\sigma^{2}}}$ for suitable choices of the empirical mean and variance $m$ and $\sigma^{2}$.  Leaving aside -- as the Gaussian-population approximation frequently does -- the question of whether or not some combination of effect sizes, dominance, and epistasis can justify non-Gaussian, trait-independent,  Mendelian sampling terms, we might reasonably ask when (or if) deterministic mutation selection-balance is possible in an non-Gaussian model.  
-
-Concretely, consider a  Moran process where an individual whose trait value is $Z$ dies at rate $\mu(Z)$ and is replaced by a new individual of phenotype
+Concretely, consider a  Moran process where an individual whose trait value is $Z$ dies at rate $\mu(Z)$
+and is replaced by a the offspring of two randomly chosen individuals,
+i.e., a new individual of phenotype
 \begin{align*}
   \frac{Z^{1} +Z^{2}}{2} + R ,
 \end{align*}
-where $Z^{1}$ and $Z^{2}$ are independent draws from the empirical population distribution and $R$ is an independent draw from the transmission noise distribution (independent of $Z^{1}$ and $Z^{2}$).  Mutation selection balance demands that \comment{I'm struggling a bit to find a clear, short, and simple argument to jump directly to this point} that $\frac{Z^{1} +Z^{2}}{2} + R$ be equal in distribution to the selection-biased choice of $Z$, \ie for all bounded and continuous functions $f$,
-\begin{equation} \label{eqn:MSB_condition}
-    \E\left[ f\left(\frac{Z^{1} +Z^{2}}{2} + R \right) \right] = \frac{\E\left[ f(Z) \mu(Z) \right]}{\E[\mu(Z)]},
-\end{equation}
-where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{1}$ and $Z^{2}$), and $R$.
-
-Since the set of functions $\mathcal{S} = \{e^{i \theta x} : \theta \in \R\}$ is separating (see \eg \S 3.4 in \cite{Ethier+Kurtz1986}), it suffices to show that \eqref{eqn:MSB_condition} holds for $f \in \mathcal{S}$, \ie
+where $Z^{1}$ and $Z^{2}$ are independent draws from the empirical population distribution
+and $R$ is an independent draw from the Mendelian sampling distribution
+(independent of $Z^{1}$ and $Z^{2}$). 
+Mutation-selection balance demands that that
+the distribution of individuals removed by death
+and the distribution of individuals added by birth are equal,
+\ie that $\frac{Z^{1} +Z^{2}}{2} + R$ is equal in distribution
+to a $\mu$-weighted choice of $Z$.
+% In other words, for all bounded and continuous functions $f$,
+% \begin{equation} \label{eqn:MSB_condition}
+%     \E\left[ f\left(\frac{Z^{1} +Z^{2}}{2} + R \right) \right] = \frac{\E\left[ f(Z) \mu(Z) \right]}{\E[\mu(Z)]},
+% \end{equation}
+% where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{1}$ and $Z^{2}$), and $R$.
+% 
+% Since the set of functions $\mathcal{S} = \{e^{i \theta x} : \theta \in \R\}$ is separating (see \eg \S 3.4 in \cite{Ethier+Kurtz1986}), it suffices to show that \eqref{eqn:MSB_condition} holds for $f \in \mathcal{S}$, \ie
+Taking the characteristic function of both these distributions,
+deterministic mutation-selection balance is therefore equivalent to
 \begin{align} \label{eqn:MSB_CF}
     \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right] = \frac{\E\left[ e^{i \theta Z}\mu(Z) \right]}{\E[\mu(Z)]}.
 \end{align}
 Now, we assumed that $Z^{1}$, $Z^{2}$, and $R$ are independent, so we can write \eqref{eqn:MSB_CF} as 
 \begin{align*}
-	\frac{\E\left[ f(Z) \mu(Z) \right]}{\E[\mu(Z)]} &= \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right]\\
-	&= \E\left[ e^{i\frac{theta}{2} Z^{1}}e^{i\frac{theta}{2} Z^{2}}e^{\i\theta R}\right]\\
-	&= \E\left[e^{i\frac{\theta}{2} Z^{1}}\right]\E\left[e^{i\frac{\theta}{2} Z^{2}}\right]\E\left[e^{\i\theta R}\right]\\
-	&= \phi\left(\frac{\theta}{2}\right)	^{2} \Phi(\theta),
+    \frac{\E\left[ e^{i\theta Z} \mu(Z) \right]}{\E[\mu(Z)]} &= \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right]\\
+	% &= \E\left[ e^{i\frac{\theta}{2} Z^{1}}e^{i\frac{\theta}{2} Z^{2}}e^{\i\theta R}\right]\\
+	&= \E\left[e^{i\frac{\theta}{2} Z^{1}}\right]\E\left[e^{i\frac{\theta}{2} Z^{2}}\right]\E\left[e^{i\theta R}\right]\\
+	&= \phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta),
 \end{align*}
 where
-\begin{equation}\label{eq:phi}
-	\phi(\theta) = \mathbb{E}\left[e^{i\theta Z^{1}}\right] = \mathbb{E}\left[e^{i\theta Z^{2}}\right]
-\end{equation}
+$ \phi(\theta) = \mathbb{E}\left[e^{i\theta Z^{1}}\right] = \mathbb{E}\left[e^{i\theta Z^{2}}\right] $
 and
-\begin{equation}\label{eq:Phi}
-	\phi(\theta) = \mathbb{E}\left[e^{i\theta R}\right]
-\end{equation}
+$ \Phi(\theta) = \mathbb{E}\left[e^{i\theta R}\right] $
 are the characteristic functions of $Z^{j}$ and $R$, respectively.  In what follows, we will explore some non-Gaussian solutions $\phi(\theta)$ to \eqref{eqn:MSB_CF}.
 
 \subsection{The Neutral Case}
 
-First, consider the case without selection, so $\mu$ is a constant.  Then, our condition on the characteristic function simplifies to
+First, consider the case without selection, so $\mu$ is a constant
+which we may take equal to 1.  Then, our condition on the characteristic function simplifies to
 \begin{equation}\label{eq:CF_neutral}
 	{\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta) %e^{-\frac{\eta^{2}\theta^{2}}{2}} 
-	= \phi(\theta),
+	= \phi(\theta) ,
 \end{equation}
 \ie $\phi(\theta)$ is a fixed point of $F$, where
  \[
 	F(\phi)(\theta) = {\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta),
 \]
-whereas any fixed point must be the limit of an arbitrary characteristic function, $\varphi(\theta)$, under repeated applications of $F$:
-\[
-	\phi(\theta) = \lim_{n \to \infty} F^{(n)}(\varphi)(\theta).
-\]
-Iterating $F$ $n$ times, we get
-\[
-	F^{(n)}(\varphi)(\theta) =  {\textstyle \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}}\prod_{k=1}^{n-1} {\textstyle \Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}},
-\]
-so that
-\[
-	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
-\]
+whereas any fixed point must be the limit of an arbitrary characteristic function, $\varphi(\theta)$, under repeated applications of $F$,
+\ie
+\begin{align*}
+	\phi(\theta) 
+    &= \lim_{n \to \infty} F^{(n)}(\varphi)(\theta) \\
+    &= \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}} .
+\end{align*}
+% Iterating $F$ $n$ times, we get
+% \[
+% 	F^{(n)}(\varphi)(\theta) =  {\textstyle \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}}\prod_{k=1}^{n-1} {\textstyle \Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}},
+% \]
+% so that
+% \[
+% 	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
+% \]
 is a fixed point whenever this limit exists.  
 
-Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = 1$, and thus non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$}.  From the above, we have
+Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = 1$, and thus non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
 \[
 	\Log{F^{(n)}(\varphi)(\theta)} = {\textstyle 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)} 
 		+ \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
 \]
-We will briefly explore what limiting values are possible -- and which limits are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}. For the sake of simplicity, we will limit ourselves to the caae when both have well-posed limits independent of the other.
+We briefly explore what possible limiting values are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider to the case when both have well-posed limits independent of the other.
 
-\subsubsection{Reproductive Terms}
-
+\paragraph{Reproductive Terms:}
 First consider the limit
 \[
 		\alpha(\theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{\theta}{2^{n}}\right).
 \]
-Because $\psi(\theta)$ is the logarithm characteristic function, it must be continuous in some neighbourhood of, and vanish at 0, and thus $\alpha(\theta)$ as well.  Furthermore, for all integers $k$, 
+Because $\psi(\theta)$ is the logarithm of a characteristic function, it is continuous in some neighbourhood of, and vanish at 0.
+If $\phi$ is not differentiable at zero (and so the corresponding distribution
+does not have a well-defined mean),
+the limit does not exist.
+On the other hand if $\psi$ is differentiable at zero,
+then $\alpha$ is continuous there,
+and for all integers $k$, 
 \[
 	\alpha(2^{k} \theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{2^{k} \theta}{2^{n}}\right) =  \lim_{n \to \infty} 2^{k} 2^{n-k} \psi\left(\frac{\theta}{2^{n-k}}\right) = 2^{k} \alpha(\theta).
 \]
@@ -581,7 +605,7 @@ Now, from the above,
 \[
 	\frac{\alpha(\theta)}{\theta} = \frac{\alpha(2^{k} \theta)}{2^{k}\theta} \to \alpha'(0+),
 \]
-as $k \to - \infty$ if the latter exists (\ie there is a unique left-hand limit at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
+as $k \to - \infty$ if the latter exists (\ie there is a unique right-hand limit at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
 \[
 	\alpha(\theta) = \begin{cases} 
 		i m\theta - \gamma \theta & \text{if $\theta \geq 0$, and}\\
@@ -595,20 +619,19 @@ Now, if $\phi(\theta)$ is the characteristic function of a random variable $Z$, 
 so $\gamma \geq 0$. If $\gamma > 0$, then we recognize $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median 0 and mean absolute deviation $\gamma$, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
 
 \paragraph{Lamarkian inheritance redux.} 
-Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait \ie Lamarkian blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieved a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
+Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait -- \ie Lamarkian blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieved a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
 
-\paragraph{Other solutions?}
-We would naturally like to know if these two exhaust the possible solutions.  Above, we exhausted all solutions for which $\alpha'(0+)$ exists.  However, if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. This does not, however, in and of itself exclude $e^{\alpha(\theta)}$ from being a characteristic function: Bochner's theorem tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
-\begin{enumerate}[(i)]
-\item $\phi(\theta)$ is continuous,
-\item $\phi(0) = 1$,
-\item $\phi(-\theta) = \overline{\phi(\theta)}$, and
-\item $\phi(\theta)$ is \textit{positive definite}: for all $n$ and all $\theta_{1},\ldots,\theta_{n} \in \mathbb{R}$, the matrix with entries $a_{ij} = \phi(\theta_{i}-\theta_{j})$
-\end{enumerate}
-One can easily choose $\alpha(\theta)$ so that $e^{\alpha(\theta)}$ satisfies the first three criteria, \eg $\alpha(\theta) = -|\theta|\left(\sin\left(\pi\frac{\log{|\theta|}}{\log{2}}\right)+\frac{3}{2}\right)$, but excluding such functions via Bochner's positive definite criterion is non-trivial.
+% \paragraph{Other solutions?}
+% We would naturally like to know if these two exhaust the possible solutions.  Above, we exhausted all solutions for which $\alpha'(0+)$ exists.  However, if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. This does not, however, in and of itself exclude $e^{\alpha(\theta)}$ from being a characteristic function: Bochner's theorem tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
+% \begin{enumerate}[(i)]
+% \item $\phi(\theta)$ is continuous,
+% \item $\phi(0) = 1$,
+% \item $\phi(-\theta) = \overline{\phi(\theta)}$, and
+% \item $\phi(\theta)$ is \textit{positive definite}: for all $n$ and all $\theta_{1},\ldots,\theta_{n} \in \mathbb{R}$, the matrix with entries $a_{ij} = \phi(\theta_{i}-\theta_{j})$
+% \end{enumerate}
+% One can easily choose $\alpha(\theta)$ so that $e^{\alpha(\theta)}$ satisfies the first three criteria, \eg $\alpha(\theta) = -|\theta|\left(\sin\left(\pi\frac{\log{|\theta|}}{\log{2}}\right)+\frac{3}{2}\right)$, but excluding such functions via Bochner's positive definite criterion is non-trivial.
 
-\subsubsection{Noise Terms}
-
+\paragraph{Noise Terms}
 We now turn our attention to the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$.  Taylor's theorem then tells us that for $\theta$ sufficiently small, 
 \[
 	\Psi(\theta) \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
