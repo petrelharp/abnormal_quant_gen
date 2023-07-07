@@ -256,7 +256,6 @@ letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are indepen
 $$
     \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[2]} .
 $$
-\comment{TODO: Gregor suggests ``Mendelian sampling term''}
 What we will call the \emph{transmission noise}, $R_M$,
 is the offspring's trait minus the midparent value, $\bar Z_M$:
 \begin{align*}
@@ -739,63 +738,108 @@ As remarked above, we found this solution by inspection and trial-and-error; it 
 
 %(here, see a saturating cost to being away from the optimal phenotype $x = 0$: the mortality is maximized at  $\frac{\beta^{2}}{\alpha^{2}}$.
 
-\section{Cauchy-decendants} 
+\section{The difficulty with an abnormal quantitative genetics}
 
-Having seen that a mutation-selection balance is possible with a Cauchy empirical distribution and Cauchy transmission noise, it is natural to ask why we couldn't have an infinitesimal model with Cauchy-descendants, \textit{sensu} \cite{turelli2017commentary}.  To that end, it's instructive to see where the argument of \cite{barton2017infinitesimal} breaks down if instead of assuming bounded allele effects of order $\Oh\left(\frac{1}{\sqrt{M}}\right)$, we assume that the allele at locus $i$ in individual $j$ contributes $\frac{1}{M} \eta^{[j]}_{\ell}$, where the $\eta^{[j]}_{\ell}$ are $\Cauchy(0,\gamma_{\ell})$ random variables.  In this case, the median effect size at locus $\ell$, $\frac{\gamma_{\ell}}{M}$, is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal}, but large effect alleles are more likely. 
+Above we have seen that
+(a) in principle,
+a mutation-selection balance is possible with a Cauchy empirical distribution and Cauchy Mendelian sampling term,
+but (b)
+such a model cannot derive from a simple model with additive loci.
+To that end, it's instructive to see where the argument of \cite{barton2017infinitesimal} breaks down
+if instead of assuming bounded allele effects of order $\Oh\left(1/\sqrt{M}\right)$,
+we assume that the allele at locus $i$ in individual $j$ contributes
+$\eta^{[j]}_{\ell}/M$, where the $\eta^{[j]}_{\ell}$ are independent $\Cauchy(0,\gamma_{\ell})$ random variables. 
+In this case, the typical effect size at locus $\ell$ is of order $\frac{\gamma_{\ell}}{M}$,
+which is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal},
+but large effect alleles are more likely. 
 
-The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within family segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight.  While is meaningless to speak of variances when the transmission noise is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus, then its trait value is informative of the trait value of any offspring that inherits that allele, and we lose the independence between parental traits and transmission noise that is central to the infinitesimal model.  
+The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
+
+The key observation is this:
+while is meaningless to speak of variances when the transmission noise is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
+then its trait value is informative of the \emph{distribution} of an offsprings' trait value,
+and hence there can be no independence between parental traits and the Mendelian sampling term
+that is central to the tractability of the infinitesimal model.  
 
 Consider the simplest possible case of an ancestral population, of $N$ individuals, where the $j$\textsuperscript{th} individual has trait value 
 \[
 	Z^{[j]}_{M} = \frac{1}{M} \sum_{\ell = 1}^{M}  \eta^{[j]}_{\ell},
 \]
-where the $\eta^{[j]}_{\ell}$ are independent across individuals and across loci.  By the additive property of Cauchy random variables, $Z^{[j]} \iid \Cauchy(0,\bar{\gamma})$, where 
+where the $\eta^{[j]}_{\ell}$ are independent across individuals and across loci.  By the additive property of Cauchy random variables, $Z^{[j]}_M \iid \Cauchy(0,\bar{\gamma})$, where 
 \[
 	\bar{\gamma} = \frac{1}{M} \sum_{\ell = 1}^{M} \gamma_{\ell}
 \]
 is the mean of the scale parameters.  
 
-To see what knowing the trait value $Z^{[j]}_{M}$ tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \cite{Fisher1918,barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
+To see what knowing the parental trait value $Z^{[j]}_{M}$ tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
 \begin{align*}
-	\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} &= \frac{\P\{\eta^{j[l]}_{\ell} = y; Z^{j[l]} = z\}}{\P\{Z^{j[l]} = z\}}\\
-		&= \frac{\P\{Z^{j[l]} = z\vert\eta^{j[l]}_{\ell} = y\}}{\P\{Z^{j[l]} = z\}}\P\{\eta^{j[l]}_{\ell} = y\}\\
-		&=  \frac{\P\{Z^{j[l]} -\frac{1}{M} \eta^{j[l]}_{\ell} = z - \frac{1}{M} y\}}{\P\{Z^{j[l]} = z\}}\P\{\eta^{j[l]}_{\ell} = y\}\\
+    \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} &= \frac{\P\{\eta^{[j]}_{\ell} = y; Z^{[j]} = z\}}{\P\{Z^{[j]} = z\}}\\
+        &= \frac{\P\{Z^{[j]} = z\vert\eta^{[j]}_{\ell} = y\}}{\P\{Z^{[j]} = z\}}\P\{\eta^{[j]}_{\ell} = y\}\\
+        &=  \frac{\P\{Z^{[j]} -\frac{1}{M} \eta^{[j]}_{\ell} = z - \frac{1}{M} y\}}{\P\{Z^{[j]} = z\}}\P\{\eta^{[j]}_{\ell} = y\}\\
 \end{align*}
-Now, $Z^{j[l]} -\frac{1}{M} \eta^{j[l]}_{\ell} = \frac{1}{M} \sum_{{k = 1} \atop {k \neq i}}^{M} \eta^{[j]}_{k}$ is Cauchy-distributed with scale $\bar{\gamma} - \frac{\gamma_{\ell}}{M}$.  Using the probability density function for a Cauchy distributed random variable \eqref{eq:Cpdf}, a straightforward computation gives
+Now, $Z^{[j]} -\frac{1}{M} \eta^{[j]}_{\ell} = \frac{1}{M} \sum_{k = 1 : k \neq i}^{M} \eta^{[j]}_{k}$ is Cauchy-distributed with scale $\bar{\gamma} - \frac{\gamma_{\ell}}{M}$.  Using the probability density function for a Cauchy distributed random variable \eqref{eq:Cpdf}, a straightforward computation gives
 \begin{align*}
-	\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} &= \frac{f\left(z - \frac{y}{M} ;0,\bar{\gamma}-\frac{\gamma_{\ell}}{M}\right)}{f(z;0,\bar{\gamma})} \P\{\eta^{j[l]}_{\ell} = y\}\\
-	&= \left(1+\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \frac{1}{M} + \Oh\left(\frac{1}{M^{2}}\right)\right) \P\{\eta^{j[l]}_{\ell} = y\}.
+    \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\}
+    &=
+    \frac{f\left(z - \frac{y}{M} ;0,\bar{\gamma}-\frac{\gamma_{\ell}}{M}\right)}{f(z;0,\bar{\gamma})} \P\{\eta^{[j]}_{\ell} = y\}\\
+    &=
+    \left(1
+        +
+        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})}
+        \frac{1}{M}
+        + \Oh\left(\frac{1}{M^{2}}\right)\right)
+        \P\{\eta^{[j]}_{\ell} = y\}.
 \end{align*} 
-Now, as $z \to 0$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$ and as $z \to \pm \infty$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to -\frac{\gamma_{\ell}}{\bar{\gamma}}$,  whereas $|\frac{\bar{\gamma}^{2}-z^{2}+2zy}{\bar{\gamma}^{2}+z^{2}}|$ attains a maximum of
+Noting that $|(\bar{\gamma}^2 - z^2)/(\bar{\gamma}^2 + z^2)| \le 1$
+and $|z/(\bar{\gamma}^2 + z^2)| \le 1/(2 \bar{\gamma})$
+(since it is maximized at $z = \bar{\gamma}$),
+so
+\begin{align*}
+        \left|
+        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})}
+        \right|
+        \le \frac{|y|}{\gamma_\ell \bar{\gamma}} ,
+\end{align*}
+% % BEGIN PREVIOUS ARGUMENT
+% Now, as $z \to 0$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$ and as $z \to \pm \infty$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to -\frac{\gamma_{\ell}}{\bar{\gamma}}$,  whereas $|\frac{\bar{\gamma}^{2}-z^{2}+2zy}{\bar{\gamma}^{2}+z^{2}}|$ attains a maximum of
+% \[
+% 	\frac{(\gamma_{\ell}^{2}+y^{2})\left(\sqrt{\gamma_{\ell}^{2}+y^{2}}-\gamma_{\ell}\right)}{\bar{\gamma}(\gamma_{\ell}^{2}+y^{2} - \gamma_{\ell}\sqrt{\gamma_{\ell}^{2}+y^{2}})},
+% \]
+% which is asymptotically equal to $\frac{|y|}{\bar{\gamma}}$ for large values of $|y|$, at
+% \[
+% 	z = -\frac{\bar{\gamma}}{y}(\gamma_{\ell} \pm \sqrt{\gamma_{\ell}^{2}+y^{2}}),  
+% \]
+% which is itself asymptotically equal to $\mp \sgn(y) \bar{\gamma}$ for large values of $|y|$.
+% 	
+we have that
 \[
-	\frac{(\gamma_{\ell}^{2}+y^{2})\left(\sqrt{\gamma_{\ell}^{2}+y^{2}}-\gamma_{\ell}\right)}{\bar{\gamma}(\gamma_{\ell}^{2}+y^{2} - \gamma_{\ell}\sqrt{\gamma_{\ell}^{2}+y^{2}})},
+    \left|
+    \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} - \P\{\eta^{[j]}_{\ell} = y\}
+    \right|
+    \le \left(\frac{|y|}{\gamma_\ell \bar{\gamma} M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
 \]
-which is asymptotically equal to $\frac{|y|}{\bar{\gamma}}$ for large values of $|y|$, at
-\[
-	z = -\frac{\bar{\gamma}}{y}(\gamma_{\ell} \pm \sqrt{\gamma_{\ell}^{2}+y^{2}}),  
-\]
-which is itself asymptotically equal to $\mp \sgn(y) \bar{\gamma}$ for large values of $|y|$.
-	
-Thus, for large values of $|y|$,
-\[
-	|\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} - \P\{\eta^{j[l]}_{\ell} = y\}| \lesssim \left(\frac{|y|}{\bar{\gamma} M} + \Oh\left(\frac{1}{M}\right)\right)  \P\{\eta^{j[l]}_{\ell} = y\}.
-\]
-We remark that, unlike the case of bounded allelic effects, we obtain a bound independent of the trait value $Z^{[j]}$.  Moreover, in the case of bounded allelic effects, the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution is proportional to $|Z^{[j]}|$, so that extreme trait values are most informative of the size of allelic effects, whereas here, the error is maximized when the trait value is approximately equal to the mean absolute deviation of its distribution, \ie the median value of $|Z^{[j]}|$.
+% Unlike the case of bounded allelic effects, the bound is independent of the trait value $Z^{[j]}$. 
+In the case of bounded allelic effects, the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution is proportional to $|Z^{[j]}|$, so that extreme trait values are most informative of the size of allelic effects,
+whereas here,
+the bound is independent of the trait value,
+and the error is maximized when the trait value is approximately equal to
+the mean absolute deviation of its distribution, \ie the median value of $|Z^{[j]}|$.
 
 The argument above shows for a typical locus, the effect of conditioning on the trait gives negligible information about the contribution from that site.   Recalling that
 \[
-	\P\left\{|\eta^{j[l]}_{\ell}| > y\right\} =  1-\frac{2}{\pi} \arctan\left(\frac{y}{\gamma_{\ell}}\right) \sim \frac{2\gamma_{\ell}}{\pi y},
+    \P\left\{|\eta^{[j]}_{\ell}| > y\right\} =  1-\frac{2}{\pi} \arctan\left(\frac{y}{\gamma_{\ell}}\right) \sim \frac{2\gamma_{\ell}}{\pi y},
 \]
 we see that for any $\epsilon > 0$, and large values of $M$,
 \[
-	\P\left\{\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\} \sim \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon}.
+    \P\left\{\frac{\eta^{[j]}_{\ell}}{\gamma_\ell \bar{\gamma} M} > \epsilon\right\} \sim \frac{2\gamma_{\ell}}{\pi \gamma_\ell \bar{\gamma} M \epsilon}.
 \]
-so the probability the error is of order $\Oh(\epsilon)$ at any given locus decays rapidly as $M \to \infty$. 
+so the probability the error is larger than $\epsilon$ at any given locus decays rapidly as $M \to \infty$. 
 
-If, however, we consider not any one locus, but rather all loci, we get a different picture.  The variables $\eta^{j[l]}_{\ell}$ are independent, and thus so are the Bernoulli random variables 
+If, however, we consider not any one locus, but rather all loci, we get a different picture. 
+The variables $\eta^{[j]}_{\ell}$ are independent, and thus so are the Bernoulli random variables 
 \begin{equation}
 	\1^{M}_{\ell} = \begin{cases}
-		1 & \text{if $\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M \epsilon}$, and}\\
+        1 & \text{if $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$, and}\\
 		0 & \text{otherwise.}
 	\end{cases}
 \end{equation}
@@ -804,21 +848,29 @@ Now, since
 	\lim_{M \to \infty} \sum_{\ell = 1}^{M} \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon} = \frac{2}{\pi \epsilon},
 \]
 the number of loci at which the magnitude of the effect size exceeds $M \epsilon$, which is 
-\[
-	\sum_{\ell = 1}^{M} \1^{M}_{\ell},
-\]
-converges weakly as $M \to \infty$ to a Poisson random variable with rate $\frac{2}{\pi \epsilon}$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,
+$\sum_{\ell = 1}^{M} \1^{M}_{\ell}$,
+converges weakly as $M \to \infty$ to a Poisson random variable with mean $2/(\pi \epsilon)$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,
 \begin{align*}
-	\P\left\{\max_{i=1}^{M} \frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
+    \P\left\{\max_{i=1}^{M} \frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
 \end{align*}
-which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$.  In particular, there is at least one locus at which knowing the parental trait gives one information about the effect size (and there are on the order of $\Oh\left(\frac{1}{\epsilon}\right)$ that give ``an $\epsilon$ of information''), and these large effect loci in turn give rise to correlations between parental and offspring traits.
+which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$. 
+
+In particular, there is at least one locus at which knowing the parental trait gives one information about the effect size (and there are on the order of $\Oh\left(\frac{1}{\epsilon}\right)$ that give ``an $\epsilon$ of information''), and these large effect loci in turn give rise to correlations between
+parental traits and the deviation of the offsprings' traits from the midparent
+(i.e., the Mendelian sampling terms).
+However, the first calculations above
+suggest that for ``most'' loci,
+this is not true,
+and so perhaps a reasonable picture of Mendelian sampling terms
+in an additive model with Cauchy-distributed effects
+might be ``some large Mendelian alleles plus Gaussian noise''.
+We now turn to simulation,
+to investigate.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Simulations}
 
-Next we turn to simulation,
-in which we can easily include realistic recombination (instead of unlinked loci) and selection,
-and in which we can explore the applicability of the models of the previous section.
+In simulation we can easily include realistic recombination (instead of unlinked loci) and selection.
 We used SLiM v4 \citep{haller2022slim4}
 to simulate a discrete-time approximation to the continuous-time Moran model described above
 as follows.
