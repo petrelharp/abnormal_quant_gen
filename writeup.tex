@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{fullpage}
-\usepackage{amsmath,amssymb,amsthm,bm,enumerate,mathtools}
+\usepackage{amsmath,amssymb,amsthm,bm,bbm,enumerate,mathtools}
 \usepackage[hidelinks]{hyperref}
 \usepackage{natbib}
 \usepackage{xcolor}
@@ -18,9 +18,15 @@
 \newcommand{\var}{\mathop{\mbox{Var}}}
 \newcommand{\cov}{\mathop{\mbox{Cov}}}
 
+\newcommand{\iid}{\overset{i.i.d}{\sim}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\Oh}{{\mathcal O}}
+
 \newcommand{\comment}[1]{{\color{blue} \it #1}}
 
 \DeclareMathOperator*{\Log}{Log}
+\DeclareMathOperator*{\Cauchy}{Cauchy}
+\DeclareMathOperator*{\Bernoulli}{Bernoulli}
 \DeclareMathOperator*{\sgn}{sgn}
 
 \newtheorem{thm}{Theorem}
@@ -711,7 +717,11 @@ Note that we do not require very weak selection to guarantee a Gaussian steady s
 \subsubsection{Cauchy Solution}
     \label{sec:stabilizing_cauchy}
 
-Almost uniquely among the stable laws, the Cauchy distribution has a probability density function expressible in elementary functions (the other exceptions being the L\'evy and Gaussian distributions): for a Cauchy random variable with median (location) $x_{0}$ and mean absolute deviation (scale) $\gamma$, the density is $f(x;x_{0},\gamma) = \frac{1}{\pi\gamma\left[1+\left(\frac{x-x_{0}}{\gamma}\right)^{2}\right]}$.  Armed with this density function, we can explicitly compute the right hand size of \eqref{eqn:MSB_CF}, assuming that 
+Almost uniquely among the stable laws, the Cauchy distribution has a probability density function expressible in elementary functions (the other exceptions being the L\'evy and Gaussian distributions): for a Cauchy random variable with median (location) $x_{0}$ and mean absolute deviation (scale) $\gamma$, the density is 
+\begin{equation}\label{eq:Cpdf}
+	f(x;x_{0},\gamma) = \frac{1}{\pi\gamma\left[1+\left(\frac{x-x_{0}}{\gamma}\right)^{2}\right]}.  
+\end{equation}	
+Armed with this density function, we can explicitly compute the right hand size of \eqref{eqn:MSB_CF}, assuming that 
 \begin{enumerate}[(i)]
 \item the population is in mutation-selection balance corresponding to a Cauchy density with median 0 and scale $\gamma > 0$,
 \item selection acts as $\mu(x) = \frac{\delta^{2}}{\gamma^{2}} \frac{\gamma^{2} + x^{2}}{\delta^{2} + x^{2}}$ for some $\delta > \gamma > 0$, and
@@ -730,6 +740,79 @@ As remarked above, we found this solution by inspection and trial-and-error; it 
 
 %(here, see a saturating cost to being away from the optimal phenotype $x = 0$: the mortality is maximized at  $\frac{\beta^{2}}{\alpha^{2}}$.
 
+\section{Cauchy-decendants} 
+
+Having seen that a mutation-selection balance is possible with a Cauchy empirical distribution and Cauchy transmission noise, it is natural to ask why we couldn't have an infinitesimal model with Cauchy-descendants, \textit{sensu} \cite{turelli2017commentary}.  To that end, it's instructive to see where the argument of \cite{barton2017infinitesimal} breaks down if instead of assuming bounded allele effects of order $\Oh\left(\frac{1}{\sqrt{M}}\right)$, we assume that the allele at locus $i$ in individual $j$ contributes $\frac{1}{M} \eta^{[j]}_{\ell}$, where the $\eta^{[j]}_{\ell}$ are $\Cauchy(0,\gamma_{\ell})$ random variables.  In this case, the median effect size at locus $\ell$, $\frac{\gamma_{\ell}}{M}$, is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal}, but large effect alleles are more likely. 
+
+The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within family segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight.  While is meaningless to speak of variances when the transmission noise is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus, then its trait value is informative of the trait value of any offspring that inherits that allele, and we lose the independence between parental traits and transmission noise that is central to the infinitesimal model.  
+
+Consider the simplest possible case of an ancestral population, of $N$ individuals, where the $j$\textsuperscript{th} individual has trait value 
+\[
+	Z^{[j]}_{M} = \frac{1}{M} \sum_{\ell = 1}^{M}  \eta^{[j]}_{\ell},
+\]
+where the $\eta^{[j]}_{\ell}$ are independent across individuals and across loci.  By the additive property of Cauchy random variables, $Z^{[j]} \iid \Cauchy(0,\bar{\gamma})$, where 
+\[
+	\bar{\gamma} = \frac{1}{M} \sum_{\ell = 1}^{M} \gamma_{\ell}
+\]
+is the mean of the scale parameters.  
+
+To see what knowing the trait value $Z^{[j]}_{M}$ tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \cite{Fisher1918,barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
+\begin{align*}
+	\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} &= \frac{\P\{\eta^{j[l]}_{\ell} = y; Z^{j[l]} = z\}}{\P\{Z^{j[l]} = z\}}\\
+		&= \frac{\P\{Z^{j[l]} = z\vert\eta^{j[l]}_{\ell} = y\}}{\P\{Z^{j[l]} = z\}}\P\{\eta^{j[l]}_{\ell} = y\}\\
+		&=  \frac{\P\{Z^{j[l]} -\frac{1}{M} \eta^{j[l]}_{\ell} = z - \frac{1}{M} y\}}{\P\{Z^{j[l]} = z\}}\P\{\eta^{j[l]}_{\ell} = y\}\\
+\end{align*}
+Now, $Z^{j[l]} -\frac{1}{M} \eta^{j[l]}_{\ell} = \frac{1}{M} \sum_{{k = 1} \atop {k \neq i}}^{M} \eta^{[j]}_{k}$ is Cauchy-distributed with scale $\bar{\gamma} - \frac{\gamma_{\ell}}{M}$.  Using the probability density function for a Cauchy distributed random variable \eqref{eq:Cpdf}, a straightforward computation gives
+\begin{align*}
+	\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} &= \frac{f\left(z - \frac{y}{M} ;0,\bar{\gamma}-\frac{\gamma_{\ell}}{M}\right)}{f(z;0,\bar{\gamma})} \P\{\eta^{j[l]}_{\ell} = y\}\\
+	&= \left(1+\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \frac{1}{M} + \Oh\left(\frac{1}{M^{2}}\right)\right) \P\{\eta^{j[l]}_{\ell} = y\}.
+\end{align*} 
+Now, as $z \to 0$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$ and as $z \to \pm \infty$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to -\frac{\gamma_{\ell}}{\bar{\gamma}}$,  whereas $|\frac{\bar{\gamma}^{2}-z^{2}+2zy}{\bar{\gamma}^{2}+z^{2}}|$ attains a maximum of
+\[
+	\frac{(\gamma_{\ell}^{2}+y^{2})\left(\sqrt{\gamma_{\ell}^{2}+y^{2}}-\gamma_{\ell}\right)}{\bar{\gamma}(\gamma_{\ell}^{2}+y^{2} - \gamma_{\ell}\sqrt{\gamma_{\ell}^{2}+y^{2}})},
+\]
+which is asymptotically equal to $\frac{|y|}{\bar{\gamma}}$ for large values of $|y|$, at
+\[
+	z = -\frac{\bar{\gamma}}{y}(\gamma_{\ell} \pm \sqrt{\gamma_{\ell}^{2}+y^{2}}),  
+\]
+which is itself asymptotically equal to $\mp \sgn(y) \bar{\gamma}$ for large values of $|y|$.
+	
+Thus, for large values of $|y|$,
+\[
+	|\P\{\eta^{j[l]}_{\ell} = y \vert Z^{j[l]} = z\} - \P\{\eta^{j[l]}_{\ell} = y\}| \lesssim \left(\frac{|y|}{\bar{\gamma} M} + \Oh\left(\frac{1}{M}\right)\right)  \P\{\eta^{j[l]}_{\ell} = y\}.
+\]
+We remark that, unlike the case of bounded allelic effects, we obtain a bound independent of the trait value $Z^{[j]}$.  Moreover, in the case of bounded allelic effects, the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution is proportional to $|Z^{[j]}|$, so that extreme trait values are most informative of the size of allelic effects, whereas here, the error is maximized when the trait value is approximately equal to the mean absolute deviation of its distribution, \ie the median value of $|Z^{[j]}|$.
+
+The argument above shows for a typical locus, the effect of conditioning on the trait gives negligible information about the contribution from that site.   Recalling that
+\[
+	\P\left\{|\eta^{j[l]}_{\ell}| > y\right\} =  1-\frac{2}{\pi} \arctan\left(\frac{y}{\gamma_{\ell}}\right) \sim \frac{2\gamma_{\ell}}{\pi y},
+\]
+we see that for any $\epsilon > 0$, and large values of $M$,
+\[
+	\P\left\{\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\} \sim \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon}.
+\]
+so the probability the error is of order $\Oh(\epsilon)$ at any given locus decays rapidly as $M \to \infty$. 
+
+If, however, we consider not any one locus, but rather all loci, we get a different picture.  The variables $\eta^{j[l]}_{\ell}$ are independent, and thus so are the Bernoulli random variables 
+\begin{equation}
+	\1^{M}_{\ell} = \begin{cases}
+		1 & \text{if $\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M \epsilon}$, and}\\
+		0 & \text{otherwise.}
+	\end{cases}
+\end{equation}
+Now, since
+\[
+	\lim_{M \to \infty} \sum_{\ell = 1}^{M} \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon} = \frac{2}{\pi \epsilon},
+\]
+the number of loci at which the magnitude of the effect size exceeds $M \epsilon$, which is 
+\[
+	\sum_{\ell = 1}^{M} \1^{M}_{\ell},
+\]
+converges weakly as $M \to \infty$ to a Poisson random variable with rate $\frac{2}{\pi \epsilon}$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,
+\begin{align*}
+	\P\left\{\max_{i=1}^{M} \frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
+\end{align*}
+which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{j[l]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$.  In particular, there is at least one locus at which knowing the parental trait gives one information about the effect size (and there are on the order of $\Oh\left(\frac{1}{\epsilon}\right)$ that give ``an $\epsilon$ of information''), and these large effect loci in turn give rise to correlations between parental and offspring traits.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Simulations}
