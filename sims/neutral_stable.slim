@@ -18,10 +18,10 @@ initialize() {
     initializeSLiMOptions(keepPedigrees=T);
 	// initializeTreeSeq();
 	initializeMutationRate(MUTRATE);
-    // divide effect sizes by 4 N L mu because we should have O(this many) segregating;
+    // divide effect sizes by (4 N L mu)^(2/3) because we should have O(this many) segregating;
     // this way typical phenotypes will be O(1)
 	initializeMutationType("m1", 0.5, "s",
-      paste0("a = ", ALPHA, "/2; U = runif(1, 0, PI); ", SD,
+      paste0("a = ", ALPHA, "/2; U = runif(1, 0, PI); ", SD / (4 * N * L * MUTRATE)^(2/3),
              " * rnorm(1) * sqrt(2) * ( sin(a*U) / sin(U) )^(1/a) * ( sin((1-a)*U) / (rexp(1) * sin(a*U) ) )^((1-a)/(2*a));"
         )
     );
