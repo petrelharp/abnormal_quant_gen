@@ -657,7 +657,7 @@ as $k \to \infty$ and the sum converges by the ratio test.  In this case,
 \end{align*}
 If we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, then the limiting distribution is $N(0,2\eta^{2})$. Note that when  $r(\theta)$ is non-zero, we don't expect the higher order terms to vanish.
 
-It is unclear what more can be said in general. If however, we specialize to the case when $R$ is a stable law, we can explicitly compute the limiting noise term.  We recall that if $\Psi(\theta)$ corresponds to a stable law(see \eg \cite{breiman1992probability}), then
+It is unclear what more can be said in general. If however, we specialize to the case when $R$ is a stable law, we can explicitly compute the limiting noise term.  We recall that if $\Psi(\theta)$ corresponds to a stable law (see \eg \cite{breiman1992probability}), then
 \[
 	\Psi(\theta) = im\theta + c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
 \]
@@ -671,11 +671,11 @@ for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ a
 By our general remarks above, we can assume $m = 0$ and exclude the case $\alpha = 1$, $\beta = 0$, for which  $\Psi'(0+) = c$. We then have
 \begin{align*}
 	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
-	 &=  \sum_{k=1}^{n-1} im\theta + 2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn(\theta)\left(\frac{\theta}{2^{k}}\right)
+	 &=  \sum_{k=1}^{n-1} 2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn(\theta)\left(\frac{\theta}{2^{k}}\right)
 	 	 \omega_{\alpha}\left(\frac{\theta}{2^{k}}\right)\right)}\\
 	&= \begin{cases}
-		 im(n-1)\theta + c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
-		 c|\theta|^{\alpha}  \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n(n-1)}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
+		 c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
+         (n-1) c|\theta|^{\alpha}  \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
 	\end{cases}
 \end{align*}
 which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the limit is 
@@ -684,21 +684,17 @@ which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the
 \]
 which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
 
-More generally, one will get convergence if the noise is a mixture of components with finite variance and stable laws as above, whereas the population distribution will be a mixture of a (possibly degenerate) Cauchy distribution and such noise terms -- we remark that in the presence of noise, a pure Cauchy distributed solution is \emph{not} possible in the neutral case.
+More generally, one will get convergence if the noise is a mixture of components with finite variance and stable laws as above, whereas the population distribution will be a mixture of a (possibly degenerate) Cauchy distribution and such noise terms. Note that in the presence of noise, a pure Cauchy-distributed solution is \emph{not} possible in the neutral case.
 
 \subsection{Stabilizing Selection}
     \label{sec:stabilizing_selection}
     
-Unfortunately, once selection is included, \eqref{eqn:MSB_CF} is less amenable to the sort of simple arguments above.  We will content ourselves with presenting two examples in the case of stabilizing selection, one already familiar to enthusiasts of quantitative genetics, the other a Cauchy solution obtained by trial-and-error, which illustrates how selection can stabilize an otherwise unviable solution.
+Unfortunately, once selection is included, \eqref{eqn:MSB_CF} is less amenable to the sort of simple arguments above.  We will content ourselves with presenting two examples of stabilizing selection, one already familiar to quantitative genetics, the other a Cauchy solution obtained by trial-and-error, which illustrates how selection can stabilize an otherwise unviable solution.
 
-\subsubsection{Gaussian Solution}
-    \label{sec:stabilizing_gaussian}
-
-First, consider the case when $1+ \mu(x) = e^{a x^{2}}$.   In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
-\[
-	\phi(\theta) = e^{i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}}.
-\]
-Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]}$  using the Gaussian probability density function to conclude that
+\paragraph{Gaussian Solution:}
+First, consider the case when $\mu(x) = e^{a x^{2}}$.   In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
+$ \phi(\theta) = \exp(i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}).  $
+Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right]}{\mathbb{E}[\mu(Z)]}$  using the Gaussian probability density function to conclude that
 if $R$ is Gaussian with mean zero and variance $\eta^2$, then equation~\eqref{eqn:MSB_CF} becomes
 \[
 	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
@@ -711,13 +707,15 @@ which, equating real and complex components, has a solution provided $m = 0$ and
 	=  2\eta^{2}(1-4a\eta^{2}) + O(a^{2}).
 \]
 
-Note that we do not require very weak selection to guarantee a Gaussian steady state, only that $a < \frac{1}{2\sigma^{2}}$.  However, this does not imply that the transient distribution is also Gaussian, as is sometimes assumed \comment{cite any number of Lande papers?}.  The latter does indeed require very weak selection.
+Note that we do not require very weak selection to guarantee a Gaussian steady state, only that $a < \frac{1}{2\sigma^{2}}$.  However, this does not imply that the transient distribution is also Gaussian, as is sometimes assumed \citep[e.g.,][]{lande1976natural}. %  The latter does indeed require very weak selection.
 
 
 \subsubsection{Cauchy Solution}
     \label{sec:stabilizing_cauchy}
 
-Almost uniquely among the stable laws, the Cauchy distribution has a probability density function expressible in elementary functions (the other exceptions being the L\'evy and Gaussian distributions): for a Cauchy random variable with median (location) $x_{0}$ and mean absolute deviation (scale) $\gamma$, the density is 
+Almost uniquely among the stable laws, the Cauchy distribution has a probability density function expressible in elementary functions: 
+% (the other exceptions being the L\'evy and Gaussian distributions): 
+for a Cauchy random variable with median (location) $x_{0}$ and mean absolute deviation (scale) $\gamma$, the density is 
 \begin{equation}\label{eq:Cpdf}
 	f(x;x_{0},\gamma) = \frac{1}{\pi\gamma\left[1+\left(\frac{x-x_{0}}{\gamma}\right)^{2}\right]}.  
 \end{equation}	
@@ -725,16 +723,17 @@ Armed with this density function, we can explicitly compute the right hand size 
 \begin{enumerate}[(i)]
 \item the population is in mutation-selection balance corresponding to a Cauchy density with median 0 and scale $\gamma > 0$,
 \item selection acts as $\mu(x) = \frac{\delta^{2}}{\gamma^{2}} \frac{\gamma^{2} + x^{2}}{\delta^{2} + x^{2}}$ for some $\delta > \gamma > 0$, and
-\item the transmission noise $R$ is given by a $\text{Cauchy}(0,\delta-\gamma)$ random variable (\ie corresponding to a stable $(0,0,\delta-\gamma,0)$ law).
+\item the Mendelian sampling term $R$ is given by a $\text{Cauchy}(0,\delta-\gamma)$ random variable (\ie corresponding to a stable $(1,0,\delta-\gamma,0)$ law).
 \end{enumerate}
 
-Under these assumptions,  
+Under these assumptions, \eqref{eqn:MSB_CF} is
 \begin{align*}
-	\frac{\mathbb{E}\left[e^{i \theta Z}(1+\mu(Z))\right]}{\mathbb{E}[1+\mu(Z)]} 
+	\frac{\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right]}{\mathbb{E}[\mu(Z)]} 
 	&= e^{-\delta |\theta|}\\
 	&= e^{-2\gamma \left|\frac{\theta}{2}\right|-(\delta-\gamma)|\theta|},
 \end{align*} 
-which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta)$, where $\phi(\theta) = e^{i\gamma|\theta|}$ and $\Phi(\theta) = e^{i(\delta - \gamma)|\theta|}$ are the characteristic functions of the population density and the transmission noise, respectively, giving us a.non-Gaussian solution to \eqref{eqn:MSB_CF} with both noise and selection.
+which we recognize as being equal to $\phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta)$, where $\phi(\theta) = e^{i\gamma|\theta|}$ and $\Phi(\theta) = e^{i(\delta - \gamma)|\theta|}$ are the characteristic functions of the population density and the Mendelian sampling term, respectively,
+giving a.non-Gaussian solution to \eqref{eqn:MSB_CF} with both noise and selection.
 
 As remarked above, we found this solution by inspection and trial-and-error; it is interesting to ask if any similar examples can be constructed for other stable laws.  The lack of an elementary probability density function unfortunately rules out the na\"ive approach used here. 
 
@@ -818,7 +817,8 @@ which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles
 \section{Simulations}
 
 Next we turn to simulation,
-in which we can easily include realistic recombination (instead of unlinked loci) and selection.
+in which we can easily include realistic recombination (instead of unlinked loci) and selection,
+and in which we can explore the applicability of the models of the previous section.
 We used SLiM v4 \citep{haller2022slim4}
 to simulate a discrete-time approximation to the continuous-time Moran model described above
 as follows.
@@ -829,11 +829,11 @@ Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
 The phenotype of each individual is determined additively
 by summing the effects of all mutations they carry across both chromosomes.
-Let $f(z)$ be the death rate of an individual with phenotype $z$,
+Let $\mu(z)$ be the death rate of an individual with phenotype $z$,
 and let $dt$ be a small constant (we took $dt=0.01$).
 In all plots, one time unit is approximately one generation.
 Then, at each time step
-each individual dies with probability $1 - \exp(-dt f(z))$;
+each individual dies with probability $1 - \exp(-dt \mu(z))$;
 if there are $k$ such individuals chosen to die in a given time step,
 then we choose $k$ individuals uniformly and without replacement
 to produce new offspring;
@@ -890,7 +890,7 @@ but in a large population these details should be unimportant.)
     }
 \end{figure}
 
-We first consider the neutral case (i.e., with $f \equiv 1$).
+We first consider the neutral case (i.e., with $\mu \equiv 1$).
 As shown in Figure~\ref{fig:trait_distrns},
 a simulation with a Cauchy effect size distribution, unsurprisingly,
 has a distribution of trait values with more extreme values
@@ -929,12 +929,12 @@ as we would expect in the presence of several large-effect alleles.
     }
 \end{figure}
 
-We next compared two situations of stabilizing selection, motivated by the results above
-\comment{TODO: refer to where?}:
+We next compared two situations of stabilizing selection, motivated by the results
+in Section~\ref{sec:stabilizing_selection}:
 (1) the effect size distribution was Gaussian with mean zero and standard deviation 1.0
-and $f(z) = e^{\alpha z^2}$; and
+and $\mu(z) = e^{\alpha z^2}$; and
 (2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
-and $f(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$ with $\delta=0.5$ and $\gamma=0.2$.
+and $\mu(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$ with $\delta=0.5$ and $\gamma=0.2$.
 Figures~\ref{fig:sel_trait_distrns} and~\ref{fig:sel_seg_noise}
 show that the picture is largely unchanged by stabilizing selection
 except that, unsurprisingly, the median trait no longer wanders unconstrained
