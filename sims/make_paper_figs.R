@@ -162,7 +162,7 @@ fname <- "selected_seg_noise_small.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-png(file=fname, width=8.5, height=6, pointsize=10, units='in', res=288)
+png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
 plot_seg_noise(examples, labels, seg_col=1)
 dev.off()
 
