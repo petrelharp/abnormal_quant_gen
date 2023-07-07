@@ -37,7 +37,7 @@ load_seg_midp <- function (base, max_n=as.integer(1e6)) {
 }
 
 plot_trait_traces <- function (examples, labels) {
-    layout(matrix(1:4, nrow=2), heights=c(1.5,1))
+    layout(matrix(1:(2*length(examples)), nrow=2), heights=c(1.5,1))
     for (x in names(examples)) {
         fix <- load_fix(examples[[x]])
         pop <- load_pop(examples[[x]])
@@ -55,7 +55,7 @@ plot_trait_traces <- function (examples, labels) {
 }
 
 plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
-    layout(matrix(1:6, nrow=3), heights=c(1.5,1, 1))
+    layout(matrix(1:(3*length(examples)), nrow=3), heights=c(1.5,1, 1))
     for (x in names(examples)) {
         params <- load_params(examples[[x]])
         sm <- load_seg_midp(examples[[x]])
@@ -162,7 +162,33 @@ fname <- "selected_seg_noise_small.png"
 labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"))
 names(labels) <- names(examples)
 
-png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
+png(file=fname, width=8.5, height=6, pointsize=10, units='in', res=288)
 plot_seg_noise(examples, labels, seg_col=1)
+dev.off()
+
+
+# 5. with stable(3/2)
+examples <- list(
+                 "neutral Normal" = "sim_neutral_normal_8135",
+                 "neutral Stable(3/2)" = "sim_neutral_stable_8135",
+                 "neutral Cauchy" = "sim_neutral_cauchy_8135"
+)
+
+fname <- "neutral_trait_traces2.pdf"
+labels <- list(c("(A)", "(B)"), c("(C)", "(D)"), c("(E)", "(F)"))
+names(labels) <- names(examples)
+
+pdf(file=fname, width=6.5, height=3, pointsize=10)
+plot_trait_traces(examples, labels)
+dev.off()
+
+# 6. Segregation noise:
+
+fname <- "neutral_seg_noise2.png"
+labels <- list(c("(A)", "(B)", "(C)"), c("(D)", "(E)", "(F)"), c("(G)", "(H)", "(I)"))
+names(labels) <- names(examples)
+
+png(file=fname, width=8.5, height=6, pointsize=10, units='in', res=288)
+plot_seg_noise(examples, labels)
 dev.off()
 
