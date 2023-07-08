@@ -81,7 +81,6 @@ plot_seg_noise <- function (examples, labels, seg_col, main_append="", ...) {
     }
 }
 
-
 ###########
 # Neutral examples
 examples <- list(
@@ -166,11 +165,10 @@ png(file=fname, width=6.5, height=6, pointsize=10, units='in', res=288)
 plot_seg_noise(examples, labels, seg_col=1)
 dev.off()
 
-
 # 5. with stable(3/2)
 examples <- list(
                  "neutral Normal" = "sim_neutral_normal_8135",
-                 "neutral Stable(3/2)" = "sim_neutral_stable_8135",
+                 "neutral Stable(3/2)" = "sim_neutral_stable_8136",
                  "neutral Cauchy" = "sim_neutral_cauchy_8135"
 )
 
