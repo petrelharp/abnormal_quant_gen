@@ -517,17 +517,17 @@ might lead to such models.)
 We might also ask whether such a model
 might still reasonably approximate an additive model with non-Gaussian effects,
 and for the purpose of investigating this with simulations,
-some calculations are helpful.
+some calculations will be helpful.
 
 Concretely, consider a  Moran process where an individual whose trait value is $Z$ dies at rate $\mu(Z)$
-and is replaced by a the offspring of two randomly chosen individuals,
-i.e., a new individual of phenotype
+and is replaced by the offspring of two randomly chosen individuals,
+i.e., a new individual with trait
 \begin{align*}
   \frac{Z^{1} +Z^{2}}{2} + R ,
 \end{align*}
 where $Z^{1}$ and $Z^{2}$ are independent draws from the empirical population distribution
 and $R$ is an independent draw from the Mendelian sampling distribution
-(independent of $Z^{1}$ and $Z^{2}$). 
+(independent of $Z^{1}$ and $Z^{2}$, with distribution to be specified). 
 Mutation-selection balance demands that that
 the distribution of individuals removed by death
 and the distribution of individuals added by birth are equal,
@@ -543,7 +543,9 @@ to a $\mu$-weighted choice of $Z$.
 Taking the characteristic function of both these distributions,
 deterministic mutation-selection balance is therefore equivalent to
 \begin{align} \label{eqn:MSB_CF}
-    \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right] = \frac{\E\left[ e^{i \theta Z}\mu(Z) \right]}{\E[\mu(Z)]}.
+    \frac{\E\left[ e^{i \theta Z}\mu(Z) \right]}{\E[\mu(Z)]}
+    =
+    \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right] .
 \end{align}
 Now, we assumed that $Z^{1}$, $Z^{2}$, and $R$ are independent, so we can write \eqref{eqn:MSB_CF} as 
 \begin{align*}
@@ -888,9 +890,9 @@ the genome is of length $10^8$bp with a uniform recombination rate of $10^{-8}$ 
 mutations occur at a rate of $10^{-9}$ per bp.
 Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
-The phenotype of each individual is determined additively
+The trait of each individual is determined additively
 by summing the effects of all mutations they carry across both chromosomes.
-Let $\mu(z)$ be the death rate of an individual with phenotype $z$,
+Let $\mu(z)$ be the death rate of an individual with trait $z$,
 and let $dt$ be a small constant (we took $dt=0.01$).
 In all plots, one time unit is approximately one generation.
 Then, at each time step
