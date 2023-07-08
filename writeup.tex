@@ -589,7 +589,7 @@ whereas any fixed point must be the limit of an arbitrary characteristic functio
 % \]
 is a fixed point whenever this limit exists.  
 
-Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = \Phi(0) = 1$, and thus both are non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
+Since $\varphi$ and $\Phi$ are characteristic functions, they are continuous and $\phi(0) = \Phi(0) = 1$, and thus both are non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
 \[
 	\Log{F^{(n)}(\varphi)(\theta)} = {\textstyle 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)} 
 		+ \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
@@ -597,9 +597,9 @@ Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely con
 We briefly explore what possible limiting values are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider to the case when both have well-posed limits independent of the other.
 
 \paragraph{Noise Terms}
-First, consider the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$.  Taylor's theorem then tells us that for $\theta$ sufficiently small, 
+First, consider the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$, then Taylor's theorem tells us that for $\theta$ sufficiently small, 
 \[
-	\Psi(\theta) \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
+	\Psi(\theta) = \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
 \]
 where $r(\theta) \to 0$ as $\theta \to 0$.  Thus,
 \begin{equation*}
@@ -614,7 +614,7 @@ as $k \to \infty$ and the sum converges by the ratio test.  In this case,
 		+ r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{2k}}\right)}\\
 	&=- \eta^{2} \theta^{2} (1 - 2^{-n+1})  + \sum_{k=1}^{n-1} {\textstyle r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{k}}}
 \end{align*}
-If we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, then the limiting distribution is $N(0,2\eta^{2})$. Note that when  $r(\theta)$ is non-zero, we don't expect the higher order terms to vanish.
+If we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, then the limiting distribution is $N(0,2\eta^{2})$. When  $r(\theta)$ is non-zero, we don't expect the higher order terms to vanish.
 
 It is unclear what more can be said in general. If however, we specialize to the case when $R$ is a stable law, we can explicitly compute the limiting noise term.  We recall that if $\Psi(\theta)$ corresponds to a stable law (see \eg \cite{breiman1992probability}), then
 \[
@@ -660,7 +660,7 @@ and, since $\alpha(0) = 0$,
 		\alpha'(0-) & \text{if $\theta < 0$,}
 	\end{cases}
 \]
-as $k \to - \infty$ if the limits exist (\ie there are unique left-and right-hand limit at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  We henceforth assume this.
+as $k \to - \infty$ if the limits exist (\ie there are unique left-and right-hand limits at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  We henceforth assume this.
 
 Since $\varphi(\theta)$ is a characteristic function, it has the Hermitian property: $\phi(-\theta) = \overline{\phi(\theta)}$, and thus $\psi(-\theta) = \overline{\psi(\theta)}$ and $\alpha(-\theta) = \overline{\alpha(\theta)}$.  In particular, if one (and by extension both) limits exist, we must have $\alpha'(0-) = \overline{\alpha'(0+)}$.  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
 \[
@@ -669,18 +669,22 @@ Since $\varphi(\theta)$ is a characteristic function, it has the Hermitian prope
 		i m\theta + \gamma \theta & \text{if $\theta < 0$}.
 	\end{cases}
 \]
-If $\gamma > 0$, then we recognize $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median 0 and mean absolute deviation $\gamma$, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.    In general, it does not seem possible to exclude $\gamma < 0$. However, recalling that if $\phi(\theta)$ is the characteristic function of a random variable $Z$, Jensen's inequality tells us that for all $\theta$,
-\begin{equation}\label{eq:CF-J}
-	|\phi(\theta)| = \left|\E\left[e^{i\theta Z}\right]\right| \leq \E\left[\left|e^{i\theta Z}\right|\right] = 1,
-\end{equation}
-we can conclude $\gamma \geq 0$ when the limiting noise term is a mixture of Gaussians and stable laws of the form \eqref{eq:stablenoises}: we then have 
-\[
-	|\phi(\theta)| = e^{\re(\alpha(\theta) + o(|\theta|))} = e^{\gamma |\theta| + o(|\theta|))},
-\] 
-and thus is less than or equal to one in a small neighbourhood of $0$ if and only if $\gamma < 0$.
+If $\gamma > 0$, then we recognize $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median 0 and median absolute deviation $\gamma$, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
+(And, $\gamma < 0$ does not give a valid characteristic function.)
+% % I think we've shown this characteristic function has to be exp(im\theta - \gamma|\theta|);
+% % if $\gamma < 0$ then it is not a characteristic function; am I missing something?
+% In general, it does not seem possible to exclude $\gamma < 0$. However, recalling that if $\phi(\theta)$ is the characteristic function of a random variable $Z$, Jensen's inequality tells us that for all $\theta$,
+% \begin{equation}\label{eq:CF-J}
+% 	|\phi(\theta)| = \left|\E\left[e^{i\theta Z}\right]\right| \leq \E\left[\left|e^{i\theta Z}\right|\right] = 1,
+% \end{equation}
+% we can conclude $\gamma \geq 0$ when the limiting noise term is a mixture of Gaussians and stable laws of the form \eqref{eq:stablenoises}: we then have 
+% \[
+% 	|\phi(\theta)| = e^{\re(\alpha(\theta) + o(|\theta|))} = e^{\gamma |\theta| + o(|\theta|))},
+% \] 
+% and thus is less than or equal to one in a small neighbourhood of $0$ if and only if $\gamma < 0$.
 
-\paragraph{Lamarkian inheritance redux.} 
-Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait -- \ie Lamarkian blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieved a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
+\paragraph{Blending inheritance redux.} 
+Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait -- \ie blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{jenkin1867,Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieve a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
 
 % \paragraph{Other solutions?}
 % We would naturally like to know if these two exhaust the possible solutions.  Above, we exhausted all solutions for which $\alpha'(0+)$ exists.  However, if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. This does not, however, in and of itself exclude $e^{\alpha(\theta)}$ from being a characteristic function: Bochner's theorem tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
@@ -702,9 +706,9 @@ More generally, one will get convergence if the noise is a mixture of components
 Unfortunately, once selection is included, \eqref{eqn:MSB_CF} is less amenable to the sort of simple arguments above.  We will content ourselves with presenting two examples of stabilizing selection, one already familiar to quantitative genetics, the other a Cauchy solution obtained by trial-and-error, which illustrates how selection can stabilize an otherwise unviable solution.
 
 \paragraph{Gaussian Solution:}
-First, consider the case when $\mu(x) = e^{a x^{2}}$.   In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$.  Then,
+First, consider the case when $\mu(x) = e^{a x^{2}}$.   In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$, so
 $ \phi(\theta) = \exp(i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}).  $
-Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right]}{\mathbb{E}[\mu(Z)]}$  using the Gaussian probability density function to conclude that
+Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right]}{\mathbb{E}[\mu(Z)]}$: %  using the Gaussian probability density function to conclude that
 if $R$ is Gaussian with mean zero and variance $\eta^2$, then equation~\eqref{eqn:MSB_CF} becomes
 \[
 	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
@@ -717,7 +721,7 @@ which, equating real and complex components, has a solution provided $m = 0$ and
 	=  2\eta^{2}(1-4a\eta^{2}) + O(a^{2}).
 \]
 
-Note that we do not require very weak selection to guarantee a Gaussian steady state, only that $a < \frac{1}{2\sigma^{2}}$.  However, this does not imply that the transient distribution is also Gaussian, as is sometimes assumed \citep[e.g.,][]{lande1976natural}. %  The latter does indeed require very weak selection.
+Note that we do not require very weak selection to guarantee a Gaussian steady state, only that $a < \frac{1}{4\eta^{2}}$.  However, this does not imply that the transient distribution is also Gaussian, as is sometimes assumed \citep[e.g.,][]{lande1976natural}. %  The latter does indeed require very weak selection.
 
 
 \subsubsection{Cauchy Solution}
@@ -753,12 +757,12 @@ As remarked above, we found this solution by inspection and trial-and-error; it 
 
 Above we have seen that
 (a) in principle,
-a mutation-selection balance is possible with a Cauchy empirical distribution and Cauchy Mendelian sampling term,
+a mutation-selection balance is possible with a Cauchy empirical distribution and Cauchy Mendelian noise,
 but (b)
-such a model cannot derive from a simple model with additive loci.
+such a model cannot derive from a simple model of additive loci.
 To that end, it's instructive to see where the argument of \cite{barton2017infinitesimal} breaks down
-if instead of assuming bounded allele effects of order $\Oh\left(1/\sqrt{M}\right)$,
-we assume that the allele at locus $i$ in individual $j$ contributes
+if instead of assuming bounded allele effects of order $\Oh(1/\sqrt{M})$,
+we assume that the allele at locus $\ell$ in individual $j$ contributes
 $\eta^{[j]}_{\ell}/M$, where the $\eta^{[j]}_{\ell}$ are independent $\Cauchy(0,\gamma_{\ell})$ random variables. 
 In this case, the typical effect size at locus $\ell$ is of order $\frac{\gamma_{\ell}}{M}$,
 which is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal},
@@ -766,11 +770,11 @@ but large effect alleles are more likely.
 
 The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
 
-The key observation is this:
-while is meaningless to speak of variances when the Mendelian sampling term is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
-then its trait value is informative of the \emph{distribution} of an offsprings' trait value,
-and hence there can be no independence between parental traits and the Mendelian sampling term
-that is central to the tractability of the infinitesimal model.  
+% The key observation is this:
+% while is meaningless to speak of variances when the Mendelian sampling term is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
+% then its trait value is informative of the \emph{distribution} of an offsprings' trait value,
+% and hence there can be no independence between parental traits and the Mendelian sampling term
+% that is central to the tractability of the infinitesimal model.  
 
 Consider the simplest possible case of an ancestral population, of $N$ individuals, where the $j$\textsuperscript{th} individual has trait value 
 \[
@@ -800,7 +804,7 @@ Now, $Z^{[j]} -\frac{1}{M} \eta^{[j]}_{\ell} = \frac{1}{M} \sum_{k = 1 : k \neq 
         \frac{1}{M}
         + \Oh\left(\frac{1}{M^{2}}\right)\right)
         \P\{\eta^{[j]}_{\ell} = y\}.
-\end{align*} 
+\end{align*}
 Noting that $|(\bar{\gamma}^2 - z^2)/(\bar{\gamma}^2 + z^2)| \le 1$
 and $|z/(\bar{\gamma}^2 + z^2)| \le 1/(2 \bar{\gamma})$
 (since it is maximized at $z = \bar{\gamma}$),
@@ -811,8 +815,12 @@ so
         \right|
         \le \frac{|y|}{\gamma_\ell \bar{\gamma}} ,
 \end{align*}
-% % BEGIN PREVIOUS ARGUMENT
-% Now, as $z \to 0$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$ and as $z \to \pm \infty$, $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to -\frac{\gamma_{\ell}}{\bar{\gamma}}$,  whereas $|\frac{\bar{\gamma}^{2}-z^{2}+2zy}{\bar{\gamma}^{2}+z^{2}}|$ attains a maximum of
+% Now, as $z \to 0$,
+% $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$
+% and as $z \to \pm \infty$,
+% $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to -\frac{\gamma_{\ell}}{\bar{\gamma}}$,
+% \comment{I'm not sure where $\gamma_\ell$ went here}
+% whereas $|\frac{\bar{\gamma}^{2}-z^{2}+2zy}{\bar{\gamma}^{2}+z^{2}}|$ 
 % \[
 % 	\frac{(\gamma_{\ell}^{2}+y^{2})\left(\sqrt{\gamma_{\ell}^{2}+y^{2}}-\gamma_{\ell}\right)}{\bar{\gamma}(\gamma_{\ell}^{2}+y^{2} - \gamma_{\ell}\sqrt{\gamma_{\ell}^{2}+y^{2}})},
 % \]
@@ -821,13 +829,12 @@ so
 % 	z = -\frac{\bar{\gamma}}{y}(\gamma_{\ell} \pm \sqrt{\gamma_{\ell}^{2}+y^{2}}),  
 % \]
 % which is itself asymptotically equal to $\mp \sgn(y) \bar{\gamma}$ for large values of $|y|$.
-% 	
 we have that
 \[
     \left|
     \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} - \P\{\eta^{[j]}_{\ell} = y\}
     \right|
-    \le \left(\frac{|y|}{\gamma_\ell \bar{\gamma} M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
+    \le \left(\left(1 + \frac{|y|}{\gamma_\ell \bar{\gamma}}\right) \frac{1}{M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
 \]
 % Unlike the case of bounded allelic effects, the bound is independent of the trait value $Z^{[j]}$. 
 In the case of bounded allelic effects, the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution is proportional to $|Z^{[j]}|$, so that extreme trait values are most informative of the size of allelic effects,
@@ -930,10 +937,11 @@ but in a large population these details should be unimportant.)
         \includegraphics{sims/neutral_seg_noise}
     \end{center}
     \caption{
-        Segregation noise with Gaussian \textbf{(A-C)} and Cauchy \textbf{(D-F)} effect size distributions,
+        The distribution of Mendelian sampling terms
+        with Gaussian \textbf{(A-C)} and Cauchy \textbf{(D-F)} effect size distributions,
         from the same simulations shown in Figure~\ref{fig:trait_distrns},
         for all individuals born during the last 1,000 time units of the simulation.
-        \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
+        \textbf{(A,D)} Mendelian noise (offspring trait minus midparent) plotted against midparent.
         \textbf{(B,E)} Histograms of the Mendelian sampling term.
         \textbf{(B,E)} Enrichment in quantiles of the Mendelian sampling term conditional on midparent value.
         To compute the latter,
@@ -941,7 +949,7 @@ but in a large population these details should be unimportant.)
         into 50 bins with roughly equal numbers in each (i.e., the quantiles),
         let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
         is in $[a, b)$ whose Mendelian sampling term is in $[q_{k-1}, q_k)$,
-        and let $p_k$ be the proportion of all offspring with segregation noise in $[q_{k-1}, q_k)$
+        and let $p_k$ be the proportion of all offspring with Mendelian noise in $[q_{k-1}, q_k)$
         (so, $p_k \approx 0.02$).
         Then, each line shows $p_k(a,b)/p_k$
         plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
