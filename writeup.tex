@@ -176,7 +176,7 @@ The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
 i.e., the universality of adding up a great many very small and independent things.
 However, there is a wider class of Central Limit Theorems,
 which describe the distributions of sums of a great many independent and exchangeable things:
-the \emph{stable laws} \citep{gnedenko1968limit}
+the \emph{stable laws} \citep{gnedenko1968limit}.
 Roughly speaking, these say that if we add together $n$ independent copies of a random variable $X$
 for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha < 2$,
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
@@ -206,12 +206,12 @@ Stable distributions are by no means new to population biology.
 For instance, it is a long-standing question how often the motions of organisms
 are better modeled by essentially Brownian random walks or by L\'evy processes \citep{benhamou2007animals}
 and a growing literature studies the effects of such power law distributions
-on spatial genetic and dynamics \comment{I'm not quite sure what you mean by that}
+on spatial genetic patterns and evolutionary dynamics
 \citep[e.g.,][]{paulose2019spatial,smith2023isolation}.
 More directly analogous to the problem we study here, \citet{landis2012phylogenetic}
-found that an $\alpha$-stable process (with $\alpha \approx 1.5$) fit the evolution of log endocranial volume
+found that an $\alpha$-stable process (with $\alpha \approx 3/2$) fit the evolution of log endocranial volume
 on the primate phylogeny
-better than either a Brownian model.
+better than a Brownian model.
 It is also important to note that
 the infinitesimal model implies a Gaussian distribution for the difference between an offspring's trait and their parents' average,
 \emph{not} for the entire population.
@@ -228,7 +228,7 @@ e.g., systematic inequalities in resource distribution partitioned by class or r
 In this paper, we follow the literature in working with the relatively simple purely additive case
 of a trait that can be decomposed into a sum across loci of the contributions of the alleles from each locus,
 even omitting an independent effect of ``the environment''.
-However, we emphasize that such models should \emph{not} always be the default for understanding biological variation,
+However, we emphasize that such models should not always be the default for understanding biological variation,
 especially for human traits.
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -257,7 +257,8 @@ letting $X_\ell$ be a family of Bernoulli(1/2) random variables that are indepen
 $$
     \eta_\ell = X_\ell \eta_\ell^{[1]} + (1 - X_\ell) \eta_\ell^{[2]} .
 $$
-What we will call the \emph{transmission noise}, $R_M$,
+What we will call the \emph{Mendelian sampling term}
+(or occasionally \emph{Mendelian noise}), $R_M$,
 is the offspring's trait minus the midparent value, $\bar Z_M$:
 \begin{align*}
     \bar Z_M &= \frac{Z_M^{[1]} + Z_M^{[2]}}{2} \\
@@ -268,6 +269,8 @@ is the offspring's trait minus the midparent value, $\bar Z_M$:
                 + (1 - X_\ell) (\eta_\ell^{[2]} - \eta_\ell^{[1]})
             }{ 2 } .
 \end{align*}
+Note in particular that
+the contribution of locus $\ell$ to $R_M$ is $\pm |\eta_\ell^{[1]} - \eta_\ell^{[2]}|$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -275,7 +278,7 @@ is the offspring's trait minus the midparent value, $\bar Z_M$:
 
 It is mathematically intriguing to speculate what effect a power law effect size distribution
 for would have on the induced evolutionary dynamics.
-But, is there any evidence that non-Gaussian transmission noise is important in practice?
+But, is there any evidence that non-Gaussian effects are important in practice?
 In this paper we focus primarily on the theory,
 but first take a brief and imperfect look at what some data have to say on the topic.
 To do this, we downloaded the GWAS results provided by~\citet{biobankSNPs}
@@ -297,7 +300,7 @@ and we know of no reason that possible methodological artifacts
 (e.g., confounding by uncorrected variables)
 would specifically affect the decay of the tail of effect sizes.
 
-Since the transmission noise is a sum of terms of the form
+Since the mendelian sampling term is a sum of terms of the form
 $$
     (X_\ell - 1/2) \eta_\ell^{[1]} + (1/2 - X_\ell) \eta_\ell^{[2]},
 $$
@@ -414,7 +417,7 @@ $(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of 
 
 Perhaps surprisingly, there is a converse --
 in at least some situations,
-independence of transmission noise implies a Gaussian distribution.
+independence of the Mendelian sampling term implies a Gaussian distribution.
 To see this,
 divide the parental loci into groups according to the results of inheritance,
 defining
@@ -451,7 +454,7 @@ Therefore, the inherited alleles that sum to $Z_M$
 are independent of the non-inherited alleles that sum to $V_M$.
 
 The Kac-Bernstein theorem states that if two independent random variables
-have the property that if their sum and difference are independent of each other,
+have the property that their sum and difference are independent of each other,
 then the random variables have a joint Gaussian distribution
 (\citet{kac1939characterization,bernstein1941property},
 and see \citet{kagan1973characterization} for many much more general results).
@@ -466,7 +469,7 @@ We have shown the following:
     Suppose that $\{\eta_\ell^{[i]}\}$ are independent for all $\ell$ and $i$,
     that the distribution of $\eta_\ell^{[i]}$ only depends on $\ell$,
     and that $\{X_\ell\}$ are independent of $\{\eta_\ell^{[i]}\}$.
-    If the transmission noise $R_M$ is independent of the midparent value $\bar Z_M$,
+    If the Mendelian sampling term $R_M$ is independent of the midparent value $\bar Z_M$,
     then $R_M$ and $\bar Z_M$ are jointly Gaussian.
 \end{prop}
 
@@ -475,7 +478,7 @@ We have shown the following:
 % except that the portion of the genome shared in common by the parents is unconstrained.
 
 Since models can be easily set up for which trait distributions are not Gaussian,
-the implication of this is that for such models, independence of transmission noise
+the implication of this is that for such models, independence of the Mendelian sampling term
 is not likely a good assumption.
 Note that the proof does not depend on independence of the $X_\ell$:
 indeed, alleles may be inherited together,
@@ -484,12 +487,13 @@ Also note that it is \emph{not} usually true that the components --
 for instance, $U_M^{[1]}$ and $U_M^{[2]}$ --
 are independent of each other.
 
-The presence of a large effect polymorphic allele
-makes $R_M$ and $\bar Z_M$ dependent:
+As we discuss more later,
+the presence of a large effect polymorphic allele
+makes $R$ and $\bar Z$ dependent:
 consider the extreme case where $\eta^{[i]}_\ell$ are i.i.d.{} with variance 1 for $\ell \ge 2$,
 while $\eta^{[i]}_1 = \pm 10$ with probability 1/2 each,
 and $Z^{[i]} = \eta_1^{[i]} + \sum_{\ell=2}^M \eta_\ell^{[i]} / \sqrt{M}$.
-Then in the limit $R_M$ depends strongly on parental trait values:
+Then in the limit $R$ depends strongly on parental trait values:
 if $Z^{[1]} \approx Z^{[2]}$ and so $\bar Z \approx \pm 10$ then most likely
 $\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
 but if $\eta_1^{[1]} \neq \eta_1^{[2]}$ (and so $\bar Z \approx 0$)
@@ -527,7 +531,7 @@ and $R$ is an independent draw from the Mendelian sampling distribution
 Mutation-selection balance demands that that
 the distribution of individuals removed by death
 and the distribution of individuals added by birth are equal,
-\ie that $\frac{Z^{1} +Z^{2}}{2} + R$ is equal in distribution
+\ie that $(Z^{1} +Z^{2})/2 + R$ is equal in distribution
 to a $\mu$-weighted choice of $Z$.
 % In other words, for all bounded and continuous functions $f$,
 % \begin{equation} \label{eqn:MSB_condition}
@@ -761,7 +765,7 @@ but large effect alleles are more likely.
 The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
 
 The key observation is this:
-while is meaningless to speak of variances when the transmission noise is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
+while is meaningless to speak of variances when the Mendelian sampling term is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
 then its trait value is informative of the \emph{distribution} of an offsprings' trait value,
 and hence there can be no independence between parental traits and the Mendelian sampling term
 that is central to the tractability of the infinitesimal model.  
@@ -928,13 +932,13 @@ but in a large population these details should be unimportant.)
         from the same simulations shown in Figure~\ref{fig:trait_distrns},
         for all individuals born during the last 1,000 time units of the simulation.
         \textbf{(A,D)} Segregation noise (offspring trait minus midparent) plotted against midparent.
-        \textbf{(B,E)} Histograms of transmission noise.
-        \textbf{(B,E)} Enrichment in quantiles of transmission noise conditional on midparent value.
+        \textbf{(B,E)} Histograms of the Mendelian sampling term.
+        \textbf{(B,E)} Enrichment in quantiles of the Mendelian sampling term conditional on midparent value.
         To compute the latter,
-        let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of transmission noise
+        let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of the Mendelian sampling term
         into 50 bins with roughly equal numbers in each (i.e., the quantiles),
         let $p_k(a,b)$ denote the proportion of the offspring of parents with midparent value
-        is in $[a, b)$ whose transmission noise is in $[q_{k-1}, q_k)$,
+        is in $[a, b)$ whose Mendelian sampling term is in $[q_{k-1}, q_k)$,
         and let $p_k$ be the proportion of all offspring with segregation noise in $[q_{k-1}, q_k)$
         (so, $p_k \approx 0.02$).
         Then, each line shows $p_k(a,b)/p_k$
@@ -956,12 +960,12 @@ than does a simulation with a Gaussian effect size distribution.
 Indeed, the sum of all effects along the path from the start of the simulation
 to an arbitrary individual will approximate either Brownian motion (in the Gaussian case)
 or a Cauchy process (in the Cauchy case).
-Figure~\ref{fig:seg_noise} shows how transmission noise
+Figure~\ref{fig:seg_noise} shows how the Mendelian sampling term
 depends on midparent value.
-In the Gaussian case, transmission noise is Gaussian and independent of midparent value,
+In the Gaussian case, the Mendelian noise is Gaussian and independent of midparent value,
 as shown by the horizontal lines at 1.0 in Figure~\ref{fig:seg_noise}C. 
 On the other hand, in the Cauchy case we can see from either Figure~\ref{fig:seg_noise}D or F
-that transmission noise depends strongly on midparent trait,
+that Mendelian noise depends strongly on midparent trait,
 as we would expect in the presence of several large-effect alleles.
 
 \begin{figure}
@@ -1003,7 +1007,7 @@ except that, unsurprisingly, the median trait no longer wanders unconstrained
     \end{center}
     \caption{
         As in Figure~\ref{fig:seg_noise},
-        except computed using only mutations with absolute value effect size less than 0.1.
+        except computed using only mutations with absolute value effect size less than 0.2.
         The same quantities for the simulations of Figure~\ref{fig:sel_seg_noise}
         with stabilizing selection are shown in Figure~\ref{fig:sel_seg_noise_small}.
         \label{fig:seg_noise_small}
@@ -1013,8 +1017,8 @@ except that, unsurprisingly, the median trait no longer wanders unconstrained
 
 However,
 the two models look much more similar when considering only alleles of small effect.
-Figure~\ref{fig:seg_noise_small} shows that ``midparent value''
-and ``transmission noise'' computed using only mutations with effect size less than 0.2
+Figure~\ref{fig:seg_noise_small} shows that midparent values
+and Mendelian sampling terms computed using only mutations with effect size less than 0.2
 (excluding less than 1\% of mutations)
 are quite close to independent.
 The result does not depend strongly on the cutoff chosen,
@@ -1036,7 +1040,7 @@ but the way forwards to theoretical understanding seems murky.
 Further analysis of the infinitesimal model with other noise distributions,
 as we have begun here,
 could be interesting,
-e.g., to see how changing the distribution of transmission noise
+e.g., to see how changing the distribution of the Mendelian sampling term
 affects the rate of adaptive evolution,
 levels of genetic load,
 the rate of fixation,
@@ -1096,7 +1100,7 @@ of the animal model and genomic selection.  This project was started on a visit 
     \end{center}
     \caption{
         As in Figure~\ref{fig:seg_noise},
-        except computed using only mutations with absolute value effect size less than 0.1.
+        except computed using only mutations with absolute value effect size less than 0.2.
         \label{fig:sel_seg_noise_small}
     }
 \end{figure}
