@@ -1004,7 +1004,7 @@ We next compared two situations of stabilizing selection, motivated by the resul
 in Section~\ref{sec:stabilizing_selection}:
 (1) the effect size distribution was Gaussian with mean zero and standard deviation 1.0
 and $\mu(z) = e^{\alpha z^2}$; and
-(2) the effect size distribution was Cauchy, centered at zero and with width $\delta - \gamma$
+(2) the effect size distribution was Cauchy, centered at zero and with median absolute deviation $\delta - \gamma$
 and $\mu(z) = (\delta/\gamma) (\gamma + z^2) / (\delta + z^2)$ with $\delta=0.5$ and $\gamma=0.2$.
 Figures~\ref{fig:sel_trait_distrns} and~\ref{fig:sel_seg_noise}
 show that the picture is largely unchanged by stabilizing selection
@@ -1042,7 +1042,7 @@ that include contributions of both ``large'' and ``small'' effect loci.
 In practice, breeders have long embellished the ``animal model'' (essentially, the infinitesimal model)
 to predict traits
 by combining both effects of known large effect loci
-and calculations using a relatedness matrix
+and cumulative effects of many unknown loci as mediated by a relatedness matrix
 \citep[e.g.,][]{fernando1989marker,teissier2018weighted,bernardo2014genomewide,rice2019evaluation}.
 We can study any model with simulation,
 but the way forwards to theoretical understanding seems murky.
@@ -1056,27 +1056,29 @@ levels of genetic load,
 the rate of fixation,
 and the strength of linked selection.
 However,
-we have seen that the assumption of the infinitesimal model
+we have seen that the assumption of independence in the infinitesimal model
 implies a sort of ``blending inheritance''
 for the large effect alleles,
 and so such work must be accompanied by simulations
 to see if the predictions are borne out under concrete models of genetic inheritance.
-Another open question is whether there is some set of assumptions
-(perhaps involving linkage, pleiotropy, and/or environmental interactions with genetic effects)
+Another open question is whether there is some set of realistic assumptions
+(perhaps involving epigenetic effects, pleiotropy, and/or environmental interactions with genetic effects)
 which leads to these non-Gaussian infinitesimal models.
 Finally, it may well be that there is a clever way to set up a trait-only model of evolution
 that is both insensitive to the underlying genetics
 and does not rely on the Gaussian central limit theorem.
 
-Finally: above we've most often used the Cauchy distribution
+Finally, we note that above we've most often used the Cauchy distribution
 not because it seems most realistic
 (indeed data suggests the L\'evy stable distribution with $\alpha=3/2$ might be better)
-but for convenience and to make effects more obvious.
+but for mathematical convenience.
+
 
 \subsection*{Acknowledgements}
 Thanks go to Nate Pope for useful discussion
 and to Gregor Gorjanc for insight into modern uses
-of the animal model and genomic selection.  This project was started on a visit by TLP to the University of Oregon that was partially supported by the CNRS PEPS grant ``Jeunes Chercheuses et Jeunes Chercheurs''.
+of the animal model and genomic selection. 
+This project was started on a visit by TLP to the University of Oregon that was partially supported by the CNRS PEPS grant ``Jeunes Chercheuses et Jeunes Chercheurs''.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
