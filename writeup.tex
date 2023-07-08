@@ -28,6 +28,7 @@
 \DeclareMathOperator*{\Cauchy}{Cauchy}
 \DeclareMathOperator*{\Bernoulli}{Bernoulli}
 \DeclareMathOperator*{\sgn}{sgn}
+\DeclareMathOperator*{\re}{Re}
 
 \newtheorem{thm}{Theorem}
 \newtheorem{lem}{Lemma}
@@ -86,7 +87,7 @@
 }}
 
 \author{ \begin{small}
-    Todd Parsons \&
+    Todd L. Parsons (LPSM, Sorbonne Universit\'e, CNRS UMR 8001, Paris, France, 75005) \&
     Peter Ralph
 \end{small}}
 
@@ -582,62 +583,15 @@ whereas any fixed point must be the limit of an arbitrary characteristic functio
 % \]
 is a fixed point whenever this limit exists.  
 
-Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = 1$, and thus non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
+Since $\varphi$ and $\Phi$ are characteristic functions, they are absolutely continuous and $\phi(0) = \Phi(0) = 1$, and thus both are non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
 \[
 	\Log{F^{(n)}(\varphi)(\theta)} = {\textstyle 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)} 
 		+ \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
 \]
 We briefly explore what possible limiting values are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider to the case when both have well-posed limits independent of the other.
 
-\paragraph{Reproductive Terms:}
-First consider the limit
-\[
-		\alpha(\theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{\theta}{2^{n}}\right).
-\]
-Because $\psi(\theta)$ is the logarithm of a characteristic function, it is continuous in some neighbourhood of, and vanishes at 0.
-If $\phi$ is not differentiable at zero (and so the corresponding distribution
-does not have a well-defined mean),
-the limit does not exist.
-On the other hand if $\psi$ is differentiable at zero,
-then $\alpha$ is continuous there,
-and for all integers $k$, 
-\[
-	\alpha(2^{k} \theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{2^{k} \theta}{2^{n}}\right) =  \lim_{n \to \infty} 2^{k} 2^{n-k} \psi\left(\frac{\theta}{2^{n-k}}\right) = 2^{k} \alpha(\theta).
-\]
-In particular, we see that given any continuous function $\alpha(\theta)$, $\theta \in [1,2]$, such that $\alpha(2) = 2\alpha(1)$, $\alpha$ is defined for all positive reals.  We can extend the definition to the negative reals via the Hermitian property for $\phi(\theta)$: $\phi(-\theta) = \overline{\phi(\theta)}$ implies that $\alpha(-\theta) = \overline{\alpha(\theta)}$. 
-
-Now, from the above, 
-\[
-	\frac{\alpha(\theta)}{\theta} = \frac{\alpha(2^{k} \theta)}{2^{k}\theta} \to \alpha'(0+),
-\]
-as $k \to - \infty$ if the latter exists (\ie there is a unique right-hand limit at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
-\[
-	\alpha(\theta) = \begin{cases} 
-		i m\theta - \gamma \theta & \text{if $\theta \geq 0$, and}\\
-		i m\theta + \gamma \theta & \text{if $\theta < 0$}.
-	\end{cases}
-\]
-Now, if $\phi(\theta)$ is the characteristic function of a random variable $Z$, Jensen's inequality tells us that for all $\theta$,
-\[
-	|\phi(\theta)| = \left|\E\left[e^{i\theta Z}\right]\right| \leq \E\left[\left|e^{i\theta Z}\right|\right] = 1
-\]
-so $\gamma \geq 0$. If $\gamma > 0$, then we recognize $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median 0 and mean absolute deviation $\gamma$, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
-
-\paragraph{Lamarkian inheritance redux.} 
-Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait -- \ie Lamarkian blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieved a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
-
-% \paragraph{Other solutions?}
-% We would naturally like to know if these two exhaust the possible solutions.  Above, we exhausted all solutions for which $\alpha'(0+)$ exists.  However, if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. This does not, however, in and of itself exclude $e^{\alpha(\theta)}$ from being a characteristic function: Bochner's theorem tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
-% \begin{enumerate}[(i)]
-% \item $\phi(\theta)$ is continuous,
-% \item $\phi(0) = 1$,
-% \item $\phi(-\theta) = \overline{\phi(\theta)}$, and
-% \item $\phi(\theta)$ is \textit{positive definite}: for all $n$ and all $\theta_{1},\ldots,\theta_{n} \in \mathbb{R}$, the matrix with entries $a_{ij} = \phi(\theta_{i}-\theta_{j})$
-% \end{enumerate}
-% One can easily choose $\alpha(\theta)$ so that $e^{\alpha(\theta)}$ satisfies the first three criteria, \eg $\alpha(\theta) = -|\theta|\left(\sin\left(\pi\frac{\log{|\theta|}}{\log{2}}\right)+\frac{3}{2}\right)$, but excluding such functions via Bochner's positive definite criterion is non-trivial.
-
 \paragraph{Noise Terms}
-We now turn our attention to the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$.  Taylor's theorem then tells us that for $\theta$ sufficiently small, 
+First, consider the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$.  Taylor's theorem then tells us that for $\theta$ sufficiently small, 
 \[
 	\Psi(\theta) \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
 \]
@@ -678,10 +632,61 @@ By our general remarks above, we can assume $m = 0$ and exclude the case $\alpha
 	\end{cases}
 \end{align*}
 which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the limit is 
-\[
+\begin{equation}\label{eq:stablenoises}
 	 \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
-\]
+\end{equation}
 which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
+
+\paragraph{Reproductive Terms:}
+We now turn our attention to the limit
+\[
+		\alpha(\theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{\theta}{2^{n}}\right)
+\]
+If it exists, then for all integers $k$, 
+\[
+	\alpha(2^{k} \theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{2^{k} \theta}{2^{n}}\right) =  \lim_{n \to \infty} 2^{k} 2^{n-k} \psi\left(\frac{\theta}{2^{n-k}}\right) = 2^{k} \alpha(\theta).
+\]
+and, since $\alpha(0) = 0$,
+\[
+	\frac{\alpha(\theta)}{\theta} = \frac{\alpha(2^{k} \theta)}{2^{k}\theta} 
+	\to \begin{cases} 
+		\alpha'(0+) & \text{if $\theta > 0$, and}\\
+		\alpha'(0-) & \text{if $\theta < 0$,}
+	\end{cases}
+\]
+as $k \to - \infty$ if the limits exist (\ie there are unique left-and right-hand limit at zero; this is the case if \eg we require $\alpha(\theta)$, and thus $\phi(\theta)$, to be convex functions).  We henceforth assume this.
+
+Since $\varphi(\theta)$ is a characteristic function, it has the Hermitian property: $\phi(-\theta) = \overline{\phi(\theta)}$, and thus $\psi(-\theta) = \overline{\psi(\theta)}$ and $\alpha(-\theta) = \overline{\alpha(\theta)}$.  In particular, if one (and by extension both) limits exist, we must have $\alpha'(0-) = \overline{\alpha'(0+)}$.  In this case, setting $-\gamma + i m = \alpha'(0+)$, we have
+\[
+	\alpha(\theta) = \begin{cases} 
+		i m\theta - \gamma \theta & \text{if $\theta \geq 0$, and}\\
+		i m\theta + \gamma \theta & \text{if $\theta < 0$}.
+	\end{cases}
+\]
+If $\gamma > 0$, then we recognize $e^{\alpha(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median 0 and mean absolute deviation $\gamma$, whereas if $\gamma = 0$, then $e^{\alpha(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.    In general, it does not seem possible to exclude $\gamma < 0$. However, recalling that if $\phi(\theta)$ is the characteristic function of a random variable $Z$, Jensen's inequality tells us that for all $\theta$,
+\begin{equation}\label{eq:CF-J}
+	|\phi(\theta)| = \left|\E\left[e^{i\theta Z}\right]\right| \leq \E\left[\left|e^{i\theta Z}\right|\right] = 1,
+\end{equation}
+we can conclude $\gamma \geq 0$ when the limiting noise term is a mixture of Gaussians and stable laws of the form \eqref{eq:stablenoises}: we then have 
+\[
+	|\phi(\theta)| = e^{\re(\alpha(\theta) + o(|\theta|))} = e^{\gamma |\theta| + o(|\theta|))},
+\] 
+and thus is less than or equal to one in a small neighbourhood of $0$ if and only if $\gamma < 0$.
+
+\paragraph{Lamarkian inheritance redux.} 
+Note that the characteristic functions constructed above are solutions to \eqref{eq:CF_neutral} when transmission is noiseless, and the offspring have exactly the parental mean trait -- \ie Lamarkian blending inheritance.  The solution $\phi(\theta) = e^{i\theta m}$ is exactly the reversion to the mean that Darwin's detractors used to argue against the theory of evolution \citep{Provine1971}.  The solution $\phi(\theta) = e^{im \theta -\gamma|\theta|}$ offers an amusing counter-factual: if a Lamarkian population could somehow achieved a Cauchy-distributed trait distribution, it would maintain that diversity indefinitely.  
+
+% \paragraph{Other solutions?}
+% We would naturally like to know if these two exhaust the possible solutions.  Above, we exhausted all solutions for which $\alpha'(0+)$ exists.  However, if $\frac{\alpha(\theta)}{\theta}$ is non-constant for $\theta > 0$, then $\alpha'(0+)$ does not exist. This does not, however, in and of itself exclude $e^{\alpha(\theta)}$ from being a characteristic function: Bochner's theorem tells us that a function $\phi(\theta)$ is the characteristic function of a random variable if and only if
+% \begin{enumerate}[(i)]
+% \item $\phi(\theta)$ is continuous,
+% \item $\phi(0) = 1$,
+% \item $\phi(-\theta) = \overline{\phi(\theta)}$, and
+% \item $\phi(\theta)$ is \textit{positive definite}: for all $n$ and all $\theta_{1},\ldots,\theta_{n} \in \mathbb{R}$, the matrix with entries $a_{ij} = \phi(\theta_{i}-\theta_{j})$
+% \end{enumerate}
+% One can easily choose $\alpha(\theta)$ so that $e^{\alpha(\theta)}$ satisfies the first three criteria, \eg $\alpha(\theta) = -|\theta|\left(\sin\left(\pi\frac{\log{|\theta|}}{\log{2}}\right)+\frac{3}{2}\right)$, but excluding such functions via Bochner's positive definite criterion is non-trivial.
+
+
 
 More generally, one will get convergence if the noise is a mixture of components with finite variance and stable laws as above, whereas the population distribution will be a mixture of a (possibly degenerate) Cauchy distribution and such noise terms. Note that in the presence of noise, a pure Cauchy-distributed solution is \emph{not} possible in the neutral case.
 
@@ -1057,7 +1062,7 @@ but for convenience and to make effects more obvious.
 \subsection*{Acknowledgements}
 Thanks go to Nate Pope for useful discussion
 and to Gregor Gorjanc for insight into modern uses
-of the animal model and genomic selection.
+of the animal model and genomic selection.  This project was started on a visit by TLP to the University of Oregon that was partially supported by the CNRS PEPS grant ``Jeunes Chercheuses et Jeunes Chercheurs''.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
