@@ -2,7 +2,7 @@
 
 all: writeup.pdf
 
-writeup.pdf : refs.bib
+writeup.pdf : refs.bib review-responses.tex
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
