@@ -658,7 +658,7 @@ If we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, th
 
 It is unclear what more can be said in general. If however, we specialize to the case when $R$ is a stable law, we can explicitly compute the limiting noise term.  We recall that if $\Psi(\theta)$ corresponds to a stable law (see \eg \cite{breiman1992probability}), then
 \[
-	\Psi(\theta) = im\theta + c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
+	\Psi(\theta) = im\theta - c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
 \]
 for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ and
 \[
@@ -670,16 +670,16 @@ for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ a
 By our general remarks above, we can assume $m = 0$ and exclude the case $\alpha = 1$, $\beta = 0$, for which  $\Psi'(0+) = c$. We then have
 \begin{align*}
 	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
-	 &=  \sum_{k=1}^{n-1} 2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn(\theta)\left(\frac{\theta}{2^{k}}\right)
+	 &=  \sum_{k=1}^{n-1} -2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn\left(\frac{\theta}{2^{k}}\right)
 	 	 \omega_{\alpha}\left(\frac{\theta}{2^{k}}\right)\right)}\\
 	&= \begin{cases}
-		 c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
-         (n-1) c|\theta|^{\alpha}  \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
+		 -c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
+         -(n-1) c|\theta| \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
 	\end{cases}
 \end{align*}
 which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the limit is 
 \begin{equation}\label{eq:stablenoises}
-	 \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
+	 -\frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
 \end{equation}
 which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
 
