@@ -157,7 +157,8 @@
     and compare our results to simulations.
 \end{abstract}
 
-\comment{Make the point that another way to think about distibutions with non-finite variance
+\comment{ADD TO DISCUSSION, WHICH IS SHORT:
+    Make the point that another way to think about distibutions with non-finite variance
     is that there's only a finite number of alleles above any fixed value;
     and also the variance in any finite population will be finite.
     (see reviewer comment, ``all the empirical trait distributions they find have mean and variance'')
@@ -213,7 +214,7 @@ it seems clear that in at least those cases where we understand the underlying m
 mutations of large effect can be important in practice.
 % \citep[e.g.,][]{cyclodiene-resistance,hoekstra2006genetics}.
 The consensus in the field seems to be that traits exist on a spectrum between monogenic and polygenic,
-and that many - if not most - lie in the intermediate region,
+and that many -- if not most -- lie in the intermediate region,
 where heritable trait variation is due both to segregating large- and small-effect variants.
 Indeed, some sensible verbal models of the biological mechanisms by which a genetic change
 comes to have an effect on an organism's trait
@@ -235,9 +236,12 @@ for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha 
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
 is well-approximated by a universal form, an $\alpha$-stable distribution
 (and the approximation becomes exact, as $n \to \infty$).
+Oth the other hand, if $\alpha \ge 2$ then the distribution has finite variance,
+and so the sum of $n$, divided by $\sqrt{n}$, converges to a Gaussian distribution.
 In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
+On the other hand, the largest of $n$ Gaussians is of order $\sqrt(\log n)$. \revpoint{2}{1}
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
 in the infinitesimal model. \revpoint{1}{1} \revpoint{1}{2}
@@ -299,7 +303,8 @@ Suppose that the focal individual's trait is
 $$
     Z_M = \sum_{\ell=1}^M \eta_\ell / M^{1/\alpha},
 $$
-where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus.
+where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus,
+and $M$ is the number of loci. \revpoint{2}{2}
 The effects of the alleles carried by the two parents
 are $\eta_\ell^{[1]}$ and $\eta_\ell^{[2]}$, respectively,
 and their traits are
@@ -328,6 +333,7 @@ the contribution of locus $\ell$ to $R_M$ is $\pm |\eta_\ell^{[1]} - \eta_\ell^{
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Empirical observations}
+    \label{sec:empirical}
 
 It is mathematically intriguing to speculate what effect a power law effect size distribution
 for would have on the induced evolutionary dynamics.
@@ -353,16 +359,17 @@ and we know of no reason that possible methodological artifacts
 (e.g., confounding by uncorrected variables)
 would specifically affect the decay of the tail of effect sizes.
 
-Since the mendelian sampling term is a sum of terms of the form
+Since the Mendelian sampling term is a sum of terms of the form
 $$
     (X_\ell - 1/2) \eta_\ell^{[1]} + (1/2 - X_\ell) \eta_\ell^{[2]},
 $$
 where $\eta_\ell^{[i]}$ is the effect of the allele in parent $i$ at locus $\ell$,
 the appropriate central limit theorem for the sum is determined by
-the tail behavior of $|(X - 1/2) \eta| = |\eta|/2$,
+the tail behavior of $|(X - 1/2) \eta|$,
 where $X$ is Bernoulli(1/2) and $\eta$ is the effect
-of a uniformly chosen allele at a uniformly chosen locus.
-So, we'd like to know
+of a uniformly chosen one of the two alleles from a uniformly chosen parent
+at a uniformly chosen locus.
+Since $|X-1/2| = 1/2$, we'd like to know
 if $\P\{|X|>2t\}$ is proportional to $t^{-\alpha}$,
 i.e., the value of
 $$
@@ -379,12 +386,18 @@ then
 $$
     \P\{ |\eta| > 2t \} \approx \frac{1}{M} \sum_{\ell : |e_\ell| > 2t} p_\ell .
 $$
+Note that the relevant effect size distribution here is weighted by frequency, \revpoint{1}{3}
+which is necessary because we're looking at the deviation of a typical offspring from their parents,
+and the chance a given allele is carried by a random parent is given by the frequency.
+This will make a difference as frequencies and effect sizes are often correlated in practice.
 So, to obtain a per-trait estimate of $\alpha$,
 we plot $\log \frac{1}{M} \sum_{\ell : |e_\ell| > t} p_\ell$ against $\log t$
 for a sequence of values of $t$,
-and fit a linear model to the tail
-(which we take to be all values of $t$ for which the number of SNPs with absolute effect above $t$
-is between 20 and 10\% of all SNPs). \revpoint{2}{3}
+and fit a linear model to the tail.
+(To do this,
+we take as the ``tail''
+all values of $t$ for which the number of SNPs with absolute effect above $t$
+is at least 20 and at most 10\% of all SNPs.) \revpoint{2}{3}
 Examples are shown in Figure~\ref{fig:example_snps}.
 
 \begin{figure}
@@ -464,15 +477,22 @@ between more and less common phenotypes.
 
 We know from \citet{barton2017infinitesimal} \revpoint{1}{5} \revpoint{2}{4}
 that if the $\eta^{[i]}_\ell$ are
-independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$,
-then with $\alpha=2$,
+independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$ as $M \to \infty$,
+then with $\alpha \ge 2$,
 the traits $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converge in distribution to a multivariate Gaussian distribution
 $(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
+(The main result in \citet{barton2017infinitesimal} is that the trait values in generation $t$
+are Gaussian conditioned on the traits in generation $t-1$,
+but as discussed in that paper,
+this implies that the traits of any set of individuals is multivariate Gaussian,
+with covariance matrix determined by the pedigree.
+Note, however, that this does \emph{not} imply that the distribution of trait values
+across the population is Gaussian, as a collection of correlated Gaussians is not itself Gaussian.)
 
 Perhaps surprisingly, there is a converse --
 in at least some situations,
-independence of the Mendelian sampling term implies a Gaussian distribution.
-To see this,
+independence of the Mendelian sampling term \emph{implies} a Gaussian distribution.
+To see this (and to see exactly what we mean by this),
 divide the parental loci into groups according to the results of inheritance,
 defining
 \begin{align*}
@@ -527,22 +547,62 @@ We have shown the following:
     then $R_M$ and $\bar Z_M$ are jointly Gaussian.
 \end{prop}
 
-% A similar statement holds for the offspring of two parents in a pedigree,
-% using the Skitovich-Darmois theorem \citet{kagan1973characterization},
-% except that the portion of the genome shared in common by the parents is unconstrained.
-
-Since models can be easily set up for which trait distributions are not Gaussian,
-the implication of this is that for such models, independence of the Mendelian sampling term
+We should now discuss what this counter-intuitive result says and does not say.
+The proposition says, roughly, that if the parental alleles are unlinked and independently chosen,
+and meotic segregation is fair,
+then independence of Mendelian sampling term from midparent value
+\emph{implies} a joint Gaussian distribution for the two.
+We have not assumed anything about the distribution of the trait in the population:
+rather, we have showed that any model of this sort
+that assumes independence of Mendelian sampling term and midparent value
+must also, by logical necessity, have a Gaussian distribution for the two.
+In other words,
+since models can be easily set up for which the distribution of Mendelian sampling terms
+is not Gaussian,
+the implication of the proposition
+is that for such models, independence of the Mendelian sampling term
 is not likely a good assumption. \revpoint{1}{7}
 Note that the proof does not depend on independence of the $X_\ell$:
 indeed, alleles may be inherited together,
-although in practice this would quickly create dependencies between nearby allelic effects. \revpoint{2}{5}
+although in practice this would quickly create dependencies between the effects
+of alleles at such linked loci. \revpoint{2}{5}
 Also note that it is \emph{not} usually true that the components --
 for instance, $U_M^{[1]}$ and $U_M^{[2]}$ --
 are independent of each other.
+Finally, note that although they may not be independent,
+the Mendelian sampling term $R_M$ and the midparent value $\bar Z_M$
+\emph{are} always uncorrelated, since $Z_M$ and $V_M$ are exchangeable.
+
+Note that under the conditions of the proposition, \llabel{pop_not_gaussian}
+the parental traits, $Z^{[1]}_M$ and $Z^{[2]}_M$,
+are also (jointly) Gaussian.
+(This was not an assumption, however.)
+If parents are chosen uniformly, then
+the distribution of, say, $Z^{[1]}$ is just the population's trait distribution.
+This seems wrong, since it is well-known that forces such as selection or migration
+can make the population distribution non-Gaussian.
+However, there is no contradiction:
+we have stated the proposition only in terms of the \emph{first} generation
+of offspring of unrelated parents \citep[as in][]{barton2017infinitesimal}.
+Proposition~\ref{prop:parental_contribs} does not imply that
+the distribution of traits in the offspring generation is Gaussian:
+unless all offspring are unrelated,
+it will be a collection of correlated Gaussians,
+which is not itself Gaussian.
+(As an extreme example, suppose that half the offspring are produced by the two parents
+with largest trait values, and the other half by the parents with the smallest trait values;
+then although each offspring's distribution about the midparent is Gaussian,
+the offspring's population distribution is a mixture of two Gaussians
+about these two midparents.)
+What about further generations?
+A similar statement to the proposition
+holds for the offspring of two parents in an arbitrary pedigree,
+using the Skitovich-Darmois theorem \citet{kagan1973characterization}
+% except that the portion of the genome shared in common by the parents is unconstrained.
+-- however, there is nothing to be gained by the additional generality.
 
 As we discuss more later,
-the presence of a large effect polymorphic allele
+the presence of a large effect allele at a polymorphic locus \llabel{loci_polymorphic}
 makes $R$ and $\bar Z$ dependent:
 consider the extreme case where $\eta^{[i]}_\ell$ are i.i.d.{} with variance 1 for $\ell \ge 2$,
 while $\eta^{[i]}_1 = \pm 10$ with probability 1/2 each,
@@ -553,6 +613,16 @@ $\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
 but if $\eta_1^{[1]} \neq \eta_1^{[2]}$ (and so $\bar Z \approx 0$)
 then $R$ is close to $+5$ or $-5$ with equal probability.
 
+Finally, a possible point of confusion is that \revpoint{1}{6}
+the infinitesimal model is often phrased as a statement about offspring trait distributions
+\emph{given} parental trait values,
+while our statement above regards parental trait values as random.
+However, the notions are equivalent:
+the statement that
+``for each pair of parents the deviation of the offspring's trait from midparent
+has a distribution that does not depend on the parents' values''
+is essentially the definition of statistical independence
+of offspring's Mendelian sampling term and parental trait values.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abnormal quantitative genetics?}
@@ -1092,6 +1162,28 @@ and are similar even if less 0.1\% of mutations are excluded.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
+    \revpoint{2}{11}
+
+The infinitesimal model is a powerful and tractable model of trait inheritance,
+but is polygenic to a fault,
+excluding the possibility of loci of large effect
+(that are often seen in practice).
+In this paper,
+we have looked at the possibility of using a broader range of central limit theorems
+to extend the infinitesimal model to traits for which 
+effect size distributions fall in the domain of attraction of the $\alpha$-stable distributions
+(i.e., a larger proportion of variance
+is explained by a smaller number of loci).
+Indeed, we found evidence that this is true of many real traits,
+although our relatively uncritical use of GWAS estimates makes this evidence suggestive at best.
+Next, we show that in fact the infinitesimal model \emph{cannot} describe non-Gaussian distributions
+\comment{XXX TODO}.
+A recurring theme in the rest of the paper is
+that just as the infinitesimal model is useful precisely because it ignores the genetic details,
+it cannot apply once some genetic details are important
+(i.e., there are loci of large effect).
+
+
 
 A substantial challenge for the field is to develop tractable models of trait evolution
 that include contributions of both ``large'' and ``small'' effect loci.
@@ -1126,9 +1218,30 @@ and does not rely on the Gaussian central limit theorem.
 
 Finally, we note that above we've most often used the Cauchy distribution
 not because it seems most realistic
-(indeed data suggests the L\'evy stable distribution with $\alpha=3/2$ might be better)
+(indeed data suggests the $\alpha$-stable distribution with $\alpha=3/2$ might be better) \revpoint{2}{12}
 but for mathematical convenience.
 
+\subsection*{Selection and effect size distributions} \llabel{discussion_DFEs}
+A substantial body of theoretical work has used various models and assumptions
+to predict what distributions of effect sizes are expected based on biology.
+In comparing to this work, there are several distinctions that are important to make.
+For instance, selection makes the distribution of effect sizes identified by GWAS
+different than the distribution of effect sizes of \emph{de novo} mutations,
+and predictions are made about this relationship by \citet{simons2018population} % and \citet{simons2022simple}.
+(under stabilizing selection)
+and \citet{hayward2022polygenic}
+(under adaptation to a new environment).
+Our first question in this paper is orthogonal to this discussion:
+\emph{given} the available genetic variation,
+what model should we use to predict the short-term course of evolution?
+As we saw in Section~\ref{sec:empirical},
+the frequency-weighted effect size distribution (perhaps closer to that seen by GWAS)
+is more relevant for this question than the \emph{de novo} effect size distribution.
+In the latter part of this paper we look at long-term dynamics,
+but with major differences:
+most obviously, we only consider the distribution of the Mendelian noise term,
+rather than the distribution of individual allelic effects.
+These two are clearly related, but a more detailed analysis is beyond the scope of this paper.
 
 \subsection*{Acknowledgements}
 Thanks go to Nate Pope for useful discussion

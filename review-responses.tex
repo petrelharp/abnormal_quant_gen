@@ -78,13 +78,18 @@ In the same paragraph: I don't think the claim that ``independence of offsprings
 }
 
 \begin{point}{}
-    Section 2 and figure \ref{fig:example_snps}: It is not obvious to me why one would study the ``frequency-weighted'' effect sizes. There is an assumption here I think that allele frequencies are uncorrelated with effect sizes: this will not be true if for example traits are under some kind of stabilising selection: see e.g., Simons et al (A Population Genetic Interpretation of GWAS Findings for Human Quantitative Traits) for a detailed exploration of this. Moreover, if SNPs are not truly causal but only tag causal alleles, then weighting by allele frequencies can be even more problematic?
+    Section 2 and Figure \ref{fig:example_snps}: It is not obvious to me why one would study the ``frequency-weighted'' effect sizes. There is an assumption here I think that allele frequencies are uncorrelated with effect sizes: this will not be true if for example traits are under some kind of stabilising selection: see e.g., \citet{simons2018population} for a detailed exploration of this. Moreover, if SNPs are not truly causal but only tag causal alleles, then weighting by allele frequencies can be even more problematic?
 
 As an alternative, would it make sense to look at what fraction of loci have effect size difference between alternative alleles to be $>2t$ without weighing by allele frequency?
 More broadly, how do we interpret the frequency-weighted vs. unweighted distributions?
 \end{point}
 
 \reply{
+    Good question; this was somewhat obscure in the previous draft.
+    We've added a comment which hopefully explains why the frequency-weighted distribution
+    is the correct thing to consider for this calculation \revref,
+    and have added some more discussion about the point in general
+    to the Discussion \llname{discussion_DFEs}.
 }
 
 \begin{point}{}
@@ -95,10 +100,30 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
 }
 
 \begin{point}{}
-    Section 3, Sentence starting ``We know from Barton et al (2017)...'' \revref: As far as I understand, the statement of Barton et al is that the joint distribution of trait values of offspring is multivaraite normal, conditioned on the two parents. I don't think the joint distribution of two randomly picked parents and their offspring is mutivariate normal, as this would require some kind of normality assumption about trait values in the population as a whole. It'd be helpful to distinguish more carefully between conditioned and unconditioned distributions, especially in this section.
+    Section 3, Sentence starting ``We know from \citet{barton2017infinitesimal}, \ldots'' \revref: As far as I understand, the statement of \citet{barton2017infinitesimal} is that the joint distribution of trait values of offspring is multivaraite normal, conditioned on the two parents. I don't think the joint distribution of two randomly picked parents and their offspring is mutivariate normal, as this would require some kind of normality assumption about trait values in the population as a whole. It'd be helpful to distinguish more carefully between conditioned and unconditioned distributions, especially in this section.
 \end{point}
 
 \reply{
+    Looking back at \citet{barton2017infinitesimal}, we see where the confusion comes from,
+    and have added some clarifying remarks at the end of this paragraph \revref.
+    % Quoting \citet{barton2017infinitesimal},
+    % ``Even though the trait distribution across the whole population may be far from Gaussian,
+    % the multivariate normal will play a central r\hat{o}le in our analysis''.
+    In more detail:
+    \citet{barton2017infinitesimal} (``main result'', equation 9)
+    shows that conditioned on the trait values in generation $t$,
+    the values of generation $t+1$ are also multivariate Gaussian.
+    This implies that the joint distribution of traits of any subset of individuals
+    is multivariate Gaussian (possibly conditioned on the initial generation)
+    -- as \citet{barton2017infinitesimal} says,
+    \textit{``equally we could have conditioned on the values of any subset of relatives
+    and the same would hold true: expected trait values would be
+    a linear functional (determined by the pedigree) of the values
+    on which we conditioned, but segregation variances would be unchanged.''}
+    (More generally, if $X$ is multivariate Gaussian, and $(Y|X)$ is also multivariate Gaussian
+    with mean but not covariance depending on $X$,
+    then $(X,Y)$ are jointly multivariate Gaussian.)
+    We now also discuss the point further in a subsequent paragraph \llname{pop_not_gaussian}.
 }
 
 \begin{point}{}
@@ -106,6 +131,12 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
 \end{point}
 
 \reply{
+    If the reviewer had said ``confusing'' rather than ``confused'',
+    then we would heartily agree.
+    After some difficult thinking through of things,
+    we've provided a good bit of additional clarification
+    about what the Proposition means and doesn't mean:
+    see in particular \llname{pop_not_gaussian} and \revref.
 }
 
 \begin{point}{}
@@ -113,6 +144,9 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
 \end{point}
 
 \reply{
+    Thanks -- we've changed this to ``since models can be easily set up for which the distribution
+    of Mendelian sampling terms is not Gaussian, \ldots''
+    and provided additional context \revref.
 }
 
 \begin{point}{}
@@ -145,7 +179,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \reply{
 }
 
-\subsubsection{Minor comments:}
+\subsubsection*{Minor comments:}
 
 \begin{point}{}
     Introduction: Also worth citing Fisher, Bulmer etc. (the original references) when introducing the infinitesimal model?
@@ -302,19 +336,21 @@ improving the presentation and clarifying a number of issues.
 
 
 \begin{point}{}
-Intro, p 2: Not too many readers will be familiar with $\alpha$-stable distributions. It may be
+Intro: Not too many readers will be familiar with $\alpha$-stable distributions. It may be
 useful to clearly point out the difference to the Gaussian case and what happens if $\alpha \ge 2$
 (obviously, this is of relevance).
 \end{point}
 
 \reply{
+    Good idea; we've added this \revref.
 }
 
 \begin{point}{}
-p 3, top: State that M is the number of loci.
+p 3: State that M is the number of loci.
 \end{point}
 
 \reply{
+    Whoops - done \revref.
 }
 
 \begin{point}{\revref}
@@ -322,6 +358,11 @@ Should this read ‘between 20\% and 10\%’? Why this choice?
 \end{point}
 
 \reply{
+    No, but as written it was confusing, and we've clarified \revref.
+    We chose these values by empirical inspection:
+    the lower bound was 20 SNPs so that it was not unduly affected by a few large SNPs,
+    and the upper bound as 10\% because we wanted the ``tail'', not the ``bulk''.
+    (We also checked that changing these values somewhat didn't affect results.)
 }
 
 \begin{point}{\revref}
@@ -331,14 +372,16 @@ the last display eq on p3).
 \end{point}
 
 \reply{
+    Good idea -- done \revref. (Also see \revreffull{2}{1}.)
 }
 
 \begin{point}{\revref}
 What means ‘nearby alleles’ ? Do you mean physically linked
-loci? Another 3 lines below: alleles are not polymorphic; loci can be polymorphic.
+    loci? Another \llname{loci_polymorphic}: alleles are not polymorphic; loci can be polymorphic.
 \end{point}
 
 \reply{
+    Good points; both are fixed: \revref and \llname{loci_polymorphic}.
 }
 
 \begin{point}{}
@@ -384,18 +427,20 @@ Barton et al. (e.g., by stating their estimate).
 \reply{
 }
 
-\begin{point}{}
-p 16: This discussion is too vague. At least, adding a summary of the main findings
+\begin{point}{\revref}
+This discussion is too vague. At least, adding a summary of the main findings
 would be appropriate (always noting for which version of the infinitesimal model).
 \end{point}
 
 \reply{
+    We have added a good bit more discussion, including a summary \revref.
 }
 
-\begin{point}{}
-p 16, end of discussion: Does ‘Lévy stable distribution’ refer to the family of $\alpha$-stable
+\begin{point}{\revref}
+Does ‘Lévy stable distribution’ refer to the family of $\alpha$-stable
 distributions? (I don’t think it has not been used before.)
 \end{point}
 
 \reply{
+    That's right; changed to ``$\alpha$-stable distribution'' \revref.
 }
