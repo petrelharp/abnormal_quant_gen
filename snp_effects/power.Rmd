@@ -1,4 +1,4 @@
-Let's check this works for the Cauchy.
+Let's check that our estimation procedure for alpha works.
 
 ```{r fake_data}
 n <- 1e3
@@ -6,7 +6,7 @@ gwas <- data.frame(minor_AF=runif(n),
                    beta=rcauchy(n)/100)
 
 min_num <- 20
-max_prop <- 0.5
+max_prop <- 0.1
 ```
 
 Now let's let $(P, Z)$ be a random draw from this table, all $Z > 0$,
@@ -22,6 +22,14 @@ $$\begin{aligned}
 
 ```{r plotit}
 estim_alpha <- function (gwas, num_breaks=1001) {
+    # For a sequence of value xi,
+    # fits the linear model
+    #  log(pxi) ~ log(xi)
+    # where
+    #  pxi = prob( a randomly chosen locus has effect above xi )
+    # to only the 'tail', defined as those xi such that there
+    # are at least min_num loci with effect above xi
+    # and at most a proportion max_prop of loci with effect above xi.
     xx <- c(seq(0, 2 * quantile(abs(gwas$beta), 0.99), length.out=num_breaks), Inf)
     disc_beta <- cut(abs(gwas$beta), xx)
     num_points <- table(disc_beta)
@@ -51,12 +59,12 @@ summary(xlm)
 
 Huh, how good of an estimator is this?
 ```{r boot}
-boots <- replicate(200, {
+cauchy_boots <- replicate(1000, {
     gwas <- data.frame(minor_AF=runif(n),
                        beta=rcauchy(n)/100)
     xlm <- estim_alpha(gwas)
     return(coef(xlm)) })
-hist(boots[2,], breaks=30)
+hist(cauchy_boots[2,], breaks=30)
 abline(v=-1, col='red')
 ```
 Looks ok.
@@ -65,12 +73,40 @@ Looks ok.
 
 And, what if we give this Gaussian data?
 ```{r gboot}
-boots <- replicate(200, {
+gaussian_boots <- replicate(1000, {
     gwas <- data.frame(minor_AF=runif(n),
                        beta=rnorm(n)/100)
     xlm <- estim_alpha(gwas)
     return(coef(xlm)) })
-hist(boots[2,], breaks=30)
+hist(gaussian_boots[2,], breaks=30)
 abline(v=-1, col='red')
 ```
 Looks ok.
+
+## t(df=1.5)
+
+How about Student's t?
+```{r tboot}
+t_boots <- replicate(1000, {
+    gwas <- data.frame(minor_AF=runif(n),
+                       beta=rt(n, df=1.5)/100)
+    xlm <- estim_alpha(gwas)
+    return(coef(xlm)) })
+hist(t_boots[2,], breaks=30)
+abline(v=-1.5, col='red')
+```
+Looks ok.
+
+
+## For the paper
+
+```{r paper_fig}
+pdf(file="power_demo.pdf", width=6, height=2.5, pointsize=10)
+    layout(t(1:3))
+    hist(-cauchy_boots[2,], breaks=30, xlab="estimated alpha", main='Cauchy')
+    abline(v=1, col='red')
+    hist(-t_boots[2,], breaks=30, xlab="estimated alpha", main="Student's t (df=1.5)")
+    abline(v=1.5, col='red')
+    hist(-gaussian_boots[2,], breaks=30, xlab="estimated alpha", main='Gaussian')
+dev.off()
+```

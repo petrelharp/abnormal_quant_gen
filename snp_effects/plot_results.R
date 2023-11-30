@@ -90,15 +90,17 @@ with(results, {
 dev.off()
 
 pdf(file="results_10.pdf", width=6, height=4, pointsize=10)
-layout(matrix(c(1,2,1,3), nrow=2))
+layout(matrix(c(1,2,1,3,1,4), nrow=2))
 with(subset(results, !pruned), {
     par(mar=c(4, 4, 1, 1), mgp=c(2.1,1,0))
     hist(-slope, breaks=50, xlab='tail exponent', main='')
-mtext("(A)", 3, adj=-0.1, line=0)
+mtext("(A)", 3, adj=-0.07, line=0)
     plot(nsnps, -slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x', xlab="number of SNPs", ylab='tail exponent')
 mtext("(B)", 3, adj=-0.25, line=0)
     plot(n_cases, -slope, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='x', xlab="number of cases", ylab='tail exponent')
 mtext("(C)", 3, adj=-0.25, line=0)
+    plot(n_cases, nsnps, pch=20, cex=0.5, col=adjustcolor('black', 0.5), log='xy', xlab="number of cases", ylab='number of SNPs')
+mtext("(D)", 3, adj=-0.25, line=0)
 })
 dev.off()
 

@@ -222,9 +222,11 @@ describe a hierarchy or range of ``proximities'' to the trait,
 by which changes to more ``nearby'' genes have the possibility of causing larger changes in the trait
 \citep{kopp2012transcriptional,boyle2017expanded}.
 This suggests a mixture model for the effect size distribution:
-perhaps the distribution of effect sizes within each gene is Normal, \revpoint{1}{13}
-but with a standard deviation that varies with ``proximity'' to the trait;
-such mixtures can easily have large proportions of extreme values.
+perhaps a trait is affected by mutations in a number of genomic regions,
+and the distribution of effect sizes within each region is Normal, \revpoint{1}{13}
+but with a standard deviation that varies with ``proximity'' of that region to the trait
+(e.g., regions that are further ``upstream'' have higher standard deviations).
+Such mixtures can easily have large proportions of extreme values.
 
 The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
 i.e., the universality of adding up a great many very small and independent things.
@@ -241,15 +243,15 @@ and so the sum of $n$, divided by $\sqrt{n}$, converges to a Gaussian distributi
 In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
-On the other hand, the largest of $n$ Gaussians is of order $\sqrt(\log n)$. \revpoint{2}{1}
+On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$. \revpoint{2}{1}
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
-in the infinitesimal model. \revpoint{1}{1} \revpoint{1}{2}
+in the infinitesimal model. \revpoint{1}{1}
 In this paper, we make preliminary explorations in that direction:
 Do the results of \citet{barton2017infinitesimal}
 carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
 The immediate answer to this will be ``no'' --
-in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution in some sense.
+in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution for the offsprings' deviations, in some sense. \revpoint{1}{2}
 This independence is a key reason why the infinitesimal model is tractable,
 and so a conclusion is that additive models with non-Gaussian effects may not be well-approximated
 by ``trait-only'' models that do not explicitly represent underlying genetic variation.
@@ -467,10 +469,17 @@ between more and less common phenotypes.
         \textbf{(A)} distribution of values; and plotted against
         \textbf{(B)} number of SNPs, and
         \textbf{(C)} number of cases.
+        \textbf{(D)} shows the number of SNPs and number of cases by phenotype.
         \label{fig:exponent_hist}
     }
 \end{figure}
 
+A possible concern is that tail exponents are difficult to estimate accurately, \revpoint{1}{4}
+but simulation-based estimates of accuracy (Supplemental Figure~\ref{fig:power})
+suggest that our estimates are unbiased but only accurate to within roughly $\pm 0.4$,
+so the distribution of Figure~\ref{fig:exponent_hist} should not be taken as
+a direct estimate of the underlying distribution of $\alpha$ values,
+but is robust evidence for exponents strictly between 1 and 2 (and probably around 1.5).
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Independence and the Gaussian assumption}
@@ -1079,10 +1088,11 @@ but in a large population these details should be unimportant.)
         (so, $p_k \approx 0.02$).
         Then, each line shows $p_k(a,b)/p_k$
         plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
-        for $(a,b)$ chosen to span the 5\% of midparents centered on:
-        (red) the 10\% quantile,
-        (black) the median, and
-        (green) the 90\% quantile of midparent value.
+        for $(a,b)$ chosen to span the three segments of 5\% of
+        ``low'', ``medium'', and ``high'' midparents, i.e.:
+        midparents between (red) the 7.5\% and 12.5\% quantiles,
+        (black) the 47.5\% and 52.5\% quantiles, and
+        (green) the 87.5\% and 92.5\% quantiles of midparent value.
         \label{fig:seg_noise}
     }
 \end{figure}
@@ -1110,7 +1120,11 @@ as we would expect in the presence of several large-effect alleles.
     \end{center}
     \caption{
         As in Figure~\ref{fig:trait_distrns},
-        except under a model of stabilizing selection (see text for details).
+        except under a model of stabilizing selection
+        (see text for details,
+        and note that the scale of the underlying mutations do not match
+        neutral simulations, so distributions are not directly comparable
+        to Figure~\ref{fig:trait_distrns}).
         \label{fig:sel_trait_distrns}
     }
 \end{figure}
@@ -1272,6 +1286,24 @@ This project was started on a visit by TLP to the University of Oregon that was 
         \textbf{(C)} number of cases, and
         \textbf{(C)} number of non-missing subjects.
         \label{fig:unfiltered_hist}
+    }
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics{snp_effects/power_demo}
+    \end{center}
+    \caption{
+        Distributions of estimated tail exponents using the same estimator
+        as in Figure~\ref{fig:exponent_hist},
+        for 1000 independent draws from
+        \textbf{(left)} the Cauchy distribution (true $\alpha=1$),
+        \textbf{(center)} the Student's $t$ distribution with 1.5 degrees of freedom (true $\alpha=1.5$), and
+        \textbf{(right)} the Gaussian distribution (true $\alpha$ is undefined,
+        as the tail decays super-polynomially).
+        Note that the typical number of SNPs per trait (shown in Figure~\ref{fig:exponent_hist})
+        is around 1000.
+        \label{fig:power}
     }
 \end{figure}
 

@@ -59,7 +59,7 @@ XXX
 The paper explores inheritance of an additive trait influenced by a large number of loci with effect sizes drawn from a power law distribution, also fitting effect size distributions as estimated by GWAS (for several human disease traits) to estimate plausible power law exponents. The study is motivated by Barton et al's 2017 paper which shows how in the limit of a very large number of loci with effect sizes drawn from a distribution with finite variance, inheritance is described by the the infinitesimal model: in particular, that the distribution of trait values of the offspring of two parents is multivariate normal with a variance-covariance matrix that is independent of parental trait values. This paper explores whether some analogous statements can be made if the underlying effect size distribution does not have finite variance- whether, loosely speaking, some ``generalisation'' of the infinitesimal model might still apply. Below I summarise some of my concerns about the paper.
 \end{quote}
 
-Thanks for the careful reading...
+Thanks for the careful reading and useful comments.
 
 \begin{point}{}
     Paragraph starting ``This suggests exploring whether stable distributions..'' \revref:
@@ -68,6 +68,13 @@ somewhat non-rigorously (and for the case of a Cauchy distribution of effect siz
 \end{point}
 
 \reply{
+    We don't actually agree with this characterization --
+    sections 3 and 4 explore the consequences of different distributions
+    of the Mendelian segregation term (which derives from the sum of effects),
+    not the population distribution.
+    However, the assumptions and motivation were not nearly as clear as they could have been
+    in the previous draft, and this is hopefully more clear now --
+    see responses to points below.
 }
 
 \begin{point}{\revref}
@@ -75,6 +82,11 @@ In the same paragraph: I don't think the claim that ``independence of offsprings
 \end{point}
 
 \reply{
+    We have modified the sentence to say
+    ``implies a Gaussian for the offsprings' deviations'',
+    to make it clear that this statement does not refer to the population distribution,
+    but rather to the Mendelian sampling term \revref.
+    See additional points below on this topic.
 }
 
 \begin{point}{}
@@ -97,6 +109,11 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
 \end{point}
 
 \reply{
+    This is a good question, and we had in fact done some exploration of this question
+    but not included it in the paper.
+    We've still not done a detailed analysis,
+    but now provide some discussion and numerical exploration of our precision here:
+    see Figure~\ref{fig:power} and \revref.
 }
 
 \begin{point}{}
@@ -193,6 +210,10 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    We've rephrased this, and replaced ``gene'' with ``region'' --
+    really, we just want to motivate a mixture model,
+    as the "scale mixture of Gaussians" is a common way to get fat-tailed distributions,
+    and eminently biologically plausible (we think).
 }
 
 \begin{point}{\revref}
@@ -207,6 +228,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    Yes; we've added this to Figure~\ref{fig:exponent_hist}.
 }
 
 \begin{point}{\revref}
@@ -228,6 +250,9 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    These are good suggestions, however, we have encountered difficulties in implementing this,
+    so we've settled for a note alerting the reader not to read too much into the absolute scale
+    (see Figure~\ref{fig:sel_trait_distrns} caption).
 }
 
 \begin{point}{}
@@ -235,6 +260,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    That's right; we've rephrased this confusing explanation.
 }
 
 \begin{point}{}
