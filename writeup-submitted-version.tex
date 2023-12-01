@@ -43,43 +43,6 @@
 	\newtheorem{cond}{Condition}
 	\newtheorem{conj}{Conjecture}
 
-\newif\ifsubmission
-\submissiontrue
-% \submissionfalse
-\ifsubmission
-    % % stuff for submission
-    \usepackage{lineno}
-    % allow line numbers around math environments
-    % from https://tex.stackexchange.com/questions/43648/why-doesnt-lineno-number-a-paragraph-when-it-is-followed-by-an-align-equation
-        \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
-          \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
-          \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
-          \renewenvironment{#1}%
-             {\linenomath\csname old#1\endcsname}%
-             {\csname oldend#1\endcsname\endlinenomath}}% 
-        \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
-          \patchAmsMathEnvironmentForLineno{#1}%
-          \patchAmsMathEnvironmentForLineno{#1*}}%
-        \AtBeginDocument{%
-        \patchBothAmsMathEnvironmentsForLineno{equation}%
-        \patchBothAmsMathEnvironmentsForLineno{align}%
-        \patchBothAmsMathEnvironmentsForLineno{flalign}%
-        \patchBothAmsMathEnvironmentsForLineno{alignat}%
-        \patchBothAmsMathEnvironmentsForLineno{gather}%
-        \patchBothAmsMathEnvironmentsForLineno{multline}%
-        }
-\else
-    % for the nice version
-\fi
-
-% Responses to reviews
-\input{review-response-commands}
-% set this to show line numbers and include responses to reviews or not
-\newif\ifreviewresponses
-\reviewresponsestrue  % include them
-% \reviewresponsesfalse  % don't include them
-\newcommand{\responsefile}{review-responses}  % name of the review responses file
-
 
 \begin{document}
 
@@ -157,22 +120,6 @@
     and compare our results to simulations.
 \end{abstract}
 
-\comment{ADD TO DISCUSSION, WHICH IS SHORT:
-    Make the point that another way to think about distibutions with non-finite variance
-    is that there's only a finite number of alleles above any fixed value;
-    and also the variance in any finite population will be finite.
-    (see reviewer comment, ``all the empirical trait distributions they find have mean and variance'')
-    Also discuss comparison to fat-tailed dispersal:
-    the question is, what distribution gives us a better model?
-    For dispersal, a fat-tailed distribution has in practice finite variance
-    but is a better model in that it describes noisiness better;
-    here, the analogy is something about polygenicity and noisiness of the process of adaptation.
-    If we're modeling non-polygenic (oligogenic) traits then
-    why stable as opposed to some other arbitrary distribution?
-    Well, the distribution of per-allele effect sizes might not be stable, but CLT tells us that maybe
-    stable gives a good approx to the process (as in Gaussian case).
-}
-
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
@@ -214,7 +161,7 @@ it seems clear that in at least those cases where we understand the underlying m
 mutations of large effect can be important in practice.
 % \citep[e.g.,][]{cyclodiene-resistance,hoekstra2006genetics}.
 The consensus in the field seems to be that traits exist on a spectrum between monogenic and polygenic,
-and that many -- if not most -- lie in the intermediate region,
+and that many - if not most - lie in the intermediate region,
 where heritable trait variation is due both to segregating large- and small-effect variants.
 Indeed, some sensible verbal models of the biological mechanisms by which a genetic change
 comes to have an effect on an organism's trait
@@ -222,11 +169,9 @@ describe a hierarchy or range of ``proximities'' to the trait,
 by which changes to more ``nearby'' genes have the possibility of causing larger changes in the trait
 \citep{kopp2012transcriptional,boyle2017expanded}.
 This suggests a mixture model for the effect size distribution:
-perhaps a trait is affected by mutations in a number of genomic regions,
-and the distribution of effect sizes within each region is Normal, \revpoint{1}{13}
-but with a standard deviation that varies with ``proximity'' of that region to the trait
-(e.g., regions that are further ``upstream'' have higher standard deviations).
-Such mixtures can easily have large proportions of extreme values.
+perhaps the distribution of effect sizes within each gene is Normal,
+but with a standard deviation that varies with ``proximity'' to the trait;
+such mixtures can easily have large proportions of extreme values.
 
 The Gaussian distribution appears thanks to ``the'' Central Limit Theorem,
 i.e., the universality of adding up a great many very small and independent things.
@@ -238,20 +183,17 @@ for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha 
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
 is well-approximated by a universal form, an $\alpha$-stable distribution
 (and the approximation becomes exact, as $n \to \infty$).
-Oth the other hand, if $\alpha \ge 2$ then the distribution has finite variance,
-and so the sum of $n$, divided by $\sqrt{n}$, converges to a Gaussian distribution.
 In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
-On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$. \revpoint{2}{1} \revpoint{1}{11}
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
-in the infinitesimal model. \revpoint{1}{1}
+in the infinitesimal model.
 In this paper, we make preliminary explorations in that direction:
 Do the results of \citet{barton2017infinitesimal}
 carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
 The immediate answer to this will be ``no'' --
-in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution for the offsprings' deviations, in some sense. \revpoint{1}{2}
+in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution in some sense.
 This independence is a key reason why the infinitesimal model is tractable,
 and so a conclusion is that additive models with non-Gaussian effects may not be well-approximated
 by ``trait-only'' models that do not explicitly represent underlying genetic variation.
@@ -280,7 +222,7 @@ might be modeled as a Gaussian has been discussed extensively
 
 The ways in which genetic variants affect an organisms' trait can be complex,
 and interactions between alleles, between loci, and with the environment are often important in practice.
-In fact, many traits claimed to be genetically determined \revpoint{1}{14}
+In fact, many traits claimed to be genetically determined
 in fact only appear heritable through non-genetic means,
 e.g., systematic inequalities in resource distribution partitioned by class or race.
 % \citep[e.g.,][]{davenport1916hereditary}.
@@ -305,8 +247,7 @@ Suppose that the focal individual's trait is
 $$
     Z_M = \sum_{\ell=1}^M \eta_\ell / M^{1/\alpha},
 $$
-where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus,
-and $M$ is the number of loci. \revpoint{2}{2}
+where $\eta_\ell$ is the contribution of the allele carried at the $\ell^\text{th}$ locus.
 The effects of the alleles carried by the two parents
 are $\eta_\ell^{[1]}$ and $\eta_\ell^{[2]}$, respectively,
 and their traits are
@@ -335,7 +276,6 @@ the contribution of locus $\ell$ to $R_M$ is $\pm |\eta_\ell^{[1]} - \eta_\ell^{
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Empirical observations}
-    \label{sec:empirical}
 
 It is mathematically intriguing to speculate what effect a power law effect size distribution
 for would have on the induced evolutionary dynamics.
@@ -361,17 +301,16 @@ and we know of no reason that possible methodological artifacts
 (e.g., confounding by uncorrected variables)
 would specifically affect the decay of the tail of effect sizes.
 
-Since the Mendelian sampling term is a sum of terms of the form
+Since the mendelian sampling term is a sum of terms of the form
 $$
     (X_\ell - 1/2) \eta_\ell^{[1]} + (1/2 - X_\ell) \eta_\ell^{[2]},
 $$
 where $\eta_\ell^{[i]}$ is the effect of the allele in parent $i$ at locus $\ell$,
 the appropriate central limit theorem for the sum is determined by
-the tail behavior of $|(X - 1/2) \eta|$,
+the tail behavior of $|(X - 1/2) \eta| = |\eta|/2$,
 where $X$ is Bernoulli(1/2) and $\eta$ is the effect
-of a uniformly chosen one of the two alleles from a uniformly chosen parent
-at a uniformly chosen locus.
-Since $|X-1/2| = 1/2$, we'd like to know
+of a uniformly chosen allele at a uniformly chosen locus.
+So, we'd like to know
 if $\P\{|X|>2t\}$ is proportional to $t^{-\alpha}$,
 i.e., the value of
 $$
@@ -388,18 +327,12 @@ then
 $$
     \P\{ |\eta| > 2t \} \approx \frac{1}{M} \sum_{\ell : |e_\ell| > 2t} p_\ell .
 $$
-Note that the relevant effect size distribution here is weighted by frequency, \revpoint{1}{3}
-which is necessary because we're looking at the deviation of a typical offspring from their parents,
-and the chance a given allele is carried by a random parent is given by the frequency.
-This will make a difference as frequencies and effect sizes are often correlated in practice.
 So, to obtain a per-trait estimate of $\alpha$,
 we plot $\log \frac{1}{M} \sum_{\ell : |e_\ell| > t} p_\ell$ against $\log t$
 for a sequence of values of $t$,
-and fit a linear model to the tail.
-(To do this,
-we take as the ``tail''
-all values of $t$ for which the number of SNPs with absolute effect above $t$
-is at least 20 and at most 10\% of all SNPs.) \revpoint{2}{3}
+and fit a linear model to the tail
+(which we take to be all values of $t$ for which the number of SNPs with absolute effect above $t$
+is between 20 and 10\% of all SNPs).
 Examples are shown in Figure~\ref{fig:example_snps}.
 
 \begin{figure}
@@ -469,39 +402,24 @@ between more and less common phenotypes.
         \textbf{(A)} distribution of values; and plotted against
         \textbf{(B)} number of SNPs, and
         \textbf{(C)} number of cases.
-        \textbf{(D)} shows the number of SNPs and number of cases by phenotype.
         \label{fig:exponent_hist}
     }
 \end{figure}
 
-A possible concern is that tail exponents are difficult to estimate accurately, \revpoint{1}{4}
-but simulation-based estimates of accuracy (Supplemental Figure~\ref{fig:power})
-suggest that our estimates are unbiased but only accurate to within roughly $\pm 0.4$,
-so the distribution of Figure~\ref{fig:exponent_hist} should not be taken as
-a direct estimate of the underlying distribution of $\alpha$ values,
-but is robust evidence for exponents strictly between 1 and 2 (and probably around 1.5).
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Independence and the Gaussian assumption}
 
-We know from \citet{barton2017infinitesimal} \revpoint{1}{5} \revpoint{2}{4}
-that if the $\eta^{[i]}_\ell$ are
-independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$ as $M \to \infty$,
-then with $\alpha \ge 2$,
+We know from \citet{barton2017infinitesimal} that if the $\eta^{[i]}_\ell$ are
+independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$,
+then with $\alpha=2$,
 the traits $(Z_M, Z_M^{[1]}, Z_M^{[2]})$ converge in distribution to a multivariate Gaussian distribution
 $(Z, Z^{[1]}, Z^{[2]})$ for which $Z - (Z^{[1]} + Z^{[2]})/2$ is independent of $Z^{[1]}$ and $Z^{[2]}$.
-(The main result in \citet{barton2017infinitesimal} is that the trait values in generation $t$
-are Gaussian conditioned on the traits in generation $t-1$,
-but as discussed in that paper,
-this implies that the traits of any set of individuals is multivariate Gaussian,
-with covariance matrix determined by the pedigree.
-Note, however, that this does \emph{not} imply that the distribution of trait values
-across the population is Gaussian, as a collection of correlated Gaussians is not itself Gaussian.)
 
 Perhaps surprisingly, there is a converse --
 in at least some situations,
-independence of the Mendelian sampling term \emph{implies} a Gaussian distribution.
-To see this (and to see exactly what we mean by this),
+independence of the Mendelian sampling term implies a Gaussian distribution.
+To see this,
 divide the parental loci into groups according to the results of inheritance,
 defining
 \begin{align*}
@@ -556,62 +474,22 @@ We have shown the following:
     then $R_M$ and $\bar Z_M$ are jointly Gaussian.
 \end{prop}
 
-We should now discuss what this counter-intuitive result says and does not say.
-The proposition says, roughly, that if the parental alleles are unlinked and independently chosen,
-and meotic segregation is fair,
-then independence of Mendelian sampling term from midparent value
-\emph{implies} a joint Gaussian distribution for the two.
-We have not assumed anything about the distribution of the trait in the population:
-rather, we have showed that any model of this sort
-that assumes independence of Mendelian sampling term and midparent value
-must also, by logical necessity, have a Gaussian distribution for the two.
-In other words,
-since models can be easily set up for which the distribution of Mendelian sampling terms
-is not Gaussian,
-the implication of the proposition
-is that for such models, independence of the Mendelian sampling term
-is not likely a good assumption. \revpoint{1}{7}
+% A similar statement holds for the offspring of two parents in a pedigree,
+% using the Skitovich-Darmois theorem \citet{kagan1973characterization},
+% except that the portion of the genome shared in common by the parents is unconstrained.
+
+Since models can be easily set up for which trait distributions are not Gaussian,
+the implication of this is that for such models, independence of the Mendelian sampling term
+is not likely a good assumption.
 Note that the proof does not depend on independence of the $X_\ell$:
 indeed, alleles may be inherited together,
-although in practice this would quickly create dependencies between the effects
-of alleles at such linked loci. \revpoint{2}{5}
+although in practice this would quickly create dependencies between nearby allelic effects.
 Also note that it is \emph{not} usually true that the components --
 for instance, $U_M^{[1]}$ and $U_M^{[2]}$ --
 are independent of each other.
-Finally, note that although they may not be independent,
-the Mendelian sampling term $R_M$ and the midparent value $\bar Z_M$
-\emph{are} always uncorrelated, since $Z_M$ and $V_M$ are exchangeable.
-
-Note that under the conditions of the proposition, \llabel{pop_not_gaussian}
-the parental traits, $Z^{[1]}_M$ and $Z^{[2]}_M$,
-are also (jointly) Gaussian.
-(This was not an assumption, however.)
-If parents are chosen uniformly, then
-the distribution of, say, $Z^{[1]}$ is just the population's trait distribution.
-This seems wrong, since it is well-known that forces such as selection or migration
-can make the population distribution non-Gaussian.
-However, there is no contradiction:
-we have stated the proposition only in terms of the \emph{first} generation
-of offspring of unrelated parents \citep[as in][]{barton2017infinitesimal}.
-Proposition~\ref{prop:parental_contribs} does not imply that
-the distribution of traits in the offspring generation is Gaussian:
-unless all offspring are unrelated,
-it will be a collection of correlated Gaussians,
-which is not itself Gaussian.
-(As an extreme example, suppose that half the offspring are produced by the two parents
-with largest trait values, and the other half by the parents with the smallest trait values;
-then although each offspring's distribution about the midparent is Gaussian,
-the offspring's population distribution is a mixture of two Gaussians
-about these two midparents.)
-What about further generations?
-A similar statement to the proposition
-holds for the offspring of two parents in an arbitrary pedigree,
-using the Skitovich-Darmois theorem \citet{kagan1973characterization}
-% except that the portion of the genome shared in common by the parents is unconstrained.
--- however, there is nothing to be gained by the additional generality.
 
 As we discuss more later,
-the presence of a large effect allele at a polymorphic locus \llabel{loci_polymorphic}
+the presence of a large effect polymorphic allele
 makes $R$ and $\bar Z$ dependent:
 consider the extreme case where $\eta^{[i]}_\ell$ are i.i.d.{} with variance 1 for $\ell \ge 2$,
 while $\eta^{[i]}_1 = \pm 10$ with probability 1/2 each,
@@ -622,22 +500,11 @@ $\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
 but if $\eta_1^{[1]} \neq \eta_1^{[2]}$ (and so $\bar Z \approx 0$)
 then $R$ is close to $+5$ or $-5$ with equal probability.
 
-Finally, a possible point of confusion is that \revpoint{1}{6}
-the infinitesimal model is often phrased as a statement about offspring trait distributions
-\emph{given} parental trait values,
-while our statement above regards parental trait values as random.
-However, the notions are equivalent:
-the statement that
-``for each pair of parents the deviation of the offspring's trait from midparent
-has a distribution that does not depend on the parents' values''
-is essentially the definition of statistical independence
-of offspring's Mendelian sampling term and parental trait values.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abnormal quantitative genetics?}
 
-As observed in \cite{turelli2017commentary}, \revpoint{1}{8}
-there are at least three interpretations of what is called ``the infinitesimal model''.  The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation, assumes a large number of small-effect loci,  parental trait-independent Gaussian Mendelian sampling terms  (as rigorously justified in \cite{barton2017infinitesimal,barton2022infinitesimal}), and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution
+As observed in \cite{turelli2017commentary}, there are at least three interpretations of what is called ``the infinitesimal model''.  The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation, assumes a large number of small-effect loci,  parental trait-independent Gaussian Mendelian sampling terms  (as rigorously justified in \cite{barton2017infinitesimal,barton2022infinitesimal}), and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution
 (\ie the \emph{fraction} of the population with trait value in $[z,z+dz)$
 is approximately $\frac{1}{2\pi\sigma^{2}} e^{-(z-m)^{2}/(2\sigma^{2})} dz$
 for suitable choices of the empirical mean and variance $m$ and $\sigma^{2}$).
@@ -707,31 +574,31 @@ which we may take equal to 1.  Then, our condition on the characteristic functio
 	F(\phi)(\theta) = {\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta),
 \]
 whereas any fixed point must be the limit of an arbitrary characteristic function, $\varphi(\theta)$, under repeated applications of $F$,
-\ie \revpoint{2}{7}
+\ie
 \begin{align*}
 	\phi(\theta) 
     &= \lim_{n \to \infty} F^{(n)}(\varphi)(\theta) \\
-    &= \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=0}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}} .
+    &= \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}} .
 \end{align*}
 % Iterating $F$ $n$ times, we get
 % \[
-% 	F^{(n)}(\varphi)(\theta) =  {\textstyle \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}}\prod_{k=0}^{n-1} {\textstyle \Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}},
+% 	F^{(n)}(\varphi)(\theta) =  {\textstyle \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}}\prod_{k=1}^{n-1} {\textstyle \Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}},
 % \]
 % so that
 % \[
-% 	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=0}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
+% 	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=1}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
 % \]
 is a fixed point whenever this limit exists.  
 
 Since $\varphi$ and $\Phi$ are characteristic functions, they are continuous and $\phi(0) = \Phi(0) = 1$, and thus both are non-zero in a neighbourhood of 0. In particular, $\psi(\theta) = \Log{\varphi}(\theta)$ and $\Psi(\theta) = \Log{\Phi(\theta)}$ exist in some neighbourhood of 0 as well\footnote{We use $\Log$ to denote the principal value of the complex logarithm, for which the imaginary part always lies in the interval $(-\pi,\pi]$.}.  From the above, we have
 \[
 	\Log{F^{(n)}(\varphi)(\theta)} = {\textstyle 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)} 
-		+ \sum_{k=0}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
+		+ \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}.
 \]
-We briefly explore what possible limiting values are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider the case \revpoint{2}{8} when both have well-posed limits independent of the other. \llabel{limit_remark}
+We briefly explore what possible limiting values are valid characteristic functions.  We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider to the case when both have well-posed limits independent of the other.
 
 \paragraph{Noise Terms}
-First, consider the noise terms.  A necessary condition for $\sum_{k=0}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$, then Taylor's theorem tells us that for $\theta$ sufficiently small, 
+First, consider the noise terms.  A necessary condition for $\sum_{k=1}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$, then Taylor's theorem tells us that for $\theta$ sufficiently small, 
 \[
 	\Psi(\theta) = \frac{\eta^{2}}{2} \theta^{2} + r(\theta)\theta^{2},
 \]
@@ -743,16 +610,16 @@ where $r(\theta) \to 0$ as $\theta \to 0$.  Thus,
 \end{equation*}
 as $k \to \infty$ and the sum converges by the ratio test.  In this case,
 \begin{align*}
-	 \sum_{k=0}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
-	 &=  \sum_{k=0}^{n-1} 2^{k} {\textstyle \left(- \frac{\eta^{2}}{2}  \frac{\theta^{2}}{2^{2k}}
+	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
+	 &=  \sum_{k=1}^{n-1} 2^{k} {\textstyle \left(- \frac{\eta^{2}}{2}  \frac{\theta^{2}}{2^{2k}}
 		+ r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{2k}}\right)}\\
-	&=- \eta^{2} \theta^{2} (1 - 2^{-n+1})  + \sum_{k=0}^{n-1} {\textstyle r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{k}}}
+	&=- \eta^{2} \theta^{2} (1 - 2^{-n+1})  + \sum_{k=1}^{n-1} {\textstyle r\left(\frac{\theta}{2^{k}}\right)\frac{\theta^{2}}{2^{k}}}
 \end{align*}
 If we assume that $r(\theta) \equiv 0$, so that the noise is $N(0,\eta^{2})$, then the limiting distribution is $N(0,2\eta^{2})$. When  $r(\theta)$ is non-zero, we don't expect the higher order terms to vanish.
 
 It is unclear what more can be said in general. If however, we specialize to the case when $R$ is a stable law, we can explicitly compute the limiting noise term.  We recall that if $\Psi(\theta)$ corresponds to a stable law (see \eg \cite{breiman1992probability}), then
 \[
-	\Psi(\theta) = im\theta - c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
+	\Psi(\theta) = im\theta + c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
 \]
 for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ and
 \[
@@ -763,17 +630,17 @@ for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ a
 \]
 By our general remarks above, we can assume $m = 0$ and exclude the case $\alpha = 1$, $\beta = 0$, for which  $\Psi'(0+) = c$. We then have
 \begin{align*}
-	 \sum_{k=0}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
-	 &=  \sum_{k=0}^{n-1} -2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn\left(\frac{\theta}{2^{k}}\right)
+	 \sum_{k=1}^{n-1}  {\textstyle 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)}
+	 &=  \sum_{k=1}^{n-1} 2^{(1-\alpha)k} c|\theta|^{\alpha} {\textstyle\left(1-i \beta\sgn(\theta)\left(\frac{\theta}{2^{k}}\right)
 	 	 \omega_{\alpha}\left(\frac{\theta}{2^{k}}\right)\right)}\\
 	&= \begin{cases}
-		 -c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
-         -(n-1) c|\theta| \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
+		 c|\theta|^{\alpha}\frac{1-2^{(1-\alpha)n}}{1-2^{1-\alpha}}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right) & \text{if $\alpha \neq 1$, and}\\	
+         (n-1) c|\theta|^{\alpha}  \left(1+\frac{2i\beta}{\pi}\sgn(\theta)\left(\log{|\theta|} - \frac{n}{2} \log{2}\right)\right) & \text{if $\alpha = 1$,}
 	\end{cases}
 \end{align*}
 which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the limit is 
 \begin{equation}\label{eq:stablenoises}
-	 -\frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
+	 \frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
 \end{equation}
 which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
 
@@ -920,8 +787,7 @@ where the $\eta^{[j]}_{\ell}$ are independent across individuals and across loci
 \]
 is the mean of the scale parameters.  
 
-To see what knowing the parental trait value $Z^{[j]}_{M}$ \revpoint{1}{16}
-tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
+To see what knowing the parental trait value $Z^{[j]}_{M}$ tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
 \begin{align*}
     \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} &= \frac{\P\{\eta^{[j]}_{\ell} = y; Z^{[j]} = z\}}{\P\{Z^{[j]} = z\}}\\
         &= \frac{\P\{Z^{[j]} = z\vert\eta^{[j]}_{\ell} = y\}}{\P\{Z^{[j]} = z\}}\P\{\eta^{[j]}_{\ell} = y\}\\
@@ -1002,9 +868,9 @@ Now, since
 \]
 the number of loci at which the magnitude of the effect size exceeds $M \epsilon$, which is 
 $\sum_{\ell = 1}^{M} \1^{M}_{\ell}$,
-converges weakly as $M \to \infty$ to a Poisson random variable with mean $2/(\pi \epsilon)$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,\revpoint{1}{17}
+converges weakly as $M \to \infty$ to a Poisson random variable with mean $2/(\pi \epsilon)$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,
 \begin{align*}
-    \P\left\{\max_{\ell=1}^{M} \frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
+    \P\left\{\max_{i=1}^{M} \frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
 \end{align*}
 which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$. 
 
@@ -1088,11 +954,10 @@ but in a large population these details should be unimportant.)
         (so, $p_k \approx 0.02$).
         Then, each line shows $p_k(a,b)/p_k$
         plotted against the midpoint of the corresponding quantile bin $(q_{k-1},q_k)$,
-        for $(a,b)$ chosen to span the three segments of 5\% of
-        ``low'', ``medium'', and ``high'' midparents, i.e.:
-        midparents between (red) the 7.5\% and 12.5\% quantiles,
-        (black) the 47.5\% and 52.5\% quantiles, and
-        (green) the 87.5\% and 92.5\% quantiles of midparent value.
+        for $(a,b)$ chosen to span the 5\% of midparents centered on:
+        (red) the 10\% quantile,
+        (black) the median, and
+        (green) the 90\% quantile of midparent value.
         \label{fig:seg_noise}
     }
 \end{figure}
@@ -1120,11 +985,7 @@ as we would expect in the presence of several large-effect alleles.
     \end{center}
     \caption{
         As in Figure~\ref{fig:trait_distrns},
-        except under a model of stabilizing selection
-        (see text for details,
-        and note that the scale of the underlying mutations do not match
-        neutral simulations, so distributions are not directly comparable
-        to Figure~\ref{fig:trait_distrns}).
+        except under a model of stabilizing selection (see text for details).
         \label{fig:sel_trait_distrns}
     }
 \end{figure}
@@ -1176,28 +1037,6 @@ and are similar even if less 0.1\% of mutations are excluded.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
-    \revpoint{2}{11}
-
-The infinitesimal model is a powerful and tractable model of trait inheritance,
-but is polygenic to a fault,
-excluding the possibility of loci of large effect
-(that are often seen in practice).
-In this paper,
-we have looked at the possibility of using a broader range of central limit theorems
-to extend the infinitesimal model to traits for which 
-effect size distributions fall in the domain of attraction of the $\alpha$-stable distributions
-(i.e., a larger proportion of variance
-is explained by a smaller number of loci).
-Indeed, we found evidence that this is true of many real traits,
-although our relatively uncritical use of GWAS estimates makes this evidence suggestive at best.
-Next, we show that in fact the infinitesimal model \emph{cannot} describe non-Gaussian distributions
-\comment{XXX TODO}.
-A recurring theme in the rest of the paper is
-that just as the infinitesimal model is useful precisely because it ignores the genetic details,
-it cannot apply once some genetic details are important
-(i.e., there are loci of large effect).
-
-
 
 A substantial challenge for the field is to develop tractable models of trait evolution
 that include contributions of both ``large'' and ``small'' effect loci.
@@ -1232,30 +1071,9 @@ and does not rely on the Gaussian central limit theorem.
 
 Finally, we note that above we've most often used the Cauchy distribution
 not because it seems most realistic
-(indeed data suggests the $\alpha$-stable distribution with $\alpha=3/2$ might be better) \revpoint{2}{12}
+(indeed data suggests the L\'evy stable distribution with $\alpha=3/2$ might be better)
 but for mathematical convenience.
 
-\subsection*{Selection and effect size distributions} \llabel{discussion_DFEs}
-A substantial body of theoretical work has used various models and assumptions
-to predict what distributions of effect sizes are expected based on biology.
-In comparing to this work, there are several distinctions that are important to make.
-For instance, selection makes the distribution of effect sizes identified by GWAS
-different than the distribution of effect sizes of \emph{de novo} mutations,
-and predictions are made about this relationship by \citet{simons2018population} % and \citet{simons2022simple}.
-(under stabilizing selection)
-and \citet{hayward2022polygenic}
-(under adaptation to a new environment).
-Our first question in this paper is orthogonal to this discussion:
-\emph{given} the available genetic variation,
-what model should we use to predict the short-term course of evolution?
-As we saw in Section~\ref{sec:empirical},
-the frequency-weighted effect size distribution (perhaps closer to that seen by GWAS)
-is more relevant for this question than the \emph{de novo} effect size distribution.
-In the latter part of this paper we look at long-term dynamics,
-but with major differences:
-most obviously, we only consider the distribution of the Mendelian noise term,
-rather than the distribution of individual allelic effects.
-These two are clearly related, but a more detailed analysis is beyond the scope of this paper.
 
 \subsection*{Acknowledgements}
 Thanks go to Nate Pope for useful discussion
@@ -1291,24 +1109,6 @@ This project was started on a visit by TLP to the University of Oregon that was 
 
 \begin{figure}
     \begin{center}
-        \includegraphics{snp_effects/power_demo}
-    \end{center}
-    \caption{
-        Distributions of estimated tail exponents using the same estimator
-        as in Figure~\ref{fig:exponent_hist},
-        for 1000 independent draws from
-        \textbf{(left)} the Cauchy distribution (true $\alpha=1$),
-        \textbf{(center)} the Student's $t$ distribution with 1.5 degrees of freedom (true $\alpha=1.5$), and
-        \textbf{(right)} the Gaussian distribution (true $\alpha$ is undefined,
-        as the tail decays super-polynomially).
-        Note that the typical number of SNPs per trait (shown in Figure~\ref{fig:exponent_hist})
-        is around 1000.
-        \label{fig:power}
-    }
-\end{figure}
-
-\begin{figure}
-    \begin{center}
         \includegraphics{sims/selected_seg_noise_small}
     \end{center}
     \caption{
@@ -1317,11 +1117,5 @@ This project was started on a visit by TLP to the University of Oregon that was 
         \label{fig:sel_seg_noise_small}
     }
 \end{figure}
-
-% reviews here if toggled above
-% \ifsubmission\processdelayedfloats\fi
-
-\includereviews
-
 
 \end{document}
