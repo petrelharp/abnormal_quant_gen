@@ -24,6 +24,10 @@
 
 We are writing to submit a revision of our manuscript, ETCETERA
 
+In particular, please note that
+we provide a copy of the paper with both highlighted changes
+and hyperlinked reviewer comments.
+
 
 \noindent \hspace{4em}
 \begin{minipage}{3in}
@@ -193,7 +197,8 @@ More generally, I found it a bit hard to follow the overall logical flow of sect
 \reply{
     Good suggestion; we've added more clarifying points;
     see \llname{clarification1}
-    and \llname{clarification2}.
+    and \llname{clarification2}
+    (and \llname{clarification3}).
 }
 
 
@@ -305,7 +310,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \reviewersection{2}
 
 \begin{quote}
-The authors investigate the possibility of extending results of Barton et al (2017) on the
+The authors investigate the possibility of extending results of \citet{barton2017infinitesimal} on et al (2017) on the
 justification of the infinitesimal model to distributions of effect sizes with a large tail (i.e.,
 polynomial decay with exponent $\alpha < 2$). This is biologically interesting and important
 because there are clear indications that variation in some traits is caused by a mixture
@@ -322,17 +327,35 @@ not discuss the influence of selection, which could be essential because the tra
 related.
 \end{quote}
 
-We now discuss selection XXX WHERE
+Thanks for the close reading.
+We didn't discuss selection here because the question of whether selection contributes
+to the distribution of segregating allelic effects
+is somewhat orthogonal to the question at hand here:
+in other words, the infinitesimal model describes (an approximation for)
+the \emph{results of} random reassortment (etcetera) of whatever ancestral variation is present,
+and is therefore relatively agnostic to how that ancestral variation got there.
+This works because the infinitesimal model describes trait variation after reproduction
+but before selection.
+Note that, for instance, there is no obstacle to there being a correlation between effect sizes and allele frequencies,
+as one might expect under selection.
+However, we have added some clarification about this --
+see \revreffull{1}{3} and \llname{discussion_DFEs}.
 
 \begin{quote}
-In Section 3, the authors show a kind of negative result concerning the possibility of $\alpha$-
-stable distributions with $\alpha < 2$ (Proposition 1): If the deviations of the offspring trait
+In Section 3, the authors show a kind of negative result concerning the possibility of $\alpha$-stable 
+distributions with $\alpha < 2$ (Proposition 1): If the deviations of the offspring trait
 from the midparent value (here called the Mendelian sampling term, $R$) are independent
-of the midparent value $\bar Z$ (part of the core result in Barton et al (2017)), then the joint
-distribution of $R$ and $\bar Z$ is Gaussian. Thus, this independence is not compatible with ‘$\alpha$-
-stable laws’. In fact, as they show (by example) and discuss more generally in Sect. 4, a
+of the midparent value $\bar Z$ (part of the core result in \citet{barton2017infinitesimal}), then the joint
+distribution of $R$ and $\bar Z$ is Gaussian. Thus, this independence is not compatible with ‘$\alpha$-stable 
+laws’. In fact, as they show (by example) and discuss more generally in Sect. 4, a
 single polymorphic large-effect locus causes dependence of $R$ and $\bar Z$.
+\end{quote}
 
+We'd like to remind the reviewer of the caveat that this result
+also depends on a bit more -- independence of inherited and non-inherited contributions
+(e.g., as under an additive model of unlinked loci).
+
+\begin{quote}
 In Section 4, a version of the infinitesimal model is investigated that proposes a much
 stronger result than a Gaussian Mendelian sampling term independent of the parental
 trait distribution, namely a Gaussian distribution of the trait (within the population)
@@ -346,38 +369,71 @@ retains independence of the Mendelian sampling terms, and if such a model might 
 reasonable approximation to an additive model with non-Gaussian effects.
 \end{quote}
 
-We don't actually assume a Gaussian distribution....
+We're glad the reviewer liked this section,
+but perhaps our introduction to the section was misleading --
+in fact we do \emph{not} assume a Gaussian population distribution,
+or any population distribution.
+Instead, we \emph{ask} which distributions might be population distributions
+under this generalized model,
+using arguments similar to those found in the literature.
+We've tried to make this more clear -- see additional text at \revreffull{1}{8}
+and \llname{clarification3}
+(and our response to Reviewer 1, point 8).
 
 \begin{quote}
-The authors use a simplistic Moran model to investigate these questions. However, mu-
-tation doesn’t seem to be modeled explicitly. Is it mutation if a parent is replaced by an
-offspring of the type described in the display equation on p 7? Maybe yes, but not neces-
-sarily because of segregation and recombination contribute substantially to $R$. Doesn’t the
-present assumption imply that the mutation rate is one and that mutation is modeled as a
-kind of diffusion? In the latter case, a Gaussian distribution can result. With explicit mu-
-tation models, where mutations occur per locus and a finite number of loci determines the
+The authors use a simplistic Moran model to investigate these questions. However, mutation 
+doesn’t seem to be modeled explicitly. Is it mutation if a parent is replaced by an
+offspring of the type described in the display equation at \llname{offspring_eqn}?
+Maybe yes, but not necessarily because of segregation and recombination contribute substantially to $R$.
+Doesn’t the present assumption imply that the mutation rate is one and that mutation is modeled as a
+kind of diffusion? In the latter case, a Gaussian distribution can result. With explicit
+mutation models, where mutations occur per locus and a finite number of loci determines the
 trait additively, a Gaussian distribution never results (and in no known limit; see above).
-How does population size enter? Is this a deterministic Moran model? Anyway, the results
-in Sect 4 are of interest because they strongly constrain the possibilities to justify such
-‘Gaussian-population approximation’ by any infinitesimal-like model (essentially to mix-
-tures of Cauchy distributions. The noted relation to blending inheritance is intriguing!).
-My main concern is that especially this section needs are clearer description of the model,
-and clear distinction between this ‘maximalist’ model (which has little theoretical sup-
-port) and the model investigated by Barton et al (2017). Also a much clearer summary
-and discussion of the implications of the results shown here are needed. It should not be
-assumed that readers have read Turelli (2017) and even less that they have studied Barton
-et al (2017) in considerable detail!
+How does population size enter? Is this a deterministic Moran model?
 \end{quote}
 
-We now explain stuff more...
+Mutation would enter into $R$, a point we now make \llname{mutation_note},
+but without detail, as we are aiming here for a high-level and quick calculation,
+not a detailed investigation.
+In fact, we thought a bit about how to set up an explicit genotype-to-phenotype map
+in which the Mendelian sampling terms are non-Gaussian and independent of parental traits,
+but did not arrive at a concrete solution --
+we think this is probably possible,
+but as we know from Proposition~\ref{prop:parental_contribs},
+cannot be a simple additive model.
+Investigating how exactly a concrete model of mutation would affect things is beyond the scope of this paper.
+
+\begin{quote}
+Anyway, the results
+in Sect 4 are of interest because they strongly constrain the possibilities to justify such
+‘Gaussian-population approximation’ by any infinitesimal-like model (essentially to
+mixtures of Cauchy distributions. The noted relation to blending inheritance is intriguing!).
+My main concern is that especially this section needs are clearer description of the model,
+and clear distinction between this ‘maximalist’ model (which has little theoretical
+support) and the model investigated by Barton et al (2017). Also a much clearer summary
+and discussion of the implications of the results shown here are needed. It should not be
+assumed that readers have read Turelli (2017) and even less that they have studied
+\citet{barton2017infinitesimal} in considerable detail!
+\end{quote}
+
+Thanks for the suggestions.
+We also thought the section was useful (and also intruiging!),
+which is why we left the section in.
+(Also note it motivates the form of selection in our simulations.)
+We share the reviewer's concern about context,
+and have added some additional text
+while trying not to get into the weeds too much
+-- in particular, see the new text around \llname{clarification3}.
 
 \begin{quote}
 In Section 5, it is pointed out why the Barton et al. (2017) fails in the case of ‘Cauchy
 noise’ (and presumably for any other limit law with $\alpha < 2$). In the absence of giving the
-estimate in App D in Barton et al, the explanation at the bottom of p 12 is difficult to
+estimate in App D in Barton et al, the explanation around \llname{approx_eqn} is difficult to
 follow. Please provide their estimate for easier comparison (do not assume that readers
 studied Barton et al; assume that they scanned (parts) of it).
 \end{quote}
+
+\comment{TODO}
 
 \begin{quote}
 Finally, Section 6 presents an insightful comparison of the distributions of trait values
@@ -385,11 +441,24 @@ resulting from either Gaussian or Cauchy mutation-effect distributions. This see
 an explicit genetic model, but again, what is the mutation rate? Clearly, the mutation
 rate determines the variance (or more generally variability) of the population distribution.
 Please clarify the model. It also needs to be pointed out clearly that such results seem to
-be at variance with all (?) explicit multilocus models that have been studied so far
+be at variance with all (?) explicit multilocus models that have been studied so far.
+\end{quote}
 
+Honestly, we're confused by this comment.
+The mutation rate is $10^{-9}$ per bp on a genome of length $10^8$,
+as stated at \llname{mutation_rate} -- perhaps the reviewer missed that paragraph?
+We're also unclear what exactly is meant by ``at variance with all \ldots models'' --
+it's true that no-one else has (probably?) simulated this exact model,
+but when it comes to simulations, this is often true?
+We're not sure which specific aspects of difference the reviewer has in mind pointing out.
+
+\begin{quote}
 In summary, this ms contains several interesting aspects and will deserve publication after
 improving the presentation and clarifying a number of issues.
 \end{quote}
+
+Thanks! We hope our improvements
+have made everything at least somewhat clearer.
 
 
 \begin{point}{}
@@ -433,21 +502,24 @@ the last display eq on p3).
 }
 
 \begin{point}{\revref}
-What means ‘nearby alleles’ ? Do you mean physically linked
+What means `nearby alleles'? Do you mean physically linked
     loci? Another \llname{loci_polymorphic}: alleles are not polymorphic; loci can be polymorphic.
 \end{point}
 
 \reply{
-    Good points; both are fixed: \revref and \llname{loci_polymorphic}.
+    Good points; both are fixed: \revref{} and \llname{loci_polymorphic}.
 }
 
 \begin{point}{}
-p 7, Sect 4: As noted above, please describe this model in more detail to distinguish it
-from that in Barton et al (2017), which makes much weaker assumptions. Note that it is
+Sect \ref{sec:abnormal}: As noted above, please describe this model in more detail to distinguish it
+from that in \citet{barton2017infinitesimal}, which makes much weaker assumptions. Note that it is
 not justifiable except under quite extreme assumptions.
 \end{point}
 
 \reply{
+    We've added more text to hopefully
+    put the reader in the right frame of mind:
+    see especially \llname{clarification3}.
 }
 
 \begin{point}{\revref}
@@ -465,15 +537,22 @@ p 8, last line: Delete ‘to’
 }
 
 \begin{point}{}
-p 10: It might be useful to mention earlier that the Cauchy distribution is an archetypical
+Around \llname{cauchy_note}: It might be useful to mention earlier that the Cauchy distribution is an archetypical
 example for an $\alpha$-stable distribution. The enthusiasm among biologists may be limited
 though, because all the empirical trait distributions they find have mean and variance. I
 don’t know if there are examples in which the variance grows (significantly) as the sample
-size increases. In the last para of Sect 4.1, please specify ‘one will get convergence’. I
+size increases. In the last para of Sect 4.1 \revref, please specify ‘one will get convergence’. I
 suppose this refers again to $M \to \infty$.
 \end{point}
 
 \reply{
+    Good suggestion -- we've added the note about the Cauchy \llname{cauchy_note}.
+    (We haven't tried to make biologists more enthusiastic, though,
+    since we don't know of a situation in which strict blending inheritance seems terribly likely.)
+    As for the note about ``one will get convergence'' -- it is as the number of generations increases,
+    not as $M \to \infty$ (in fact, $M$ does not enter into this section at all);
+    we've rewritten this statement to remind the reader
+    about what's going on.
 }
 
 \begin{point}{}
@@ -482,6 +561,7 @@ Barton et al. (e.g., by stating their estimate).
 \end{point}
 
 \reply{
+    \comment{TODO}
 }
 
 \begin{point}{\revref}
@@ -494,7 +574,7 @@ would be appropriate (always noting for which version of the infinitesimal model
 }
 
 \begin{point}{\revref}
-Does ‘Lévy stable distribution’ refer to the family of $\alpha$-stable
+Does `Lévy stable distribution’ refer to the family of $\alpha$-stable
 distributions? (I don’t think it has not been used before.)
 \end{point}
 
