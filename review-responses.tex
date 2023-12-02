@@ -193,14 +193,24 @@ More generally, I found it a bit hard to follow the overall logical flow of sect
 \reply{
     Good suggestion; we've added more clarifying points;
     see \llname{clarification1}
+    and \llname{clarification2}.
 }
 
 
 \begin{point}{}
-    Last inequality on Page 13: Is this the distribution of the largest of the $M$ alleles carried by an individual, conditioned on the trait value $Z$ of the individual (and this is independent of $Z$?), or is it just the largest of $M$ iid draws from a Cauchy distribution? If the former, then it'd be good to say this explicitly. If the latter, then this does not quite answer the question posed at the beginning of the section about how much information knowing the trait value of an individual gives about underlying allelic effects.
+    Last inequality above \revref: Is this the distribution of the largest of the $M$ alleles carried by an individual, conditioned on the trait value $Z$ of the individual (and this is independent of $Z$?), or is it just the largest of $M$ iid draws from a Cauchy distribution? If the former, then it'd be good to say this explicitly. If the latter, then this does not quite answer the question posed at the beginning of the section about how much information knowing the trait value of an individual gives about underlying allelic effects.
 \end{point}
 
 \reply{
+    It is both --
+    the calculation is, as the reviewer points out, about the largest of $M$ iid Cauchys,
+    but those are the alleles carried by a parent in the initial generation.
+    Furthermore, as explained at the beginning of this section \llname{crucial_step},
+    this calculation about iid effects is indeed the key step
+    (in \citet{Fisher1918} and \cite{barton2017infinitesimal})
+    in describing the distribution of trait values in offspring.
+    We've added an sentence that we think should remind the reader
+    why we have in fact answered the question \revref.
 }
 
 \begin{point}{}
@@ -218,6 +228,10 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    Good idea, we have added some citations \revref.
+    However, note that what exactly are the ``original references'' is not so clear:
+    ``\textit{Indeed, its origins are lost in the mists of time (M. Bulmer, W.G. Hill, pers.  comm.).}''
+    \citep[from][]{barton2017infinitesimal}
 }
 
 \begin{point}{\revref}
@@ -236,6 +250,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    Perhaps it is better now? \revref
 }
 
 \begin{point}{}
@@ -279,10 +294,11 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 }
 
 \begin{point}{}
-    Discussion: In the context of theory combining large and small-effect loci, the 2008 paper by Chevin and Hospital: ``Selective Sweep at a Quantitative Trait Locus in the Presence of Background Genetic Variation'' and the 1983 work by Lande: ``The response to selection on major and minor mutations affecting a metrical trait'' may also be somewhat relevant.
+    Discussion: In the context of theory combining large and small-effect loci, \citet{chevin2008selective}: ``Selective Sweep at a Quantitative Trait Locus in the Presence of Background Genetic Variation'' and \citet{lande1983response}: ``The response to selection on major and minor mutations affecting a metrical trait'' may also be somewhat relevant.
 \end{point}
 
 \reply{
+    Thanks! We've incorporated these \revref.
 }
 
 %%%%%%%%%%%%%%

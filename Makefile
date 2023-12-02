@@ -15,7 +15,7 @@ clean:
 %.aux : %.tex
 	-pdflatex -shell-escape $<
 
-%.bbl : %.aux
+%.bbl : %.aux refs.bib
 	bibtex $<
 
 %.png : %.pdf
