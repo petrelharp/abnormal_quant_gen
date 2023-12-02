@@ -636,16 +636,27 @@ of offspring's Mendelian sampling term and parental trait values.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abnormal quantitative genetics?}
 
-As observed in \cite{turelli2017commentary}, \revpoint{1}{8}
-there are at least three interpretations of what is called ``the infinitesimal model''.  The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation, assumes a large number of small-effect loci,  parental trait-independent Gaussian Mendelian sampling terms  (as rigorously justified in \cite{barton2017infinitesimal,barton2022infinitesimal}), and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution
+As observed in \cite{turelli2017commentary},
+there are at least three interpretations of what is called ``the infinitesimal model''. 
+The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation,
+assumes parental trait-independent Gaussian Mendelian sampling terms,
+and, moreover, that  population trait values are in deterministic mutation-selection balance, with a Gaussian empirical distribution
 (\ie the \emph{fraction} of the population with trait value in $[z,z+dz)$
 is approximately $\frac{1}{2\pi\sigma^{2}} e^{-(z-m)^{2}/(2\sigma^{2})} dz$
 for suitable choices of the empirical mean and variance $m$ and $\sigma^{2}$).
-Leaving aside
+As also discussed in \citet{turelli2017commentary}, \revpoint{1}{8}
+this assumption is rather fragile --
+a Gaussian distribution for the population only emerges under weak or Gaussian selection.
+However, the model has been used in influential work.
+In principle, another factor that could produce a non-Gaussian population distribution
+is if the Mendelian sampling terms are not Gaussian, as we consider here --
+so, it is interesting to look for other situations where the population distribution is analytically tractable.
+
+Leaving aside 
 % -- as the Gaussian-population approximation frequently does --
 the question of whether or not some combination of effect sizes, dominance, and epistasis can justify non-Gaussian, trait-independent,  Mendelian sampling terms, we might reasonably ask when (or if)
-deterministic mutation-selection balance is possible in a non-Gaussian model
-that retains independence of the Mendelian sampling terms.
+deterministic mutation-selection balance is possible in a model with non-Gaussian Mendelian sampling terms
+that retains independence of these terms.
 (Indeed, above we have put substantial restrictions on what models of inheritance
 might lead to such models.)
 We might also ask whether such a model
@@ -692,12 +703,19 @@ where
 $ \phi(\theta) = \mathbb{E}\left[e^{i\theta Z^{1}}\right] = \mathbb{E}\left[e^{i\theta Z^{2}}\right] $
 and
 $ \Phi(\theta) = \mathbb{E}\left[e^{i\theta R}\right] $
-are the characteristic functions of $Z^{j}$ and $R$, respectively.  In what follows, we will explore some non-Gaussian solutions $\phi(\theta)$ to \eqref{eqn:MSB_CF}.
+are the characteristic functions of $Z^{j}$ and $R$, respectively. 
+In what follows, we will explore some non-Gaussian solutions $\phi(\theta)$ to equation \eqref{eqn:MSB_CF}:
+
 
 \subsection{The Neutral Case}
 
 First, consider the case without selection, so $\mu$ is a constant
-which we may take equal to 1.  Then, our condition on the characteristic function simplifies to
+which we may take equal to 1. 
+(To remind the reader, our goal is therefore to describe \llabel{clarification1}
+what forms the population distribution might take in a neutral model
+if we assume only that the Mendelian sampling terms are independent of parental values,
+and nothing else about the distribution of these terms or the initial population distribution.) 
+Then, our condition on the characteristic function simplifies to
 \begin{equation}\label{eq:CF_neutral}
 	{\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta) %e^{-\frac{\eta^{2}\theta^{2}}{2}} 
 	= \phi(\theta) ,
@@ -905,7 +923,7 @@ In this case, the typical effect size at locus $\ell$ is of order $\frac{\gamma_
 which is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal},
 but large effect alleles are more likely. 
 
-The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian segregation variance is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
+The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, following the arguments in \cite{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian sampling term is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
 
 % The key observation is this:
 % while is meaningless to speak of variances when the Mendelian sampling term is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
@@ -1081,7 +1099,7 @@ but in a large population these details should be unimportant.)
         for all individuals born during the last 1,000 time units of the simulation.
         \textbf{(A,D)} Mendelian noise (offspring trait minus midparent) plotted against midparent.
         \textbf{(B,E)} Histograms of the Mendelian sampling term.
-        \textbf{(B,E)} Enrichment in quantiles of the Mendelian sampling term conditional on midparent value.
+        \textbf{(C,F)} Enrichment in quantiles of the Mendelian sampling term conditional on midparent value.
         To compute the latter,
         let $q_0, q_2, q_4, \ldots, q_{98}, q_{100}$ divide the distribution of the Mendelian sampling term
         into 50 bins with roughly equal numbers in each (i.e., the quantiles),
@@ -1199,6 +1217,7 @@ A recurring theme in the rest of the paper is
 that just as the infinitesimal model is useful precisely because it ignores the genetic details,
 it cannot apply once some genetic details are important
 (i.e., there are loci of large effect).
+Also, we show that removing big effects and using the infinitesimal model for the remainder is good \comment{todo incorporate this}.
 
 
 
