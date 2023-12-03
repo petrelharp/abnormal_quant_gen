@@ -975,7 +975,7 @@ Now, $Z^{[j]} -\frac{1}{M} \eta^{[j]}_{\ell} = \frac{1}{M} \sum_{k = 1 : k \neq 
     &=
     \left(1
         +
-        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})}
+        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2\bar{\gamma} zy}{\bar{\gamma}(\bar{\gamma}^{2}+z^{2})}
         \frac{1}{M}
         + \Oh\left(\frac{1}{M^{2}}\right)\right)
         \P\{\eta^{[j]}_{\ell} = y\}.
@@ -986,9 +986,9 @@ and $|z/(\bar{\gamma}^2 + z^2)| \le 1/(2 \bar{\gamma})$
 so
 \begin{align*}
         \left|
-        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})}
+        \frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2\bar{\gamma}zy}{\bar{\gamma}(\bar{\gamma}^{2}+z^{2})}
         \right|
-        \le \frac{|y|}{\gamma_\ell \bar{\gamma}} ,
+        \le \frac{\gamma_{\ell}}{\bar{\gamma}} + \frac{|y|}{\bar{\gamma}},
 \end{align*}
 % Now, as $z \to 0$,
 % $\frac{\gamma_{\ell}(\bar{\gamma}^{2}-z^{2})+2zy}{\gamma_{\ell}(\bar{\gamma}^{2}+z^{2})} \to \frac{\gamma_{\ell}}{\bar{\gamma}}$
@@ -1009,45 +1009,48 @@ we have that
     \left|
     \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} - \P\{\eta^{[j]}_{\ell} = y\}
     \right|
-    \le \left(\left(1 + \frac{|y|}{\gamma_\ell \bar{\gamma}}\right) \frac{1}{M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
+    \le \left(\left(\frac{\gamma_{\ell}}{\bar{\gamma}} + \frac{|y|}{\bar{\gamma}}\right) \frac{1}{M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
 \]
 % Unlike the case of bounded allelic effects, the bound is independent of the trait value $Z^{[j]}$. 
 \llabel{approx_eqn}
-In the case of bounded allelic effects, the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution is proportional to $|Z^{[j]}|$, so that extreme trait values are most informative of the size of allelic effects,
-whereas here,
-the bound is independent of the trait value,
-and the error is maximized when the trait value is approximately equal to
-the mean absolute deviation of its distribution, \ie the median value of $|Z^{[j]}|$.
 
-The argument above shows for a typical locus, the effect of conditioning on the trait gives negligible information about the contribution from that site.   Recalling that
+When allelic effects have magnitude bounded by  $\frac{B}{\sqrt{M}}$, (see Appendix C in \citet{barton2017infinitesimal}), the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution takes the form
 \[
-    \P\left\{|\eta^{[j]}_{\ell}| > y\right\} =  1-\frac{2}{\pi} \arctan\left(\frac{y}{\gamma_{\ell}}\right) \sim \frac{2\gamma_{\ell}}{\pi y},
+	\left|\P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} - \P\{\eta^{[j]}_{\ell} = y\} \right| \leq \frac{1}{\sqrt{M}} C(\hat{\sigma}_{M}^{2},z) \P\{\eta^{[j]}_{\ell} = y\},
+\]
+where $\hat{\sigma}_{M}$ is the variance in the trait value $Z^{[j]}$ and $C(\hat{\sigma}_{M}^{2},z)$ is a somewhat complicated expression that is approximately proportional to $z$, but independent of the allelic effect size $y$ (Equation (12), \textit{loc. cit.}).  Thus, the trait value $Z^{[j]}$ is most informative of the size of the allelic effects at any given locus when it differs significantly from its mean: intuitively, when allele effects are uniformly bounded, a large trait value is evidence for many atypically large allelic effects.  Interestingly, for the Cauchy distribution, we have the opposite: the error bound is independent of the trait value, $Z^{[j]} = z$, but is proportional to the allele effect size, $\eta^{[j]}_{\ell} = y$, at the locus under consideration (indeed, the error is maximized when the trait value is approximately equal to the mean absolute deviation of its distribution, \ie the median value of $|Z^{[j]}|$, rather than at extreme trait values).  This suggests that with Cauchy-distributed allelic effects, knowing the trait value gives evidence for large allelic effects at individual loci. 
+
+To elaborate, the argument above shows for a typical locus, the effect of conditioning on the trait gives negligible information about the contribution from that site.   Recalling that
+\[
+    \P\left\{|\eta^{[j]}_{\ell}| > y\right\} =  1-\frac{2}{\pi} \arctan\left(\frac{y}{\gamma_{\ell}}\right) \sim \frac{2\gamma_{\ell}}{\pi y} \quad \text{for large values of $y$},
 \]
 we see that for any $\epsilon > 0$, and large values of $M$,
 \[
-    \P\left\{\frac{\eta^{[j]}_{\ell}}{\gamma_\ell \bar{\gamma} M} > \epsilon\right\} \sim \frac{2\gamma_{\ell}}{\pi \gamma_\ell \bar{\gamma} M \epsilon}.
+    \P\left\{\frac{|\eta^{[j]}_{\ell}|}{\bar{\gamma} M} > \epsilon\right\} \sim \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon}.
 \]
-so the probability the error is larger than $\epsilon$ at any given locus decays rapidly as $M \to \infty$. 
+so the probability the error is larger than $\epsilon$ at any given locus decays rapidly as $M \to \infty$.
 
 If, however, we consider not any one locus, but rather all loci, we get a different picture. 
 The variables $\eta^{[j]}_{\ell}$ are independent, and thus so are the Bernoulli random variables 
 \begin{equation}
 	\1^{M}_{\ell} = \begin{cases}
-        1 & \text{if $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$, and}\\
+        1 & \text{if $\frac{|\eta^{[j]}_{\ell}|}{\bar{\gamma} M} > \epsilon$, and}\\
 		0 & \text{otherwise.}
 	\end{cases}
 \end{equation}
 Now, since
 \[
-	\lim_{M \to \infty} \sum_{\ell = 1}^{M} \frac{2\gamma_{\ell}}{\pi \bar{\gamma} M \epsilon} = \frac{2}{\pi \epsilon},
+	\lim_{M \to \infty} \sum_{\ell = 1}^{M} \frac{2 \gamma_{\ell}}{\pi \bar{\gamma} M \epsilon} = \frac{2}{\pi \epsilon},
 \]
-the number of loci at which the magnitude of the effect size exceeds $M \epsilon$, which is 
+the number of loci at which the magnitude of the scaled effect size exceeds $\bar{\gamma} \epsilon$, which is 
 $\sum_{\ell = 1}^{M} \1^{M}_{\ell}$,
 converges weakly as $M \to \infty$ to a Poisson random variable with mean $2/(\pi \epsilon)$ (see \eg Theorem 2.6.1 in \cite{Durrett2005}).  In particular, for large values of $M$ and fixed $\epsilon > 0$,\revpoint{1}{17}
 \begin{align*}
-    \P\left\{\max_{\ell=1}^{M} \frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \bar{\gamma} \epsilon}},
+    \P\left\{\max_{\ell=1}^{M} \frac{|\eta^{[j]}_{\ell}|}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \epsilon}},
 \end{align*}
 which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$. 
+By contrast, in \citet{Fisher1918} and \citet{barton2017infinitesimal} \revpoint{2}{10}, the scaled allelic effect at any locus $\ell$ has magnitude bounded by $\frac{B}{\sqrt{M}}$, and thus, no matter how many alleles one considers, there will be no large effect alleles that are informative of the trait value.  
+
 
 To summarize, the key argument in \citet{Fisher1918} and \cite{barton2017infinitesimal}  \revpoint{1}{10}
 requires that knowing the sum of parental effects does not give much information 
