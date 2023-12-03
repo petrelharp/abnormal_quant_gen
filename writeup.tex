@@ -140,16 +140,16 @@
     the difference between an offspring's genetic trait component
     and the average of their two parents' genetic trait components
     is Normally distributed and independent of the parents' values.
-    Here, we investigate how the assumption of similar effect sizes
-    affects the model:
-    in particular, if the tail of the effect size distribution is polynomial
-    with exponent $\alpha < 2$, then sums of effects
-    should be well-approximated by a ``stable distribution'',
-    and find tail exponents between 1 and 2 in 
+    Here, we investigate how the assumption of similar effect sizes affects the model:
+    if, alternatively, the tail of the effect size distribution is polynomial
+    with exponent $\alpha < 2$, then a different Central Limit Theorem implies that
+    sums of effects should be well-approximated by a ``stable distribution'',
+    for which single large effects are often still important.
+    Empirically, we first find tail exponents between 1 and 2 in 
     effect sizes estimated by genome-wide association studies
     of many human disease-related traits.
-    We show that the independence of offspring trait deviations from parental averages
-    in many cases implies a Gaussian distribution,
+    We then show that the independence of offspring trait deviations from parental averages
+    in many cases implies the Gaussian aspect of the infinitesimal model,
     suggesting that non-Gaussian models of trait evolution must explicitly
     track the underlying genetics, at least for loci of large effect.
     We also characterize possible limiting trait distributions
@@ -225,12 +225,12 @@ for which $\P\{ X > t \}$ is proportional to $t^{-\alpha}$ for some $0 < \alpha 
 then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$,
 is well-approximated by a universal form, an $\alpha$-stable distribution
 (and the approximation becomes exact, as $n \to \infty$).
-Oth the other hand, if $\alpha \ge 2$ then the distribution has finite variance,
+Oth the other hand, if $\alpha \ge 2$ then the distribution has finite variance, \revpoint{2}{1} 
 and so the sum of $n$, divided by $\sqrt{n}$, converges to a Gaussian distribution.
 In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
-On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$. \revpoint{2}{1} \revpoint{1}{11}
+On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$. \revpoint{1}{11}
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
 in the infinitesimal model. \revpoint{1}{1}
@@ -238,7 +238,8 @@ In this paper, we make preliminary explorations in that direction:
 Do the results of \citet{barton2017infinitesimal}
 carry over when the distribution of effect sizes falls in the domain of attraction of a stable law?
 The immediate answer to this will be ``no'' --
-in fact, we will see that independence of offsprings' deviations and midparent values \emph{implies} a Gaussian distribution for the offsprings' deviations, in some sense. \revpoint{1}{2}
+in fact, we will see that independence of offsprings' deviations and midparent values \revpoint{1}{2}
+\emph{implies} a Gaussian distribution for the offsprings' deviations, in some sense.
 This independence is a key reason why the infinitesimal model is tractable,
 and so a conclusion is that additive models with non-Gaussian effects may not be well-approximated
 by ``trait-only'' models that do not explicitly represent underlying genetic variation.
@@ -267,7 +268,7 @@ might be modeled as a Gaussian has been discussed extensively
 
 The ways in which genetic variants affect an organisms' trait can be complex,
 and interactions between alleles, between loci, and with the environment are often important in practice.
-In fact, many traits that have been claimed to be mostly genetically determined \revpoint{1}{14}
+In fact, some important traits that have been claimed to be mostly genetically determined \revpoint{1}{14}
 only appear heritable through non-genetic means,
 e.g., systematic inequalities in resource distribution partitioned by class or race
 \citep[e.g.,][]{davenport1916hereditary}.
@@ -378,7 +379,7 @@ $$
 Note that the relevant effect size distribution here is weighted by frequency, \revpoint{1}{3}
 which is necessary because we're looking at the deviation of a typical offspring from their parents,
 and the chance a given allele is carried by a random parent is given by the frequency.
-This will make a difference as frequencies and effect sizes are often correlated in practice.
+(This weighting will make a difference, as frequencies and effect sizes are often correlated in practice.)
 So, to obtain a per-trait estimate of $\alpha$,
 we plot $\log \frac{1}{M} \sum_{\ell : |e_\ell| > t} p_\ell$ against $\log t$
 for a sequence of values of $t$,
@@ -463,8 +464,8 @@ between more and less common phenotypes.
 
 A possible concern is that tail exponents are difficult to estimate accurately, \revpoint{1}{4}
 but simulation-based estimates of accuracy (Supplemental Figure~\ref{fig:power})
-suggest that our estimates are unbiased but only accurate to within roughly $\pm 0.4$,
-so the distribution of Figure~\ref{fig:exponent_hist} should not be taken as
+show that our estimates are unbiased but only accurate to within roughly $\pm 0.4$.
+So, the distribution of Figure~\ref{fig:exponent_hist} should not be taken as
 a direct estimate of the underlying distribution of $\alpha$ values,
 but is robust evidence for exponents strictly between 1 and 2 (and probably around 1.5).
 
@@ -527,7 +528,7 @@ The Kac-Bernstein theorem states that if two independent random variables
 have the property that their sum and difference are independent of each other,
 then the random variables have a joint Gaussian distribution
 (\citet{kac1939characterization,bernstein1941property},
-and see \citet{kagan1973characterization} for many much more general results).
+and see \citep{kagan1973characterization} for many much more general results).
 Since $R_M$ is (half) the difference and $\bar Z_M$ is (half) the sum
 of $Z_M$ and $V_M$, and $Z_M$ and $V_M$ are independent,
 if we assume that also $R_M$ and $\bar Z_M$ are independent,
@@ -552,12 +553,12 @@ We have not assumed anything about the distribution of the trait in the populati
 rather, we have showed that any model of this sort
 that assumes independence of Mendelian sampling term and midparent value
 must also, by logical necessity, have a Gaussian distribution for the two.
-In other words,
-since models can be easily set up for which the distribution of Mendelian sampling terms
-is not Gaussian,
+In other words, \revpoint{1}{7}
+since models can be easily set up for which offspring minus midparent traits
+are not Gaussian,
 the implication of the proposition
 is that for such models, independence of the Mendelian sampling term
-is not likely a good assumption. \revpoint{1}{7}
+is not likely a good assumption.
 Note that the proof does not depend on independence of the $X_\ell$:
 indeed, alleles may be inherited together,
 although in practice this would quickly create dependencies between the effects
@@ -609,16 +610,17 @@ $\eta_1^{[1]} = \eta_1^{[2]}$ and so $R$ is Normal with variance 1/2;
 but if $\eta_1^{[1]} \neq \eta_1^{[2]}$ (and so $\bar Z \approx 0$)
 then $R$ is close to $+5$ or $-5$ with equal probability.
 
-Finally, a possible point of confusion is that \revpoint{1}{6}
-the infinitesimal model is often phrased as a statement about offspring trait distributions
-\emph{given} parental trait values,
-while our statement above regards parental trait values as random.
-However, the notions are equivalent:
-the statement that
-``for each pair of parents the deviation of the offspring's trait from midparent
-has a distribution that does not depend on the parents' values''
-is essentially the definition of statistical independence
-of offspring's Mendelian sampling term and parental trait values.
+% NOT HELPFUL
+% Finally, a possible point of confusion is that \revpoint{1}{6}
+% the infinitesimal model is often phrased as a statement about offspring trait distributions
+% \emph{given} parental trait values,
+% while our statement above regards parental trait values as random.
+% However, the notions are equivalent:
+% the statement that
+% ``for each pair of parents the deviation of the offspring's trait from midparent
+% has a distribution that does not depend on the parents' values''
+% is essentially the definition of statistical independence
+% of offspring's Mendelian sampling term and parental trait values.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abnormal quantitative genetics?}
@@ -635,7 +637,7 @@ for suitable choices of the empirical mean and variance $m$ and $\sigma^{2}$).
 As also discussed in \citet{turelli2017commentary}, \revpoint{1}{8}
 this assumption is rather fragile --
 a Gaussian distribution for the population only emerges under weak or Gaussian selection.
-However, the model has been used in influential work.
+% However, the model has been used in influential work.
 In principle, another factor that could produce a non-Gaussian population distribution
 is if the Mendelian sampling terms are not Gaussian, as we consider here --
 so, it is interesting to look for other situations where the population distribution is analytically tractable.
@@ -683,7 +685,7 @@ to a $\mu$-weighted choice of $Z$.
 % where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{1}$ and $Z^{2}$), and $R$.
 % 
 % Since the set of functions $\mathcal{S} = \{e^{i \theta x} : \theta \in \R\}$ is separating (see \eg \S 3.4 in \cite{Ethier+Kurtz1986}), it suffices to show that \eqref{eqn:MSB_condition} holds for $f \in \mathcal{S}$, \ie
-If the population is large enough,
+If the population is large enough, \llabel{deterministic_point}
 we can treat the trait distribution as changing deterministically.
 Taking the characteristic function of both these distributions,
 deterministic mutation-selection balance is therefore equivalent to
@@ -749,11 +751,10 @@ Since $\varphi$ and $\Phi$ are characteristic functions, they are continuous and
 We briefly explore what possible limiting values are valid characteristic functions. 
 We refer to the first term on the left hand side as the \emph{reproduction term} and the remaining sum as the \emph{noise term}, and only consider the case \revpoint{2}{8}
 when both have well-posed limits independent of the other. \llabel{limit_remark} % We don't need to limit to this caee.
-Biologically,
+Biologically, \llabel{clarification2}
 the ``noise term'' is the contribution to variation in the population
 generated by the Mendelian sampling terms (\ie, by recombination and mutation),
 while the ``reproduction term'' is the contribution from variation in the initial generation.
-\llabel{clarification2}
 
 \paragraph{Noise Terms}
 First, consider the noise terms.  A necessary condition for $\sum_{k=0}^{\infty} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$ to converge is that $2^{k} \Psi\left(\frac{\theta}{2^{k}}\right) \to 0$; since $\Psi(0) = 0$, this implies that if it exists, $\Psi'(0+) = 0$.  In particular, as we would expect, if $R$ has a mean, it must be 0.  If, on the other hand, $\Psi(\theta)$ is twice differentiable, so $R$ has mean 0 and finite variance, say $\Psi''(0) = \eta^{2}$, then Taylor's theorem tells us that for $\theta$ sufficiently small, 
@@ -956,8 +957,11 @@ where the $\eta^{[j]}_{\ell}$ are independent across individuals and across loci
 \]
 is the mean of the scale parameters.  
 
-To see what knowing the parental trait value $Z^{[j]}_{M}$ \revpoint{1}{16}
-tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem. Proceeding informally, with the probabilities indicating probability density functions, we have 
+To see what knowing the trait value $Z^{[j]}_{M}$ \revpoint{1}{16}
+of a particular parent in the ancestral generation
+tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, to their trait value,
+we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem.
+Proceeding informally, with the probabilities indicating probability density functions, we have 
 \begin{align*}
     \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} &= \frac{\P\{\eta^{[j]}_{\ell} = y; Z^{[j]} = z\}}{\P\{Z^{[j]} = z\}}\\
         &= \frac{\P\{Z^{[j]} = z\vert\eta^{[j]}_{\ell} = y\}}{\P\{Z^{[j]} = z\}}\P\{\eta^{[j]}_{\ell} = y\}\\
@@ -1348,7 +1352,8 @@ These two are clearly related, but a more detailed analysis is beyond the scope 
 \subsection*{Acknowledgements}
 Thanks go to Nate Pope for useful discussion
 and to Gregor Gorjanc for insight into modern uses
-of the animal model and genomic selection. 
+of the animal model and genomic selection,
+as well as to two anonymous reviewers for helpful comments.
 This project was started on a visit by TLP to the University of Oregon that was partially supported by the CNRS PEPS grant ``Jeunes Chercheuses et Jeunes Chercheurs''.
 
 \bibliographystyle{plainnat}

@@ -4,6 +4,12 @@ all: writeup.pdf
 
 writeup.pdf : refs.bib review-responses.tex
 
+diff-to-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
+	cp $< $@
+
+writeup-diff%.tex : writeup.tex refs.bib review-responses.tex
+	latexdiff-git -r $* --force writeup.tex
+
 clean: 
 	-rm *.aux *.log *.bbl *.blg
 

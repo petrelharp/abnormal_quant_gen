@@ -22,12 +22,22 @@
  
 \vskip 1em
 
-We are writing to submit a revision of our manuscript, ETCETERA
+We are writing to submit a revised version of our manuscript,
+``Large effects and the infinitesimal model''.
+In response to the reviewer's comments
+we have made quite a few additions to the text
+which we hope will make the paper more accessible to a wider audience.
+We hope you agree!
 
-In particular, please note that
-we provide a copy of the paper with both highlighted changes
+Along with our revised paper and the responses to reviewers,
+we are also submitting a PDF that has both changes to the paper since the first submission highlighted,
 and hyperlinked reviewer comments.
+(Line numbers in the standalone responses to reviewers
+refer to the PDF of the paper without changes highlighted,
+while line numbers in the merged document with changes highlighted are self-consistent.)
 
+
+\vskip 2em
 
 \noindent \hspace{4em}
 \begin{minipage}{3in}
@@ -53,7 +63,11 @@ Peter Ralph
 The two reviewers find the results interesting and worth being eventually published in the special issue. However, they highlight a number of places in the text where the properties claimed or the precise questions addressed need serious clarification. As the readership of the special issue will be quite broad, it is important that the main messages are accessible to colleagues who do not necessarily know Fisher's infinitesimal model precisely. Therefore, although the mathematical results in themselves do not require deep modifications, I recommend that a major revision of the paper should be provided, which would take into account the different comments and suggestions of the reviewers.
 \end{quote}
 
-XXX
+Thanks very much to the reviewers for their comments.
+We agree that our initial version of the manuscript didn't have as broad an envisioned audience
+as it should have.
+We've tried to improve this, by adding additional context and discussion --
+in particular, in Sections 3 and 4, and to the Discussion.
 
 
 %%%%%%%%%%%%%%
@@ -64,6 +78,7 @@ The paper explores inheritance of an additive trait influenced by a large number
 \end{quote}
 
 Thanks for the careful reading and useful comments.
+We hope you like our revisions.
 
 \begin{point}{}
     Paragraph starting ``This suggests exploring whether stable distributions..'' \revref:
@@ -72,11 +87,16 @@ somewhat non-rigorously (and for the case of a Cauchy distribution of effect siz
 \end{point}
 
 \reply{
-    We don't actually agree with this characterization --
-    sections 3 and 4 explore the consequences of different distributions
-    of the Mendelian sampling term (which derives from the sum of effects),
-    not the population distribution.
-    However, the assumptions and motivation were not nearly as clear as they could have been
+    We agree with most of this statement --
+    the best answer to the admittedly vague question we pose here
+    does have to do with whether the Mendelian noise term can be taken to be independent of parental values,
+    and we do explore some other -- we think related and interesting -- questions along the way.
+    However, we think there is some confusion here about both Sections 3 and \ref{sec:abnormal},
+    which we discuss more below: in particular, the focus of Section 3
+    is not on the population distribution,
+    but instead on the very question brought up here
+    (whether the Mendelian term can be independent of the parental values).
+    However, the assumptions and motivations were not as clear as they could have been
     in the previous draft, and this is hopefully more clear now --
     see responses to points below.
 }
@@ -87,7 +107,7 @@ In the same paragraph: I don't think the claim that ``independence of offsprings
 
 \reply{
     We have modified the sentence to say
-    ``implies a Gaussian for the offsprings' deviations'',
+    ``implies a Gaussian distribution for the offsprings' deviations'',
     to make it clear that this statement does not refer to the population distribution,
     but rather to the Mendelian sampling term \revref.
     See additional points below on this topic.
@@ -135,13 +155,13 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
     shows that conditioned on the trait values in generation $t$,
     the values of generation $t+1$ are also multivariate Gaussian.
     This implies that the joint distribution of traits of any subset of individuals
-    is multivariate Gaussian (possibly conditioned on the initial generation)
+    is multivariate Gaussian (since the initial generation is Gaussian)
     -- as \citet{barton2017infinitesimal} says,
     \textit{``equally we could have conditioned on the values of any subset of relatives
     and the same would hold true: expected trait values would be
     a linear functional (determined by the pedigree) of the values
     on which we conditioned, but segregation variances would be unchanged.''}
-    (More generally, if $X$ is multivariate Gaussian, and $(Y|X)$ is also multivariate Gaussian
+    (More generally, if $X$ is multivariate Gaussian, and $Y$ conditioned on $X$ is also multivariate Gaussian
     with mean but not covariance depending on $X$,
     then $(X,Y)$ are jointly multivariate Gaussian.)
     We now also discuss the point further in a subsequent paragraph \llname{pop_not_gaussian}.
@@ -157,7 +177,7 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
     After some difficult thinking through of things,
     we've provided a good bit of additional clarification
     about what the Proposition means and doesn't mean:
-    see in particular \llname{pop_not_gaussian} and \revref.
+    see in particular \llname{pop_not_gaussian}.
 }
 
 \begin{point}{}
@@ -165,7 +185,8 @@ I was also wondering about the ``goodness of fit'' of observed distributions to 
 \end{point}
 
 \reply{
-    Thanks -- we've changed this to ``since models can be easily set up for which the distribution
+    Thanks for the catch -- this was an unfortunate mistake that might have led to some of the previous confusion.
+    We've changed this to ``since models can be easily set up for which the distribution
     of Mendelian sampling terms is not Gaussian, \ldots''
     and provided additional context \revref.
 }
@@ -244,10 +265,11 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
-    We've rephrased this, and replaced ``gene'' with ``region'' --
+    We've rephrased this, and replaced ``gene'' with ``region'' \revref --
     really, we just want to motivate a mixture model,
     as the "scale mixture of Gaussians" is a common way to get fat-tailed distributions,
-    and eminently biologically plausible (we think).
+    and at least roughly biologically plausible.
+    On the other hand, we don't want to get into the weeds with more detail or discussion here.
 }
 
 \begin{point}{\revref}
@@ -271,6 +293,8 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \end{point}
 
 \reply{
+    They are a member of the (first) ancestral generation, and therefore a (potential) parent.
+    We've clarified this \revref.
 }
 
 \begin{point}{\revref}
@@ -310,7 +334,7 @@ Also, maybe worth specifying what the corresponding distribution for the largest
 \reviewersection{2}
 
 \begin{quote}
-The authors investigate the possibility of extending results of \citet{barton2017infinitesimal} on et al (2017) on the
+The authors investigate the possibility of extending results of \citet{barton2017infinitesimal} on the
 justification of the infinitesimal model to distributions of effect sizes with a large tail (i.e.,
 polynomial decay with exponent $\alpha < 2$). This is biologically interesting and important
 because there are clear indications that variation in some traits is caused by a mixture
@@ -401,7 +425,11 @@ but did not arrive at a concrete solution --
 we think this is probably possible,
 but as we know from Proposition~\ref{prop:parental_contribs},
 cannot be a simple additive model.
-Investigating how exactly a concrete model of mutation would affect things is beyond the scope of this paper.
+Investigating how exactly a concrete model of mutation would affect things is beyond the scope of this paper,
+and we hope the interesting bits of this section
+outweigh the lack of an explicit mutationi model.
+We have added a note that hopefully clarifies the questions
+about population size \llname{deterministic_point}.
 
 \begin{quote}
 Anyway, the results
@@ -498,7 +526,7 @@ the last display eq on p3).
 \end{point}
 
 \reply{
-    Good idea -- done \revref. (Also see \revreffull{2}{1}.)
+    Good idea -- done \revref. (Also see \revreffull{2}{1} and \revreffull{1}{11}.)
 }
 
 \begin{point}{\revref}
@@ -530,7 +558,7 @@ Third display equation in Sect 4.1 \revref: The index k in the product should st
 }
 
 \begin{point}{\revref}
-p 8, last line: Delete ‘to’
+Delete ‘to’
 \end{point}
 
 \reply{Done \revref.
