@@ -818,7 +818,6 @@ We now turn our attention to the (point-wise) limit
 \[
 		\psi_{\infty}(\theta) = \lim_{n \to \infty} \psi_{n}(\theta).
 \]
-
 Suppose $\psi_{\infty}(\theta)$ exists for some $\theta \in \mathbb{R}$.  Then for all integers $k$, 
 \[
 	\psi_{\infty}(2^{k} \theta) = \lim_{n \to \infty} 2^{n}\psi\left(\frac{2^{k} \theta}{2^{n}}\right) =  \lim_{n \to \infty} 2^{k} 2^{n-k} \psi\left(\frac{\theta}{2^{n-k}}\right) 
@@ -828,7 +827,7 @@ In particular, since $\psi_{\infty}(0) = 0$,
 \[
 	\frac{\psi_{\infty}(\theta)}{\theta} = \frac{\psi_{\infty}(2^{k} \theta)}{2^{k}\theta} = \frac{\psi_{\infty}(2^{k} \theta)-\psi_{\infty}(0)}{2^{k}\theta - 0}, 
 \]
-so if $\psi_{\infty}$ has a right-hand side derivative at zero, then
+so if $\psi_{\infty}$ has a right-hand side derivative at zero (\eg if $\psi_{\infty}$ is convex), then
 \[
 	\frac{\psi_{\infty}(\theta)}{\theta} = \lim_{k \to -\infty} \frac{\psi_{\infty}(2^{k} \theta)}{2^{k}\theta} = \psi_{\infty}'(0+).
 \]
@@ -840,7 +839,9 @@ Suppose that this derivative exists, say $\psi_{\infty}'(0+) = -\gamma + i m$ fo
 		i m\theta + \gamma \theta & \text{if $\theta < 0$}.
 	\end{cases}
 \]
-(\nb we could have equally well assumed the left-hand side derivative existed and derived the right-hand side derivative).  Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie, the canonical $\alpha$-stable distribution with $\alpha=1$), \llabel{cauchy_note} whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
+(\nb we could have equally well assumed the left-hand side derivative existed and derived the right-hand side derivative from the Hermitian property).  
+
+Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie, the canonical $\alpha$-stable distribution with $\alpha=1$), \llabel{cauchy_note} whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
 
 
 % % I think we've shown this characteristic function has to be exp(im\theta - \gamma|\theta|);
