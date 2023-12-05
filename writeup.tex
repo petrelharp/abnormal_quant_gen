@@ -853,9 +853,12 @@ Suppose that this derivative exists, say $\psi_{\infty}'(0+) = -\gamma + i m$ fo
 
 Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie, the canonical $\alpha$-stable distribution with $\alpha=1$), \llabel{cauchy_note} whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
 
-In summary, the limiting effect of the initial generation can take one of only forms:
+In summary, if the left- or right-hand derivative of $\psi_\infty$ exists,
+then the limiting effect of the initial generation can take one of only two forms:
 either a constant (i.e., the initial generation only determines the mean),
 or a Cauchy distribution.
+However, it is unclear if there are cases where these derivatives do not exist
+and these effects converge to a meaningful limit.
 
 % % I think we've shown this characteristic function has to be exp(im\theta - \gamma|\theta|);
 % % if $\gamma < 0$ then it is not a characteristic function; am I missing something?
