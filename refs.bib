@@ -8,16 +8,6 @@
 
 
 
-@article{Fisher1918,
-	author = {Fisher, R. A.},
-	date-added = {2023-07-07 19:54:10 +0200},
-	date-modified = {2023-07-07 19:55:56 +0200},
-	journal = {Proc. Roy. Soc. Edinburgh},
-	pages = {399--433},
-	title = {The correlation between relatives on the supposition of {M}endelian inheritance},
-	volume = {52},
-	year = {1918}}
-
 @book{Durrett2005,
 	address = {Belmont, CA},
 	author = {Durrett, R.},
@@ -65,42 +55,22 @@
 	volume = {118},
 	year = {2017}}
 
-@misc{barton2022infinitesimal,
-	abstract = {The classical infinitesimal model is a simple and robust model for the
-inheritance of quantitative traits. In this model, a quantitative trait is
-expressed as the sum of a genetic and a non-genetic (environmental) component
-and the genetic component of offspring traits within a family follows a normal
-distribution around the average of the parents' trait values, and has a
-variance that is independent of the trait values of the parents. In previous
-work, Barton et al.(2017), we showed that when trait values are determined by
-the sum of a large number of Mendelian factors, each of small effect, one can
-justify the infinitesimal model as limit of Mendelian inheritance.
-  In this paper, we show that the robustness of the infinitesimal model extends
-to include dominance. We define the model in terms of classical quantities of
-quantitative genetics, before justifying it as a limit of Mendelian inheritance
-as the number, M, of underlying loci tends to infinity. As in the additive
-case, the multivariate normal distribution of trait values across the pedigree
-can be expressed in terms of variance components in an ancestral population and
-identities determined by the pedigree. In this setting, it is natural to
-decompose trait values, not just into the additive and dominance components,
-but into a component that is shared by all individuals within the family and an
-independent `residual' for each offspring, which captures the randomness of
-Mendelian inheritance. We show that, even if we condition on parental trait
-values, both the shared component and the residuals within each family will be
-asymptotically normally distributed as the number of loci tends to infinity,
-with an error of order 1/\sqrt{M}.
-  We illustrate our results with some numerical examples.},
-	added-at = {2022-12-13T19:05:21.000+0100},
-	author = {Barton, N. H. and Etheridge, A. M. and V{\'e}ber, A.},
-	biburl = {https://www.bibsonomy.org/bibtex/250eff725a83e60fb6d328f5c57827d40/peter.ralph},
-	interhash = {47228e0a4af9810fe95035f56f4b8026},
-	intrahash = {50eff725a83e60fb6d328f5c57827d40},
-	keywords = {infinitesimal_model},
-	timestamp = {2022-12-13T19:05:21.000+0100},
-	title = {The infinitesimal model with dominance},
-	url = {http://arxiv.org/abs/2211.03515},
-	year = 2022,
-	bdsk-url-1 = {http://arxiv.org/abs/2211.03515}}
+@article{barton2022infinitesimal,
+    author = {Barton, Nicholas H and Etheridge, Alison M and Véber, Amandine},
+    title = "{The infinitesimal model with dominance}",
+    journal = {Genetics},
+    volume = {225},
+    number = {2},
+    pages = {iyad133},
+    year = {2023},
+    month = {07},
+    abstract = "{The classical infinitesimal model is a simple and robust model for the inheritance of quantitative traits. In this model, a quantitative trait is expressed as the sum of a genetic and an environmental component, and the genetic component of offspring traits within a family follows a normal distribution around the average of the parents’ trait values, and has a variance that is independent of the parental traits. In previous work, we showed that when trait values are determined by the sum of a large number of additive Mendelian factors, each of small effect, one can justify the infinitesimal model as a limit of Mendelian inheritance. In this paper, we show that this result extends to include dominance. We define the model in terms of classical quantities of quantitative genetics, before justifying it as a limit of Mendelian inheritance as the number, M, of underlying loci tends to infinity. As in the additive case, the multivariate normal distribution of trait values across the pedigree can be expressed in terms of variance components in an ancestral population and probabilities of identity by descent determined by the pedigree. Now, with just first-order dominance effects, we require two-, three-, and four-way identities. We also show that, even if we condition on parental trait values, the “shared” and “residual” components of trait values within each family will be asymptotically normally distributed as the number of loci tends to infinity, with an error of order 1/M. We illustrate our results with some numerical examples.}",
+    issn = {1943-2631},
+    doi = {10.1093/genetics/iyad133},
+    url = {https://doi.org/10.1093/genetics/iyad133},
+    eprint = {https://academic.oup.com/genetics/article-pdf/225/2/iyad133/51863579/iyad133.pdf},
+}
+
 
 @article{barton2017infinitesimal,
 	abstract = {Our focus here is on the infinitesimal model. In this model, one or several quantitative traits are described as the sum of a genetic and a non-genetic component, the first being distributed within families as a normal random variable centred at the average of the parental genetic components, and with a variance independent of the parental traits. Thus, the variance that segregates within families is not perturbed by selection, and can be predicted from the variance components. This does not necessarily imply that the trait distribution across the whole population should be Gaussian, and indeed selection or population structure may have a substantial effect on the overall trait distribution. One of our main aims is to identify some general conditions on the allelic effects for the infinitesimal model to be accurate. We first review the long history of the infinitesimal model in quantitative genetics. Then we formulate the model at the phenotypic level in terms of individual trait values and relationships between individuals, but including different evolutionary processes: genetic drift, recombination, selection, mutation, population structure, {\ldots}. We give a range of examples of its application to evolutionary questions related to stabilising selection, assortative mating, effective population size and response to selection, habitat preference and speciation. We provide a mathematical justification of the model as the limit as the number M of underlying loci tends to infinity of a model with Mendelian inheritance, mutation and environmental noise, when the genetic component of the trait is purely additive. We also show how the model generalises to include epistatic effects. We prove in particular that, within each family, the genetic components of the individual trait values in the current generation are indeed normally distributed with a variance independent of ancestral traits, up to an error of order 1∕M. Simulations suggest that in some cases the convergence may be as fast as 1∕M.},
@@ -126,6 +96,7 @@ with an error of order 1/\sqrt{M}.
 @misc{biobankSNPs,
 	author = {Abbott, Liam and Bryant, Sam and Churchhouse, Claire and Ganna, Andrea and Howrigan, Daniel and Palmer, Duncan and Neale, Ben and Walters, Raymond and Carey, Caitlin and {The Hail team}},
 	howpublished = {\url{http://www.nealelab.is/uk-biobank/}},
+    year = 2018,
 	note = {Accessed: 22 October 2019},
 	title = {Updated {GWAS} analysis of the {UK} {Biobank}}}
 
@@ -177,9 +148,24 @@ with an error of order 1/\sqrt{M}.
 	bdsk-url-1 = {https://doi.org/10.1093/biomet/73.2.387}}
 
 @article{haller2022slim4,
-	author = {Haller, Benjamin C and Messer, Philipp W},
-	title = {{SLiM} 4: {Multispecies} eco-evolutionary modeling},
-	year = {2022}}
+  abstract = { AbstractThe SLiM software framework for genetically explicit forward simulation has been widely used in population genetics. However, it has been largely restricted to modeling only a single species, which has limited its broader utility in evolutionary biology. Indeed, to our knowledge no general-purpose, flexible modeling framework exists that provides support for simulating multiple species while also providing other key features, such as explicit genetics and continuous space. The lack of such software has limited our ability to model higher biological levels such as communities, ecosystems, coevolutionary and eco-evolutionary processes, and biodiversity, which is crucial for many purposes, from extending our basic understanding of evolutionary ecology to informing conservation and management decisions. We here announce the release of SLiM 4, which fills this important gap by adding support for multiple species, including ecological interactions between species such as predation, parasitism, and mutualism, and illustrate its new features with examples. },
+  added-at = {2023-12-05T06:57:42.000+0100},
+  author = {Haller, Benjamin C. and Messer, Philipp W.},
+  biburl = {https://www.bibsonomy.org/bibtex/2f52442d29a35ce9dccf6e9df94179a9b/peter.ralph},
+  doi = {10.1086/723601},
+  eprint = {https://doi.org/10.1086/723601},
+  interhash = {c92e3ac8612714b40810fabe3e0b1c72},
+  intrahash = {f52442d29a35ce9dccf6e9df94179a9b},
+  journal = {The American Naturalist},
+  keywords = {SLiM methods simulation software},
+  number = 5,
+  pages = {E127-E139},
+  timestamp = {2023-12-05T06:57:42.000+0100},
+  title = {{SLiM} 4: {Multispecies} Eco-Evolutionary Modeling},
+  url = {https://doi.org/10.1086/723601},
+  volume = 201,
+  year = 2023
+}
 
 @article{zhang2005predictions,
 	abstract = {{The pattern of response to artificial selection on quantitative traits in laboratory populations can tell us something of the genetic architecture in the natural population from which they were derived. We modeled artificial selection in samples drawn from natural populations in which variation had been maintained by recurrent mutation, with genes having an effect on the trait, which was subject to real stabilizing selection, and a pleitropic effect on fitness (the joint-effect model). Natural selection leads to an inverse correlation between effects and frequencies of genes, such that the frequency distribution of genes increasing the trait has an extreme U-shape. In contrast to the classical infinitesimal model, an early accelerated response and a larger variance of response among replicates were predicted. However, these are reduced if the base population has been maintained in the laboratory for some generations by random sampling prior to artificial selection. When multiple loci and linkage are also taken into account, the gametic disequilibria generated by the Bulmer and Hill-Robertson effects are such that little or no increase in variance and acceleration of response in early generations of artificial selection are predicted; further, the patterns of predicted responses for the joint-effect model now become close to those of the infinitesimal model. Comparison with data from laboratory selection experiments shows that, overall, the analysis did not provide clear support for the joint-effect model or a clear case for rejection.}},
@@ -223,13 +209,12 @@ with an error of order 1/\sqrt{M}.
 	isbn = {9780471454212},
 	lccn = {73009643},
 	publisher = {Wiley},
-	series = {A Wiley-Interscience publication},
 	title = {Characterization Problems in Mathematical Statistics},
 	year = {1973}}
 
 @article{debarre2015evolution,
 	abstract = {AbstractQuantitative-genetic models of differentiation under migration-selection balance often rely on the assumption of normally distributed genotypic and phenotypic values. When a population is subdivided into demes with selection toward different local optima, migration between demes may result in asymmetric, or skewed, local distributions. Using a simplified two-habitat model, we derive formulas without a priori assuming a Gaussian distribution of genotypic values, and we find expressions that naturally incorporate higher moments, such as skew. These formulas yield predictions of the expected divergence under migration-selection balance that are more accurate than models assuming Gaussian distributions, which illustrates the importance of incorporating these higher moments to assess the response to selection in heterogeneous environments. We further show with simulations that traits with loci of large effect display the largest skew in their distribution at migration-selection balance.},
-	author = {Florence D{\'e}barre and Sam Yeaman and Fr{\'e}d{\'e}ric Guillaume and Symposium Editor: Michael C. Whitlock},
+	author = {Florence D{\'e}barre and Sam Yeaman and Fr{\'e}d{\'e}ric Guillaume},
 	journal = {The American Naturalist},
 	number = {S1},
 	pages = {S37--S47},
@@ -766,7 +751,6 @@ From the foreword to the revised edition: ``A few minor errors have been correct
   publisher = {Cambridge University Press},
   timestamp = {2023-12-02T17:36:00.000+0100},
   title = {The maintenance of genetic variability by mutation in a polygenic character with linked loci},
-  url = {https://www.cambridge.org/core/article/maintenance-of-genetic-variability-by-mutation-in-a-polygenic-character-with-linked-loci/D12E61BA54B9B4BE2480C13E15757432},
   volume = 26,
   year = 1975
 }

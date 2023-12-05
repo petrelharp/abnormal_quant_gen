@@ -4,6 +4,12 @@ all: writeup.pdf
 
 writeup.pdf : refs.bib review-responses.tex
 
+writeup-only.pdf : writeup.pdf
+	pdfjam --outfile $@ $< 1-27
+
+response-to-reviewers.pdf : writeup.pdf
+	pdfjam --outfile $@ $< 28-
+
 diff-to-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
 	cp $< $@
 

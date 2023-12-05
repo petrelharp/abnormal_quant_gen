@@ -182,13 +182,13 @@ which is used in or adjacent to a good deal of theoretical work on quantitative 
 \citep[e.g.,][]{fisher1918correlation,bulmer1971effect,lande1975maintenance}.
 \citet{barton2017infinitesimal} focus on giving a formal proof of conditions
 under which this would be a good approximation to reality,
-which they extended to include dominance in \citet{barton2022infinitesimal}.
+a proof they later extended to include dominance in \citet{barton2022infinitesimal}.
 
 As suggested by its name,
-under the infinitesimal model the effects of any given genetic variant on the trait
+under the infinitesimal model the effect of any given genetic variant on the trait
 is small (indeed, vanishing),
 and selection-driven trait shifts are mediated by small changes in frequencies of many alleles of small effect.
-However, empirical understanding of the genetic basis of trait variation in real-world species
+However, empirical studies of the genetic basis of trait variation in real-world species
 often finds a significant portion of heritable variation explained by variants at only a few loci.
 There are many possible explanations for this observation,
 including selection or publication bias,
@@ -211,7 +211,7 @@ by which changes to more ``nearby'' genes have the possibility of causing larger
 This suggests a mixture model for the effect size distribution:
 perhaps a trait is affected by mutations in a number of genomic regions,
 and the distribution of effect sizes within each region is Normal, \revpoint{1}{13}
-but with a standard deviation that varies with ``proximity'' of that region to the trait
+but with a standard deviation specific to the region that varies with ``proximity'' of that region to the trait
 (e.g., regions that are further ``upstream'' have higher standard deviations).
 Such mixtures can easily have large proportions of extreme values.
 
@@ -226,11 +226,11 @@ then -- almost regardless of the details -- the result, scaled by $n^{1/\alpha}$
 is well-approximated by a universal form, an $\alpha$-stable distribution
 (and the approximation becomes exact, as $n \to \infty$).
 On the other hand, if $\alpha \ge 2$ then the distribution has finite variance, \revpoint{2}{1} 
-and so the sum of $n$, divided by $\sqrt{n}$, converges to a Gaussian distribution.
+and so the sum of $n$ copies, divided by $\sqrt{n}$, converges to a Gaussian distribution.
 In such ensembles, single large entries can be important:
 concretely, the largest of the $n$ copies will be of order $n^{1/\alpha}$,
 so that e.g., for $\alpha=1$ a positive proportion of the sum of $n$ entries will be contributed by a single one.
-On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$. \revpoint{1}{11}
+(On the other hand, the largest of $n$ Gaussians is of order $\sqrt{\log n}$.) \revpoint{1}{11}
 
 This suggests exploring whether stable distributions might reasonably stand in for the Gaussian
 in the infinitesimal model. \revpoint{1}{1}
@@ -269,8 +269,8 @@ might be modeled as a Gaussian has been discussed extensively
 The ways in which genetic variants affect an organisms' trait can be complex,
 and interactions between alleles, between loci, and with the environment are often important in practice.
 In fact, some important traits that have been claimed to be mostly genetically determined \revpoint{1}{14}
-only appear heritable through non-genetic means,
-e.g., systematic inequalities in resource distribution partitioned by class or race
+only appear heritable through non-genetic means
+such as systematic inequalities in resource distribution partitioned by class or race
 \citep[e.g.,][]{davenport1916hereditary}.
 In this paper, we follow the literature in working with the relatively simple purely additive case
 of a trait that can be decomposed into a sum across loci of the contributions of the alleles from each locus,
@@ -318,7 +318,7 @@ is the offspring's trait minus the midparent value, $\bar Z_M$:
             }{ 2 } .
 \end{align*}
 Note in particular that
-the contribution of locus $\ell$ to $R_M$ is $\pm |\eta_\ell^{[1]} - \eta_\ell^{[2]}|$.
+the contribution of locus $\ell$ to $R_M$ is $\pm |\eta_\ell^{[1]} - \eta_\ell^{[2]}|/2$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -467,11 +467,12 @@ but simulation-based estimates of accuracy (Supplemental Figure~\ref{fig:power})
 show that our estimates are unbiased but only accurate to within roughly $\pm 0.4$.
 So, the distribution of Figure~\ref{fig:exponent_hist} should not be taken as
 a direct estimate of the underlying distribution of $\alpha$ values,
-but is robust evidence for exponents strictly between 1 and 2 (and probably around 1.5).
+but it is robust evidence for exponents strictly between 1 and 2 (and probably around 1.5).
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Independence and the Gaussian assumption}
 
+Now we return to the theory.
 We know from \citet{barton2017infinitesimal} \revpoint{1}{5} \revpoint{2}{4}
 that if the $\eta^{[i]}_\ell$ are
 independent with mean zero and $\sum_{\ell=1}^M \var[\eta_\ell]/M \to \sigma^2$ as $M \to \infty$,
@@ -500,7 +501,7 @@ defining
     \qquad \qquad
     V_M^{[2]} = \sum_{\ell=1}^M X_\ell \eta_\ell^{[2]}  ,
 \end{align*}
-so that 
+so that the parental traits are
 $Z_M^{[1]} = U_M^{[1]} + V_M^{[1]}$ and
 $Z_M^{[2]} = U_M^{[2]} + V_M^{[2]}$, while
 $Z_M = U_M^{[1]} + U_M^{[2]}$ is the transmitted portion of the parental genomes,
@@ -528,7 +529,7 @@ The Kac-Bernstein theorem states that if two independent random variables
 have the property that their sum and difference are independent of each other,
 then the random variables have a joint Gaussian distribution
 (\citet{kac1939characterization,bernstein1941property},
-and see \citep{kagan1973characterization} for many much more general results).
+and see \citet{kagan1973characterization} for many much more general results).
 Since $R_M$ is (half) the difference and $\bar Z_M$ is (half) the sum
 of $Z_M$ and $V_M$, and $Z_M$ and $V_M$ are independent,
 if we assume that also $R_M$ and $\bar Z_M$ are independent,
@@ -570,7 +571,7 @@ Finally, note that although they may not be independent,
 the Mendelian sampling term $R_M$ and the midparent value $\bar Z_M$
 \emph{are} always uncorrelated, since $Z_M$ and $V_M$ are exchangeable.
 
-Note that under the conditions of the proposition, \llabel{pop_not_gaussian}
+Under the conditions of the proposition, \llabel{pop_not_gaussian}
 the parental traits, $Z^{[1]}_M$ and $Z^{[2]}_M$,
 are also (jointly) Gaussian.
 (This was not an assumption, however.)
@@ -626,6 +627,9 @@ then $R$ is close to $+5$ or $-5$ with equal probability.
 \section{Abnormal quantitative genetics?}
     \label{sec:abnormal}
 
+Although an infinitesimal model with non-Gaussian noise is incompatible with the usual additivity assumptions,
+such models still exist (and might be useful);
+next, we describe some of their properties.
 As observed in \cite{turelli2017commentary},
 there are at least three interpretations of what is called ``the infinitesimal model''. 
 The maximalist of these, what \cite{turelli2017commentary} calls the Gaussian-population approximation,
@@ -666,23 +670,23 @@ Concretely, consider a Moran process where an individual whose trait value is $Z
 and is replaced by the offspring of two randomly chosen individuals,
 i.e., a new individual with trait \llabel{offspring_eqn}
 \begin{align*}
-  \frac{Z^{1} +Z^{2}}{2} + R ,
+    \frac{Z^{[1]} +Z^{[2]}}{2} + R ,
 \end{align*}
-where $Z^{1}$ and $Z^{2}$ are independent draws from the empirical population distribution
+where $Z^{[1]}$ and $Z^{[2]}$ are independent draws from the empirical population distribution
 and $R$ is an independent draw from the Mendelian sampling distribution
-(independent of $Z^{1}$ and $Z^{2}$, with distribution to be specified). 
+(independent of $Z^{[1]}$ and $Z^{[2]}$, with distribution to be specified). 
 (Note that mutation might enter into $R$, but as the underlying genetic basis is not specified,
 we do not attempt to disambiguate the various possible contributions.) \llabel{mutation_note}
 Mutation-selection balance demands that that
 the distribution of individuals removed by death
 and the distribution of individuals added by birth are equal,
-\ie that $(Z^{1} +Z^{2})/2 + R$ is equal in distribution
+\ie that $(Z^{[1]} +Z^{[2]})/2 + R$ is equal in distribution
 to a $\mu$-weighted choice of $Z$.
 % In other words, for all bounded and continuous functions $f$,
 % \begin{equation} \label{eqn:MSB_condition}
-%     \E\left[ f\left(\frac{Z^{1} +Z^{2}}{2} + R \right) \right] = \frac{\E\left[ f(Z) \mu(Z) \right]}{\E[\mu(Z)]},
+%     \E\left[ f\left(\frac{Z^{[1]} +Z^{[2]}}{2} + R \right) \right] = \frac{\E\left[ f(Z) \mu(Z) \right]}{\E[\mu(Z)]},
 % \end{equation}
-% where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{1}$ and $Z^{2}$), and $R$.
+% where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{[1]}$ and $Z^{[2]}$), and $R$.
 % 
 % Since the set of functions $\mathcal{S} = \{e^{i \theta x} : \theta \in \R\}$ is separating (see \eg \S 3.4 in \cite{Ethier+Kurtz1986}), it suffices to show that \eqref{eqn:MSB_condition} holds for $f \in \mathcal{S}$, \ie
 If the population is large enough, \llabel{deterministic_point}
@@ -692,20 +696,20 @@ deterministic mutation-selection balance is therefore equivalent to
 \begin{align} \label{eqn:MSB_CF}
     \frac{\E\left[ e^{i \theta Z}\mu(Z) \right]}{\E[\mu(Z)]}
     =
-    \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right] .
+    \E\left[ e^{i\theta\left(\frac{Z^{[1]} + Z^{[2]}}{2} + R \right)}\right] .
 \end{align}
-Now, we assumed that $Z^{1}$, $Z^{2}$, and $R$ are independent, so we can write \eqref{eqn:MSB_CF} as 
+Now, we assumed that $Z^{[1]}$, $Z^{[2]}$, and $R$ are independent, so we can write \eqref{eqn:MSB_CF} as 
 \begin{align*}
-    \frac{\E\left[ e^{i\theta Z} \mu(Z) \right]}{\E[\mu(Z)]} &= \E\left[ e^{i\theta\left(\frac{Z^{1} +Z^{2}}{2} + R \right)}\right]\\
+    \frac{\E\left[ e^{i\theta Z} \mu(Z) \right]}{\E[\mu(Z)]} &= \E\left[ e^{i\theta\left(\frac{Z^{[1]} +Z^{[2]}}{2} + R \right)}\right]\\
 	% &= \E\left[ e^{i\frac{\theta}{2} Z^{1}}e^{i\frac{\theta}{2} Z^{2}}e^{\i\theta R}\right]\\
-	&= \E\left[e^{i\frac{\theta}{2} Z^{1}}\right]\E\left[e^{i\frac{\theta}{2} Z^{2}}\right]\E\left[e^{i\theta R}\right]\\
+    &= \E\left[e^{i\frac{\theta}{2} Z^{[1]}}\right]\E\left[e^{i\frac{\theta}{2} Z^{[2]}}\right]\E\left[e^{i\theta R}\right]\\
 	&= \phi\left(\frac{\theta}{2}\right)^{2} \Phi(\theta),
 \end{align*}
 where
-$ \phi(\theta) = \mathbb{E}\left[e^{i\theta Z^{1}}\right] = \mathbb{E}\left[e^{i\theta Z^{2}}\right] $
+$ \phi(\theta) = \mathbb{E}\left[e^{i\theta Z^{[1]}}\right] = \mathbb{E}\left[e^{i\theta Z^{[2]}}\right] $
 and
 $ \Phi(\theta) = \mathbb{E}\left[e^{i\theta R}\right] $
-are the characteristic functions of $Z^{j}$ and $R$, respectively. 
+are the characteristic functions of $Z^{[j]}$ and $R$, respectively. 
 In what follows, we will explore some non-Gaussian solutions $\phi(\theta)$ to equation \eqref{eqn:MSB_CF}.
 
 
@@ -724,9 +728,9 @@ Then, our condition on the characteristic function simplifies to
 \end{equation}
 \ie $\phi(\theta)$ is a fixed point of $F$, where
  \[
-	F(\phi)(\theta) = {\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta),
+	F(\phi)(\theta) = {\textstyle \phi\left(\frac{\theta}{2}\right)^{2}} \Phi(\theta) .
 \]
-whereas any fixed point must be the limit of an arbitrary function, $\varphi(\theta)$, under repeated applications of $F$,
+Any fixed point $\phi(\theta)$ must be the limit of an arbitrary function, $\varphi(\theta)$, under repeated applications of $F$,
 \ie \revpoint{2}{7}
 \begin{equation}\label{eq:fpeq}
 \begin{aligned}
@@ -743,9 +747,12 @@ whereas any fixed point must be the limit of an arbitrary function, $\varphi(\th
 % \[
 % 	\phi(\theta) = \lim_{n \to \infty} \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}\prod_{k=0}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}
 % \]
-is a fixed point whenever this limit exists, whereas any fixed point $\phi$ of $F$ satisfies  $\phi(\theta) = \lim_{n \to \infty} F^{(n)}(\phi)(\theta)$.  As we are interested in identifying those fixed points that are characteristic functions, we henceforth assume, without loss of generality, that the $\varphi$ is itself a characteristic function (if $\phi$ exists then we can always take $\varphi = \phi$) and that the limit $\lim_{n \to \infty} F^{(n)}(\varphi)(\theta)$ exists.
+is a fixed point whenever this limit exists,
+whereas any fixed point $\phi$ of $F$ satisfies  $\phi(\theta) = \lim_{n \to \infty} F^{(n)}(\varphi)(\theta)$
+for some function $\varphi(\theta)$.
+As we are interested in identifying those fixed points that are characteristic functions, we henceforth assume, without loss of generality, that $\varphi$ is itself a characteristic function (if $\phi$ exists then we can always take $\varphi = \phi$) and that the limit $\lim_{n \to \infty} F^{(n)}(\varphi)(\theta)$ exists.
 
-Since $\varphi$ and $\Phi$ are characteristic functions, say for real-valued random variables $Z$ and $R$, respectively, then $\varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}$, $\Phi_{n}(\theta) = \prod_{k=0}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}$, and $F^{(n)}(\varphi)(\theta)$ are all characteristic functions, of 
+Since $\varphi$ and $\Phi$ are characteristic functions, say for real-valued random variables $Z$ and $R$, respectively, then $\varphi_n(\theta) = \varphi\left(\frac{\theta}{2^{n}}\right)^{2^{n}}$, $\Phi_{n}(\theta) = \prod_{k=0}^{n-1}\Phi\left(\frac{\theta}{2^{k}}\right)^{2^{k}}$, and $F^{(n)}(\varphi)(\theta)$ are all characteristic functions, of 
 \[
 	 2^{-n} \sum_{i = 1}^{2^{n}} Z_{i}, \quad \sum_{k = 0}^{n-1} 2^{-k} \sum_{j = 1}^{2^{k}} R_{j}, 
 	 \quad \text{and} \quad 
@@ -763,7 +770,7 @@ We refer to the first term on the left hand side, $\psi_{n}(\theta) = 2^{n} \psi
 when both have well-posed limits independent of the other. \llabel{limit_remark} % We don't need to limit to this caee.
 Biologically, \llabel{clarification2}
 the ``noise term'' is the contribution to variation in the population
-generated by the Mendelian sampling terms (\ie, by recombination and mutation),
+generated by the Mendelian sampling terms (\ie by recombination and mutation),
 while the ``reproduction term'' is the contribution from variation in the initial generation.
 
 \paragraph{Noise Terms}
@@ -790,7 +797,7 @@ It is unclear what more can be said in general. If however, we specialize to the
 \[
 	\Psi(\theta) = im\theta - c|\theta|^{\alpha} (1-i\beta \sgn(\theta)\omega_{\alpha}(\theta))
 \]
-for $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ and
+for some $\alpha \in (0,2]$, $\beta \in [-1,1]$, $c \geq 0$, and $m \in \mathbb{R}$ and
 \[
 	\omega_{\alpha}(\theta) = \begin{cases}
 		\tan{\frac{\pi\alpha}{2}} & \text{if $\alpha \neq 1$, and}\\
@@ -812,6 +819,9 @@ which converges as $n \to \infty$ if and only if $\alpha > 1$, in which case the
 	 -\frac{c}{1-2^{1-\alpha}}|\theta|^{\alpha}\left(1-i\beta \sgn(\theta) \tan{\frac{\pi\alpha}{2}}\right), 
 \end{equation}
 which corresponds to a $\left(\alpha,\beta, \frac{c}{1-2^{1-\alpha}},0\right)$-stable law.
+In other words, if the Mendelian sampling noise is stable with some $\alpha > 1$,
+then the cumulative effect across generations of this noise has a stable distribution of the same form,
+but with a larger scale -- analogous to the Gaussian case.
 
 \paragraph{Reproductive Terms:}
 We now turn our attention to the (point-wise) limit
@@ -843,6 +853,9 @@ Suppose that this derivative exists, say $\psi_{\infty}'(0+) = -\gamma + i m$ fo
 
 Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie, the canonical $\alpha$-stable distribution with $\alpha=1$), \llabel{cauchy_note} whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
 
+In summary, the limiting effect of the initial generation can take one of only forms:
+either a constant (i.e., the initial generation only determines the mean),
+or a Cauchy distribution.
 
 % % I think we've shown this characteristic function has to be exp(im\theta - \gamma|\theta|);
 % % if $\gamma < 0$ then it is not a characteristic function; am I missing something?
@@ -884,7 +897,9 @@ Unfortunately, once selection is included, equation \eqref{eqn:MSB_CF} is less a
 \paragraph{Gaussian Solution:}
 First, consider the case when $\mu(x) = e^{a x^{2}}$.   In this case there is a Gaussian solution: suppose $Z$ is Gaussian with mean $m$ and variance $\sigma^{2}$, so
 $ \phi(\theta) = \exp(i m \theta - \frac{1}{2} \sigma^{2} \theta^{2}).  $
-Moreover, provided $a < \frac{1}{2\sigma^{2}}$, we can explicitly compute $\frac{\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right]}{\mathbb{E}[\mu(Z)]}$: %  using the Gaussian probability density function to conclude that
+Moreover, provided $a < 1 / 2\sigma^{2}$, we can explicitly compute
+$\mathbb{E}\left[e^{i \theta Z}\mu(Z)\right] / \mathbb{E}[\mu(Z)]$:
+%  using the Gaussian probability density function to conclude that
 if $R$ is Gaussian with mean zero and variance $\eta^2$, then equation~\eqref{eqn:MSB_CF} becomes
 \[
 	e^{i m \theta - \frac{1}{2} \left(\frac{\sigma^{2}}{2} + \eta^{2}\right)\theta^{2}}
@@ -929,6 +944,7 @@ As remarked above, we found this solution by inspection and trial-and-error; it 
 
 %(here, see a saturating cost to being away from the optimal phenotype $x = 0$: the mortality is maximized at  $\frac{\beta^{2}}{\alpha^{2}}$.
 
+%%%%%%%%%%%%%%%%%%%%
 \section{The difficulty with an abnormal quantitative genetics}
     \label{sec:difficulty}
 
@@ -946,7 +962,7 @@ which is asymptotically smaller than the allele effects assumed in \cite{barton2
 but large effect alleles are more likely. 
 
 The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, \llabel{crucial_step}
-following the arguments in \citet{Fisher1918}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian sampling term is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
+following the arguments in \citet{fisher1918correlation}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian sampling term is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
 
 % The key observation is this:
 % while is meaningless to speak of variances when the Mendelian sampling term is $\alpha$-stable, if an individual's trait value is informative of the allelic effect at any given locus,
@@ -967,7 +983,7 @@ is the mean of the scale parameters.
 To see what knowing the trait value $Z^{[j]}_{M}$ \revpoint{1}{16}
 of a particular parent in the ancestral generation
 tells us about the contribution of any given locus, $\eta^{[j]}_{\ell}$, to their trait value,
-we follow the arguments in  \citet{Fisher1918} and \citet{barton2017infinitesimal} using Bayes' Theorem.
+we follow the arguments in  \citet{fisher1918correlation} and \citet{barton2017infinitesimal} using Bayes' Theorem.
 Proceeding informally, with the probabilities indicating probability density functions, we have 
 \begin{align*}
     \P\{\eta^{[j]}_{\ell} = y \vert Z^{[j]} = z\} &= \frac{\P\{\eta^{[j]}_{\ell} = y; Z^{[j]} = z\}}{\P\{Z^{[j]} = z\}}\\
@@ -1056,10 +1072,10 @@ converges weakly as $M \to \infty$ to a Poisson random variable with mean $2/(\p
     \P\left\{\max_{\ell=1}^{M} \frac{|\eta^{[j]}_{\ell}|}{\bar{\gamma} M} > \epsilon\right\}  \sim 1-e^{-\frac{2}{\pi \epsilon}},
 \end{align*}
 which approaches 1 as $\epsilon \to 0$, while the expected number of $M$ alleles such that $\frac{\eta^{[j]}_{\ell}}{\bar{\gamma} M} > \epsilon$ is asymptotically $\frac{2}{\pi\epsilon}$. 
-By contrast, in \citet{Fisher1918} and \citet{barton2017infinitesimal} \revpoint{2}{10}, the scaled allelic effect at any locus $\ell$ has magnitude bounded by $\frac{B}{\sqrt{M}}$, and thus, no matter how many alleles one considers, there will be no large effect alleles that are informative of the trait value.  
+By contrast, in \citet{fisher1918correlation} and \citet{barton2017infinitesimal} \revpoint{2}{10}, the scaled allelic effect at any locus $\ell$ has magnitude bounded by $\frac{B}{\sqrt{M}}$, and thus, no matter how many alleles one considers, there will be no large effect alleles that are informative of the trait value.  
 
 
-To summarize, the key argument in \citet{Fisher1918} and \cite{barton2017infinitesimal}  \revpoint{1}{10}
+To summarize, the key argument in \citet{fisher1918correlation} and \citet{barton2017infinitesimal}  \revpoint{1}{10}
 requires that knowing the sum of parental effects does not give much information 
 about any particular genotype;
 we have shown here that this does not hold for Cauchy effect sizes
@@ -1258,7 +1274,7 @@ and hence about the distribution of offspring trait deviations.
 This also suggests that the infinitesimal model might be a good approximation
 once the largest alleles are removed,
 an idea we find support for in theory (Section~\ref{sec:difficulty}) and simulation (Section~\ref{sec:simulation}).
-Despite having spent a fair bit of time describing why
+Despite having described why
 the infinitesimal model cannot strictly apply 
 to an additive model with non-Gaussian effect size distributions,
 we still found it useful to work out some of the consequences if we took it seriously:
@@ -1268,7 +1284,7 @@ and revealed an intriguing (if not strongly biologically motivated)
 model in which blending inheritance retains heritable variance.
 
 For simplicity, we have focused on the $\alpha=1$ case (which includes the Cauchy distribution).
-However, examination of Figure~\ref{fig:exponent_hist} suggests that $\alpha=3/2$
+However, examination of Figure~\ref{fig:exponent_hist} suggests that $\alpha=3/2$ \revpoint{2}{12}
 would be a more natural choice for an effect size distribution.
 (One could use the Holtsmark distribution,
 or Student's $t$ with 1.5 degrees of freedom,
@@ -1313,13 +1329,7 @@ Finally, it may well be that there is a clever way to set up a trait-only model 
 that is both insensitive to the underlying genetics
 and does not rely on the Gaussian central limit theorem.
 
-Finally, we note that above we've most often used the Cauchy distribution
-not because it seems most realistic
-(indeed data suggests the $\alpha$-stable distribution with $\alpha=3/2$ might be better) \revpoint{2}{12}
-but for mathematical convenience.
-
-\subsection*{Finite variance}
-
+\paragraph{Finite variance}
 A finite sample from any distribution will have finite variance.
 However, if the distribution itself has infinite variance,
 then the sample variance will increase without bound as one takes a larger sample.
@@ -1336,8 +1346,7 @@ However, deciding \emph{which} statistical properties of the path to consider
 is subject to interpretation,
 and encounters the statistically difficult problem of estimating tail exponents.
 
-\subsection*{Selection and effect size distributions} \llabel{discussion_DFEs}
-
+\paragraph{Selection and effect size distributions} \llabel{discussion_DFEs}
 A substantial body of theoretical work has used various models and assumptions
 to predict what distributions of effect sizes are expected based on biology.
 In comparing to this work, there are several distinctions that are important to make.
