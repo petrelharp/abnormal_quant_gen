@@ -13,7 +13,10 @@ cover-letter.pdf : writeup.pdf
 response-to-reviewers.pdf : writeup.pdf
 	pdfjam --outfile $@ $< 29-
 
-diff-to-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
+diff-to-submission.pdf : writeup-diffb8f1c941105b76b6e99932948262386888d2d172.pdf
+	cp $< $@
+
+diff-to-first-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
 	cp $< $@
 
 writeup-diff%.tex : writeup.tex refs.bib review-responses.tex
