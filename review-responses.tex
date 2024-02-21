@@ -58,104 +58,62 @@ Peter Ralph
 \section*{AE comments:}
 
 \begin{quote}
-As you will read from the reviewers' comments below, both of them find that the quality and clarity of the exposition has improved a lot, and they only have a list of minor (nonetheless important) comments that should be addressed in a minor revision. Provided the points raised are suitably addressed, the paper will then be accepted for publication. And though this has nothing to do with the paper, happy New Year to the authors ;-).
+It would be good to try to address the remaining concern of Reviewer 1 and to
+clarify the corresponding assumption on which your analysis seems to rest.
+After that, the paper will be accepted for publication without further
+reviewing.  
 \end{quote}
 
-Happy New Year!
+Thanks very much, and apologies such a minor change took some time.
+We've tried our best here.
 
 
 %%%%%%%%%%%%%%
 \reviewersection{1}
 
-
 \begin{point}{}
-     As far as I understand, the crucial assumption is that the effect sizes $\eta_{l}^{i}$
-     of the alleles carried by an individual $i$ are independent
-     (as in the first line of Proposition \ref{prop:parental_contribs}),
-     which basically amounts to assuming linkage equilibrium in the population.
-     In that case, of course, all trait values across any group of individuals are multi-variate Gaussian
-     (provided effect size distributions are not heavy-tailed),
-     without needing to condition on any ancestors.
-     Moreover, under these conditions,
-     even the trait value distribution in the population would be Gaussian
-     (provided effect size distributions is not heavy-tailed).
-     As far as I understand, \citet{barton2017infinitesimal} is more general
-     in that it does not require $\eta_{l}^{i}$ to be independent,
-     except in the founder $t=0$ generation
-     (and I am not sure how crucial even that assumption is);
-     in later generations, there can be an arbitrary amount of LD.
-     This is a crucial point, since in general, under the infinitesimal model,
-     non-Gaussian population distributions only arise because of LD, in which case,
-     the $\eta_{l}^{i}$ are not independent.
-     Thus, it is worth highlighting that assuming $\eta_{l}^{i}$ to be independent
-     basically implies linkage equilibrium, and that this is in general,
-     not a requirement for the infinitesimal model
-     or for the derivations of \citet{barton2017infinitesimal},
-     whereas it is a key requirement here.
-     I think this had been a big part of my earlier confusion.
+I don't think the authors quite address the point I had raised, and their
+response and also the change in the paper that they make \revref{} is
+rather cryptic and hard to understand. I think all that I was trying to say was
+that the independence of allelic states, i.e., the LE assumption, is a big part
+of their argument but not of the original infinitesimal model or of the TPB
+2017 paper. And I thus felt that it is important to highlight the rather
+limited nature of their proposition, which I don't think quite comes across.
 \end{point}
 
-\reply{
-    It is true that if the $\eta$ are not independent then $Z_M$ and $V_M$ are not independent,
-    and so the Kac-Bernstein theorem does not apply.
-    However -- returning to the goal of this section here -- it seems hard and maybe impossible
-    to use LD to obtain a inifinitesimal-like, non-Gaussian model.
-    But, we also don't see why it's impossible, and have added a note to this effect \revref.
-    (Also we'd like to point out that the independence only applies to the \emph{parental} generation;
-    there is in fact LD in the offspring's generation, which is the generation Proposition \ref{prop:parental_contribs}
-    refers to. Our results could be extended to further generations, as we remark just before \revref,
-    but since our point is about non-existence of other models, this seemed superfluous.
-    Note also that although we assume independence, we don't assume the $\eta$ are identically distributed,
-    so that a Gaussian or other stable distribution is not guaranteed.)
-}
+\paragraph{Reply:}
+Although what you're saying here seems very clear,
+we must be talking past each other somehow,
+since \citet{barton2017infinitesimal} unambiguously \emph{does} assume LE,
+for at least the main results on
+``the infinitesimal model as the limit of Mendelian inheritance''.
+In \citet{barton2017infinitesimal}, Assumption (4) (``Ancestral population'')
+on page 58 of the TPB PDF,
+a prerequisite to the main convergence results, says:
+``\emph{Although it is not strictly necessary,
+we assume that in generation zero, the individuals that
+found the pedigree are unrelated. They are sampled from
+an ancestral population in which all loci are assumed to be
+in linkage equilibrium.}''
 
-\begin{point}{}
-     I think this also needs to be emphasised in later sections,
-     e.g., section 4, where the statement that no assumption is made about the initial distribution of the population
-     doesn't seem to be quite right.
-     I think the implicit assumption of Linkage equilibrium does come in
-     once one assumes that all the $\eta_{l}^{i}$ are independent.
-\end{point}
+Of course, loci in \emph{subsequent} generations won't be in LE,
+and we assumed in our previous revision that this is what the reviewer was referring to.
+Our argument here is that if the infinitesimal model
+is not a good model for this simplest LE situation,
+then it won't be in subsequent generations also.
 
-\reply{
-    We don't think this applies, as
-    Section 4 is explicitly not working with the model of Section 3 --
-    there are no loci explicitly modeled at all in Section 4.
-    We have added a reminder to emphasize this fact \revref.
-}
+Perhaps by ``the original infinitesimal model or the TPB 2017 paper'',
+the reviewer means something different than these convergence results?
+We certainly agree that \emph{the infinitesimal model},
+stated as a phenomenological model for trait inheritance,
+does not make any assumptions whatsoever about the precise genetic basis
+(including linkage equilibrium or not).
+However, that's probably not what the reviewer means, since that's entirely
+beside the point (as in this section of the paper we're looking at
+consequences of the genetic basis)?
 
-%%%%%%%%%%%%%%
-\reviewersection{2}
+In summary, we're probably missing something,
+but despite significant thinking, haven't figured out what it might be.
+We've tried (again) to clarify the general point;
+maybe it will help.
 
-
-\begin{point}{\revref}
-     p.4, line 3 (from top): garbled sentence
-\end{point}
-
-\reply{
-    We've simplified the sentence.
-}
-
-\begin{point}{\revref}
-     delete one `that'
-\end{point}
-
-\reply{
-    Done.
-}
-
-\begin{point}{}
-     Section 6: it is unfortunate to use $\mu$ for the mutation probability and $\mu(x)$ for the death rate. Maybe use $u$ for the mutation prob.
-\end{point}
-
-\reply{
-    Good call; done.
-}
-
-\begin{point}{\revref}
-     p.18, line 460: delete one comma
-\end{point}
-
-\reply{
-    Whoops! Done.
-}

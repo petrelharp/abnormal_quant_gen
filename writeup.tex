@@ -356,7 +356,7 @@ $$
     (X_\ell - 1/2) \eta_\ell^{[1]} + (1/2 - X_\ell) \eta_\ell^{[2]},
 $$
 the appropriate central limit theorem for the sum is determined by
-the tail behavior of $|(X - 1/2) \eta|$,  \revpoint{2}{1}
+the tail behavior of $|(X - 1/2) \eta|$,
 where $X$ is Bernoulli(1/2) and $\eta$ is the effect
 of a uniformly chosen one of the two alleles from a uniformly chosen parent
 at a uniformly chosen locus.
@@ -573,7 +573,7 @@ Finally, note that although they may not be independent,
 the Mendelian sampling term $R_M$ and the midparent value $\bar Z_M$
 \emph{are} always uncorrelated, since $Z_M$ and $V_M$ are exchangeable.
 
-Under the conditions of the proposition, \llabel{pop_not_gaussian}
+Under the conditions of the proposition,
 the parental traits, $Z^{[1]}_M$ and $Z^{[2]}_M$,
 are also (jointly) Gaussian.
 (This was not an assumption, however.)
@@ -597,16 +597,20 @@ about these two midparents.)
 What about further generations?
 A similar statement to the proposition
 holds for the offspring of two parents in an arbitrary pedigree,
-using the Skitovich-Darmois theorem \citet{kagan1973characterization}
-% except that the portion of the genome shared in common by the parents is unconstrained.
--- however, there is nothing to be gained by the additional generality.
+using the Skitovich-Darmois theorem \citep{kagan1973characterization},
+except that the distribution of the portion of the genome shared in common by the parents
+is not constrained.
+However, there is little to be gained by the additional generality.
 
-Finally, note that we follow \citet{barton2017infinitesimal} by assuming that loci are independent
-(\ie no linkage disequilibrium) \revpoint{1}{1}
-in the parental generation.
+Finally, note that we follow \citet{barton2017infinitesimal}
+by assuming that loci in the founding generation are independent
+(\ie no linkage disequilibrium). \revpoint{1}{1}
 % (They are not necessarily identically distributed, however,
 % so the Central Limit Theorem need not apply \emph{a priori}.)
-One might then wonder if by relaxing this assumption
+Of course, following the offspring foward through a pedigree
+(as \citet{barton2017infinitesimal} do),
+the loci will no longer be independent.
+One might then wonder if by relaxing the assumption of independence between loci
 one could find a model in which the Mendelian sampling term was independent of midparent value
 and yet had a non-Gaussian distribution.
 To be interesting, such a model would need to maintain the nonindependence structure
@@ -668,13 +672,13 @@ that retains independence of these terms.
 (Indeed, above we have put substantial restrictions on what models of inheritance
 might lead to such models;
 in particular,
-we are \emph{not} working with the explicit sum-of-$\eta_\ell$ model of the previous sections.) \revpoint{1}{2}
+we are \emph{not} working with the explicit sum-of-$\eta_\ell$ model of the previous sections.)
 We might also ask whether such a model
 might still reasonably approximate an additive model with non-Gaussian effects,
 and for the purpose of investigating this with simulations,
 some calculations will be helpful.
 
-To summarize, in this section we will uncritically assume that \llabel{clarification3}
+To summarize, in this section we will uncritically assume that
 the independence assumption of the infinitesimal model holds,
 but with an arbitrary distribution for the Mendelian sampling term,
 and ask which population trait distributions are possible.
@@ -684,7 +688,7 @@ ignoring the genetic basis of the trait
 
 Concretely, consider a Moran process where an individual whose trait value is $Z$ dies at rate $\mu(Z)$
 and is replaced by the offspring of two randomly chosen individuals,
-i.e., a new individual with trait \llabel{offspring_eqn}
+i.e., a new individual with trait
 \begin{align*}
     \frac{Z^{[1]} +Z^{[2]}}{2} + R ,
 \end{align*}
@@ -692,8 +696,8 @@ where $Z^{[1]}$ and $Z^{[2]}$ are independent draws from the empirical populatio
 and $R$ is an independent draw from the Mendelian sampling distribution
 (independent of $Z^{[1]}$ and $Z^{[2]}$, with distribution to be specified). 
 (Note that mutation might enter into $R$, but as the underlying genetic basis is not specified,
-we do not attempt to disambiguate the various possible contributions.) \llabel{mutation_note}
-Mutation-selection balance demands that \revpoint{2}{2}
+we do not attempt to disambiguate the various possible contributions.)
+Mutation-selection balance demands that
 the distribution of individuals removed by death
 and the distribution of individuals added by birth are equal,
 \ie that $(Z^{[1]} +Z^{[2]})/2 + R$ is equal in distribution
@@ -705,7 +709,7 @@ to a $\mu$-weighted choice of $Z$.
 % where the expectation is with respect to the joint law of the population empirical distribution (the law of $Z$, $Z^{[1]}$ and $Z^{[2]}$), and $R$.
 % 
 % Since the set of functions $\mathcal{S} = \{e^{i \theta x} : \theta \in \R\}$ is separating (see \eg \S 3.4 in \cite{Ethier+Kurtz1986}), it suffices to show that \eqref{eqn:MSB_condition} holds for $f \in \mathcal{S}$, \ie
-If the population is large enough, \llabel{deterministic_point}
+If the population is large enough,
 we can treat the trait distribution as changing deterministically.
 Taking the characteristic function of both these distributions,
 deterministic mutation-selection balance is therefore equivalent to
@@ -733,7 +737,7 @@ In what follows, we will explore some non-Gaussian solutions $\phi(\theta)$ to e
 
 First, consider the case without selection, so $\mu$ is a constant
 which we may take equal to 1. 
-(To remind the reader, our goal is therefore to describe \llabel{clarification1}
+(To remind the reader, our goal is therefore to describe
 what forms the population distribution might take in a neutral model
 if we assume only that the Mendelian sampling terms are independent of parental values,
 and nothing else about the distribution of these terms or the initial population distribution.) 
@@ -783,8 +787,8 @@ Now, as characteristic functions, $\varphi$ and $\Phi$ are continuous and $\varp
 \]
 We briefly explore what possible limiting values are valid characteristic functions. 
 We refer to the first term on the left hand side, $\psi_{n}(\theta) = 2^{n} \psi\left(\frac{\theta}{2^{n}}\right)$,  as the \emph{reproduction term} and the remaining sum, $\Psi_{n}(\theta) = \sum_{k=0}^{n-1} 2^{k} \Psi\left(\frac{\theta}{2^{k}}\right)$, as the \emph{noise term}, and only consider the case
-when both have well-posed limits independent of the other. \llabel{limit_remark} % We don't need to limit to this caee.
-Biologically, \llabel{clarification2}
+when both have well-posed limits independent of the other.
+Biologically,
 the ``noise term'' is the contribution to variation in the population
 generated by the Mendelian sampling terms (\ie by recombination and mutation),
 while the ``reproduction term'' is the contribution from variation in the initial generation.
@@ -867,7 +871,7 @@ Suppose that this derivative exists, say $\psi_{\infty}'(0+) = -\gamma + i m$ fo
 \]
 (\nb we could have equally well assumed the left-hand side derivative existed and derived the right-hand side derivative from the Hermitian property).  
 
-Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie the canonical $\alpha$-stable distribution with $\alpha=1$), \llabel{cauchy_note} whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
+Moreover,  $\psi_{\infty}(\theta) = i m \theta - \gamma |\theta|$ is continuous at 0, and hence so is $\varphi_{\infty}(\theta) = e^{\psi_{\infty}(\theta)}$.  As we observed above, this implies that $e^{\psi_{\infty}(\theta)}$ is itself a characteristic function.  Thus, $e^{\psi_{\infty}(\theta)}$ must satisfy $|e^{\psi_{\infty}(\theta)}| = e^{\Re \psi_{\infty}(\theta)} \leq 1$, whence $\Re \psi_{\infty}(\theta) \leq 0$ and $\gamma \geq 0$.  In particular, if $\gamma > 0$, then we recognize $e^{\psi_{\infty}(\theta)} = e^{im \theta -\gamma|\theta|}$ as the characteristic function of a Cauchy distribution with median m and median absolute deviation $\gamma$ (\ie the canonical $\alpha$-stable distribution with $\alpha=1$), whereas if $\gamma = 0$, then $e^{\psi_{\infty}(\theta)} = e^{im \theta}$ is the Fourier transform of a Dirac mass at $m$, \ie the characteristic function for a monomorphic population with all individuals having trait value equal to $m$.
 
 In summary, if the left- or right-hand derivative of $\psi_\infty$ exists,
 then the limiting effect of the initial generation can take one of only two forms:
@@ -980,7 +984,7 @@ In this case, the typical effect size at locus $\ell$ is of order $\frac{\gamma_
 which is asymptotically smaller than the allele effects assumed in \cite{barton2017infinitesimal},
 but large effect alleles are more likely. 
 
-The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that, \llabel{crucial_step}
+The crucial step in the derivation of the infinitesimal model in \cite{barton2017infinitesimal} is to show that,
 following the arguments in \citet{fisher1918correlation}, knowing an individual's trait value gives vanishingly little information about the contribution of any given locus as $M \to \infty$, which in turn allows one to show that the within-family Mendelian sampling term is independent of the parental traits. Here, we will consider how conditioning an individual's trait value affects the law of a single allelic contribution in the Cauchy setting described above. A similar argument can be made for any $\alpha$-stable distribution, but the lack of explicit probability density functions for generic $\alpha \in (0,2)$ adds complexity to the argument without adding any insight. 
 
 % The key observation is this:
@@ -1054,7 +1058,7 @@ we have that
     \le \left(\left(\frac{\gamma_{\ell}}{\bar{\gamma}} + \frac{|y|}{\bar{\gamma}}\right) \frac{1}{M} + \Oh\left(\frac{1}{M^2}\right)\right)  \P\{\eta^{[j]}_{\ell} = y\}.
 \]
 % Unlike the case of bounded allelic effects, the bound is independent of the trait value $Z^{[j]}$. 
-\llabel{approx_eqn}
+
 
 When allelic effects have magnitude bounded by  $\frac{B}{\sqrt{M}}$, (see Appendix C in \citet{barton2017infinitesimal}), the error introduced by approximating the effect-size distribution conditional on the trait value by the unconditioned distribution takes the form
 \[
@@ -1121,7 +1125,7 @@ to simulate a discrete-time approximation to the continuous-time Moran model des
 as follows.
 Individuals are diploid, hermaphroditic, and sexual;
 the genome is of length $10^8$bp with a uniform recombination rate of $10^{-8}$ crossovers per bp;
-mutations occur at a rate of $10^{-9}$ per bp. \llabel{mutation_rate}
+mutations occur at a rate of $10^{-9}$ per bp.
 Each new mutation is independently assigned an ``effect''
 drawn from the ``effect size distribution'' (and will be either Gaussian or Cauchy).
 The trait of each individual is determined additively
@@ -1283,7 +1287,7 @@ would be explained by a smaller number of loci).
 Indeed, we found evidence that this is true of many real traits,
 although our relatively uncritical use of GWAS estimates makes this evidence suggestive at best.
 Next, we show that in fact the infinitesimal model \emph{cannot} describe non-Gaussian distributions
-(\ie non-Gaussian deviation of offspring trait from midparent value) \revpoint{2}{4}
+(\ie non-Gaussian deviation of offspring trait from midparent value)
 if the traits are determined additively from independent loci
 (for a precise statement, see Proposition~\ref{prop:parental_contribs}).
 The problem is large-effect alleles:
@@ -1365,7 +1369,7 @@ However, deciding \emph{which} statistical properties of the path to consider
 is subject to interpretation,
 and encounters the statistically difficult problem of estimating tail exponents.
 
-\paragraph{Selection and effect size distributions} \llabel{discussion_DFEs}
+\paragraph{Selection and effect size distributions}
 A substantial body of theoretical work has used various models and assumptions
 to predict what distributions of effect sizes are expected based on biology.
 In comparing to this work, there are several distinctions that are important to make.

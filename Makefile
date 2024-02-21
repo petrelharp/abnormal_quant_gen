@@ -1,6 +1,6 @@
 .PHONY: all, clean
 
-all: writeup.pdf
+all: writeup.pdf cover-letter.pdf response-to-reviewers.pdf writeup-only.pdf
 
 writeup.pdf : refs.bib review-responses.tex
 
@@ -13,7 +13,10 @@ cover-letter.pdf : writeup.pdf
 response-to-reviewers.pdf : writeup.pdf
 	pdfjam --outfile $@ $< 29-
 
-diff-to-submission.pdf : writeup-diffb8f1c941105b76b6e99932948262386888d2d172.pdf
+diff-to-submission.pdf : writeup-diff2fd3997c345e0395504fa362cfb7b982ef91a30c.pdf
+	cp $< $@
+
+diff-to-second-submission.pdf : writeup-diffb8f1c941105b76b6e99932948262386888d2d172.pdf
 	cp $< $@
 
 diff-to-first-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
